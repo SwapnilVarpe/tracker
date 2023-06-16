@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'expenses.dart';
+import 'money_stats.dart';
+import 'time_schedule.dart';
+import 'time_stats.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -47,20 +52,12 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Tracker"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              'Count',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
+      body: <Widget>[
+        const Expenses(),
+        const MoneyStats(),
+        const TimeSchedule(),
+        const TimeStats()
+      ][_currentPageIndex],
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         tooltip: 'Increment',
@@ -76,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
         destinations: const <Widget>[
           NavigationDestination(icon: Icon(Icons.payments), label: 'Expenses'),
           NavigationDestination(
-              icon: Icon(Icons.bar_chart), label: 'Money Stats'),
+              icon: Icon(Icons.analytics), label: 'Money Stats'),
           NavigationDestination(icon: Icon(Icons.schedule), label: 'Schedule'),
           NavigationDestination(
               icon: Icon(Icons.timeline), label: 'Time Stats'),
