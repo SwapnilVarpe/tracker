@@ -5,11 +5,38 @@ class Expenses extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      Card(
-        color: Theme.of(context).colorScheme.primaryContainer,
-        child: const Text('Expenses'),
-      ),
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      const Padding(
+          padding: EdgeInsets.all(20),
+          child: SizedBox(
+              height: 100,
+              child: Card(
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [Text('Investment'), Text('5000')],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [Text('Expenses'), Text('23000')],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [Text('Income'), Text('10000')],
+                        ),
+                      )
+                    ]),
+              ))),
       Expanded(
         child: ListView(children: [
           for (int index = 0; index < 20; index++)
