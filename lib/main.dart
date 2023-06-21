@@ -8,7 +8,7 @@ import 'time_schedule.dart';
 import 'time_stats.dart';
 
 void main() {
-  runApp(ProviderScope(child: const MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 final GoRouter _router = GoRouter(routes: <RouteBase>[

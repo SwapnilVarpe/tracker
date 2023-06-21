@@ -85,7 +85,19 @@ class Expenses extends ConsumerWidget {
       Expanded(
         child: ListView(children: [
           for (int index = 0; index < 20; index++)
-            ListTile(title: Text('Tile $index')),
+            Card(
+                child: ListTile(
+              leading: const Icon(
+                Icons.home,
+                color: Colors.red,
+              ),
+              trailing: const Text(
+                '₹ 12,000',
+                style: TextStyle(color: Colors.green, fontSize: 17),
+              ),
+              title: Text('Tile $index'),
+              subtitle: Text('Sub title $index'),
+            )),
         ]),
       )
     ]);
