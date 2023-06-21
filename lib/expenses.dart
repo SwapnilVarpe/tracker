@@ -1,12 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Expenses extends StatelessWidget {
+final months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Nov',
+  'Dec'
+];
+
+final monthProvider = StateProvider<String>((ref) {
+  return months[0];
+});
+
+class Expenses extends ConsumerWidget {
   const Expenses({super.key});
 
-  void onMonthSelect(bool isSelected) {}
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     var colorScheme = Theme.of(context).colorScheme;
+    var selectedMonth = ref.watch(monthProvider);
 
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       const Padding(
@@ -44,19 +63,7 @@ class Expenses extends StatelessWidget {
         height: 40,
         child: ListView(
             scrollDirection: Axis.horizontal,
-            children: [
-              'Jan',
-              'Feb',
-              'Mar',
-              'Apr',
-              'May',
-              'Jun',
-              'Jul',
-              'Aug',
-              'Sep',
-              'Nov',
-              'Dec'
-            ].map(
+            children: months.map(
               (month) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -65,8 +72,11 @@ class Expenses extends StatelessWidget {
                       month,
                       style: TextStyle(color: colorScheme.onSecondaryContainer),
                     ),
-                    onSelected: onMonthSelect,
-                    backgroundColor: colorScheme.secondaryContainer,
+                    onSelected: (isSelected) =>
+                        ref.read(monthProvider.notifier).state = month,
+                    selected: selectedMonth == month,
+                    // backgroundColor: colorScheme.secondaryContainer,
+                    // selectedColor: colorScheme.primaryContainer,
                   ),
                 );
               },

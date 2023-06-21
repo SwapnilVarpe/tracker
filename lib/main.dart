@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'expenses.dart';
 import 'money_stats.dart';
@@ -7,7 +8,7 @@ import 'time_schedule.dart';
 import 'time_stats.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 final GoRouter _router = GoRouter(routes: <RouteBase>[
