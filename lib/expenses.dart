@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 class Expenses extends StatelessWidget {
   const Expenses({super.key});
 
+  void onMonthSelect(bool isSelected) {}
   @override
   Widget build(BuildContext context) {
+    var colorScheme = Theme.of(context).colorScheme;
+
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       const Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           child: SizedBox(
               height: 100,
               child: Card(
@@ -37,6 +40,38 @@ class Expenses extends StatelessWidget {
                       )
                     ]),
               ))),
+      SizedBox(
+        height: 40,
+        child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              'Jan',
+              'Feb',
+              'Mar',
+              'Apr',
+              'May',
+              'Jun',
+              'Jul',
+              'Aug',
+              'Sep',
+              'Nov',
+              'Dec'
+            ].map(
+              (month) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: FilterChip(
+                    label: Text(
+                      month,
+                      style: TextStyle(color: colorScheme.onSecondaryContainer),
+                    ),
+                    onSelected: onMonthSelect,
+                    backgroundColor: colorScheme.secondaryContainer,
+                  ),
+                );
+              },
+            ).toList()),
+      ),
       Expanded(
         child: ListView(children: [
           for (int index = 0; index < 20; index++)
