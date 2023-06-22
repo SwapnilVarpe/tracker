@@ -7,6 +7,7 @@ Tracker for money and time
         -   create db.
     -   filter by month
     -   card ux
+    -   Make new entry
 -   Money stats
 -   Schedule
 -   Time stats

@@ -16,8 +16,32 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
         return const MyHomePage();
-      }),
+      },
+      routes: [
+        GoRoute(
+          path: 'addEntry',
+          builder: (BuildContext context, GoRouterState state) {
+            return const AddEntry();
+          },
+        )
+      ]),
 ]);
+
+class AddEntry extends StatelessWidget {
+  const AddEntry({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: const Text('Add Entry')),
+        body: Center(
+          child: ElevatedButton(
+            child: const Text('Go back'),
+            onPressed: () => context.go('/'),
+          ),
+        ));
+  }
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -29,7 +53,7 @@ class MyApp extends StatelessWidget {
       routerConfig: _router,
       title: 'Tracker',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.orangeAccent),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
     );
@@ -60,7 +84,11 @@ class _MyHomePageState extends State<MyHomePage> {
         const TimeStats()
       ][_currentPageIndex],
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          if (_currentPageIndex == 0) {
+            context.go('/addEntry');
+          }
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),

@@ -67,7 +67,7 @@ class Expenses extends ConsumerWidget {
               (month) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: FilterChip(
+                  child: ChoiceChip(
                     label: Text(
                       month,
                       style: TextStyle(color: colorScheme.onSecondaryContainer),
