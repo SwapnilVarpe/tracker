@@ -6,8 +6,12 @@ import 'expenses.dart';
 import 'money_stats.dart';
 import 'time_schedule.dart';
 import 'time_stats.dart';
+import 'new_entry.dart';
+import 'db/db_helper.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  DBHelper.initDB();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -21,27 +25,11 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
         GoRoute(
           path: 'addEntry',
           builder: (BuildContext context, GoRouterState state) {
-            return const AddEntry();
+            return const NewEntry();
           },
         )
       ]),
 ]);
-
-class AddEntry extends StatelessWidget {
-  const AddEntry({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: const Text('Add Entry')),
-        body: Center(
-          child: ElevatedButton(
-            child: const Text('Go back'),
-            onPressed: () => context.go('/'),
-          ),
-        ));
-  }
-}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -92,6 +80,8 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
+      // ToDo: FAB is hiding last amount.
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentPageIndex,
         onDestinationSelected: (value) {

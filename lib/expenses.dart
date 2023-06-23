@@ -1,23 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final months = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Nov',
-  'Dec'
-];
-
-final monthProvider = StateProvider<String>((ref) {
-  return months[0];
-});
+import 'providers/expense_provider.dart';
+import 'constants.dart';
 
 class Expenses extends ConsumerWidget {
   const Expenses({super.key});
