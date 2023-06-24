@@ -20,7 +20,7 @@ class DBHelper {
           return db.execute(
             "CREATE TABLE $_entryTable("
             "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-            "title TEXT, datetime INTEGER, amount REAL,"
+            "title TEXT, datetime TEXT, amount REAL,"
             "categoryType TEXT,"
             "category TEXT"
             ")",
@@ -28,7 +28,7 @@ class DBHelper {
         },
       );
     } catch (e) {
-      // print(e);
+      print(e);
     }
   }
 
@@ -36,14 +36,12 @@ class DBHelper {
     return await _database!.insert(_entryTable, entry.toMap());
   }
 
-  static Future<List<Entry>> getEntriesByRange(
-      DateTime start, DateTime end) async {
-    var startMillis = start.millisecondsSinceEpoch;
-    var endMillis = end.millisecondsSinceEpoch;
-
+  static Future<List<Entry>> getEntriesByRange(String start, String end) async {
+    if (_database == null) {
+      return [];
+    }
     final List<Map<String, dynamic>> maps = await _database!.query(_entryTable,
-        where: 'datetime >= ? AND datetime <= ?',
-        whereArgs: [startMillis, endMillis]);
+        where: 'datetime >= ? AND datetime <= ?', whereArgs: [start, end]);
 
     return List.generate(maps.length, (index) {
       var entry = maps[index];

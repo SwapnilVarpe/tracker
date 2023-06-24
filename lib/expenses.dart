@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'providers/expense_provider.dart';
 import 'constants.dart';
+import 'modal/entry.dart';
 
 class Expenses extends ConsumerWidget {
   const Expenses({super.key});
@@ -11,6 +12,7 @@ class Expenses extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var colorScheme = Theme.of(context).colorScheme;
     var selectedMonth = ref.watch(monthProvider);
+    AsyncValue<List<Entry>> entryList = ref.watch(entryListProvider);
 
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       const Padding(
@@ -68,22 +70,27 @@ class Expenses extends ConsumerWidget {
             ).toList()),
       ),
       Expanded(
-        child: ListView(children: [
-          for (int index = 0; index < 20; index++)
-            Card(
-                child: ListTile(
-              leading: const Icon(
-                Icons.home,
-                color: Colors.red,
-              ),
-              trailing: const Text(
-                '₹ 12,000',
-                style: TextStyle(color: Colors.green, fontSize: 17),
-              ),
-              title: Text('Tile $index'),
-              subtitle: Text('Sub title $index'),
-            )),
-        ]),
+        child: entryList.when(
+            data: (data) {
+              return ListView(
+                  children: data.map((entry) {
+                return Card(
+                    child: ListTile(
+                  leading: const Icon(
+                    Icons.home,
+                    color: Colors.red,
+                  ),
+                  trailing: Text(
+                    '₹ ${entry.amount}',
+                    style: const TextStyle(color: Colors.green, fontSize: 17),
+                  ),
+                  title: Text(entry.title),
+                  subtitle: Text(entry.categoryType),
+                ));
+              }).toList());
+            },
+            loading: () => const CircularProgressIndicator(),
+            error: (err, stack) => const Text('Error')),
       )
     ]);
   }

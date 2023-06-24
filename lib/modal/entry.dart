@@ -1,11 +1,10 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 class Entry {
   final int? id;
   final String title;
-  final int datetime;
-  final Float amount;
+  final String datetime;
+  final double amount;
   final String categoryType;
   final String category;
 
@@ -45,7 +44,6 @@ class Entry {
 
   @override
   String toString() {
-    var date = DateTime.fromMillisecondsSinceEpoch(datetime);
-    return 'Entry(${date.toIso8601String()}, $id, $title, $amount, $categoryType, $category)';
+    return 'Entry($datetime, $id, $title, $amount, $categoryType, $category)';
   }
 }

@@ -9,9 +9,9 @@ import 'time_stats.dart';
 import 'new_entry.dart';
 import 'db/db_helper.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  DBHelper.initDB();
+  await DBHelper.initDB();
   runApp(const ProviderScope(child: MyApp()));
 }
 
