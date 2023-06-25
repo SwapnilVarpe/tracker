@@ -144,7 +144,7 @@ class _NewEntryState extends ConsumerState<NewEntry> {
                               title: titleController.text,
                               datetime: dateController.text,
                               amount: double.parse(amountController.text),
-                              categoryType: categoryType.asString(),
+                              categoryType: categoryType,
                               category: currentCategory));
 
                           if (entryId > 0) {

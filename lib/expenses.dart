@@ -10,42 +10,81 @@ class Expenses extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var colorScheme = Theme.of(context).colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
     var selectedMonth = ref.watch(monthProvider);
     AsyncValue<List<Entry>> entryList = ref.watch(entryListProvider);
+    var summary = ref.watch(summaryProvider).value;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           child: SizedBox(
-              height: 100,
+              // height: 100,
               child: Card(
-                child: Row(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Expenses',
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.onSurface),
+                      ),
+                      Text(
+                        '₹${summary != null ? summary[CategoryType.expense.asString()] ?? 0 : 0}',
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [Text('Investment'), Text('5000')],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: [Text('Expenses'), Text('23000')],
+                          children: [
+                            Text('Income',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: colorScheme.onSurface)),
+                            Text(
+                              '₹${summary != null ? summary[CategoryType.income.asString()] ?? 0 : 0}',
+                            )
+                          ],
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: [Text('Income'), Text('10000')],
+                          children: [
+                            Text('Investment',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: colorScheme.onSurface)),
+                            Text(
+                              '₹${summary != null ? summary[CategoryType.investment.asString()] ?? 0 : 0}',
+                            )
+                          ],
                         ),
                       )
                     ]),
-              ))),
+              ],
+            ),
+          ))),
       SizedBox(
         height: 40,
         child: ListView(
@@ -76,16 +115,17 @@ class Expenses extends ConsumerWidget {
                   children: data.map((entry) {
                 return Card(
                     child: ListTile(
-                  leading: const Icon(
-                    Icons.home,
-                    color: Colors.red,
+                  leading: Icon(
+                    getAmountIcon(entry),
+                    color: getAmountColor(entry),
                   ),
                   trailing: Text(
-                    '₹ ${entry.amount}',
-                    style: const TextStyle(color: Colors.green, fontSize: 17),
+                    '₹${entry.amount}',
+                    style:
+                        TextStyle(color: getAmountColor(entry), fontSize: 17),
                   ),
                   title: Text(entry.title),
-                  subtitle: Text(entry.categoryType),
+                  subtitle: Text(entry.categoryType.asString()),
                 ));
               }).toList());
             },
@@ -93,5 +133,27 @@ class Expenses extends ConsumerWidget {
             error: (err, stack) => const Text('Error')),
       )
     ]);
+  }
+
+  Color getAmountColor(Entry entry) {
+    switch (entry.categoryType) {
+      case CategoryType.expense:
+        return Colors.red;
+      case CategoryType.income:
+        return Colors.green;
+      case CategoryType.investment:
+        return Colors.orange;
+    }
+  }
+
+  IconData getAmountIcon(Entry entry) {
+    switch (entry.categoryType) {
+      case CategoryType.expense:
+        return Icons.payments;
+      case CategoryType.income:
+        return Icons.attach_money;
+      case CategoryType.investment:
+        return Icons.trending_up;
+    }
   }
 }

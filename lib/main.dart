@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text("Tracker"),
       ),
       body: <Widget>[
-        const Expenses(),
+        Expenses(),
         const MoneyStats(),
         const TimeSchedule(),
         const TimeStats()
@@ -80,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
-      // ToDo: FAB is hiding last amount.
+      // TODO: FAB is hiding last amount.
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentPageIndex,

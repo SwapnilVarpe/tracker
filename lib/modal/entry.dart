@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import '../constants.dart';
+
 class Entry {
   final int? id;
   final String title;
   final String datetime;
   final double amount;
-  final String categoryType;
+  final CategoryType categoryType;
   final String category;
 
   const Entry(
@@ -22,7 +24,7 @@ class Entry {
       'title': title,
       'datetime': datetime,
       'amount': amount,
-      'categoryType': categoryType,
+      'categoryType': categoryType.asString(),
       'category': category
     };
   }
@@ -33,7 +35,7 @@ class Entry {
         title: map['title'] ?? "",
         datetime: map['datetime'] ?? 0,
         amount: map['amount'] ?? 0,
-        categoryType: map['categoryType'] ?? "",
+        categoryType: CategoryTypeExt.fromString(map['categoryType'] ?? ""),
         category: map['category'] ?? "");
   }
 

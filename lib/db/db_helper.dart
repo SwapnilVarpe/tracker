@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:tracker/constants.dart';
 import 'package:tracker/modal/entry.dart';
 
 class DBHelper {
@@ -49,7 +50,7 @@ class DBHelper {
           title: entry['title'],
           datetime: entry['datetime'],
           amount: entry['amount'],
-          categoryType: entry['categoryType'],
+          categoryType: CategoryTypeExt.fromString(entry['categoryType']),
           category: entry['category']);
     });
   }

@@ -23,3 +23,17 @@ final entryListProvider = FutureProvider<List<Entry>>((ref) async {
 
   return list;
 });
+
+final summaryProvider = Provider((ref) {
+  var entryList = ref.watch(entryListProvider);
+
+  Map<String, double> summary = {};
+
+  return entryList.whenData((value) {
+    for (var entry in value) {
+      final catType = entry.categoryType.asString();
+      summary[catType] = (summary[catType] ?? 0) + entry.amount;
+    }
+    return summary;
+  });
+});
