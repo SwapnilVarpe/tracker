@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:tracker/constants.dart';
+import 'package:tracker/modal/category.dart';
 import 'package:tracker/modal/entry.dart';
 
 class DBHelper {
   static Database? _database;
   static const int _version = 1;
   static const String _entryTable = "entry";
+  static const String _categoryTable = 'category';
 
   static Future<void> initDB() async {
     if (_database != null) return;
@@ -18,14 +20,19 @@ class DBHelper {
         join(await getDatabasesPath(), 'tracker.db'),
         version: _version,
         onCreate: (db, version) {
-          return db.execute(
+          db.execute(
             "CREATE TABLE $_entryTable("
             "id INTEGER PRIMARY KEY AUTOINCREMENT, "
             "title TEXT, datetime TEXT, amount REAL,"
             "categoryType TEXT,"
+            "subCategory TEXT,"
             "category TEXT"
             ")",
           );
+          db.execute("CREATE TABLE $_categoryTable("
+              "categoryType TEXT"
+              "category TEXT"
+              "subCategory TEXT");
         },
       );
     } catch (e) {
@@ -37,6 +44,19 @@ class DBHelper {
     return await _database!.insert(_entryTable, entry.toMap());
   }
 
+  static Future<int> insertCategory(Category category) async {
+    return await _database!.insert(_categoryTable, category.toMap());
+  }
+
+  static Future<List<Category>> getAllCategories() async {
+    final List<Map<String, dynamic>> maps =
+        await _database!.query(_categoryTable);
+
+    return List.generate(maps.length, (index) {
+      return Category.fromMap(maps[index]);
+    });
+  }
+
   static Future<List<Entry>> getEntriesByRange(String start, String end) async {
     if (_database == null) {
       return [];
@@ -46,12 +66,7 @@ class DBHelper {
 
     return List.generate(maps.length, (index) {
       var entry = maps[index];
-      return Entry(
-          title: entry['title'],
-          datetime: entry['datetime'],
-          amount: entry['amount'],
-          categoryType: CategoryTypeExt.fromString(entry['categoryType']),
-          category: entry['category']);
+      return Entry.fromMap(entry);
     });
   }
 }

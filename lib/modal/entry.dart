@@ -9,6 +9,7 @@ class Entry {
   final double amount;
   final CategoryType categoryType;
   final String category;
+  final String subCategory;
 
   const Entry(
       {this.id,
@@ -16,7 +17,8 @@ class Entry {
       required this.datetime,
       required this.amount,
       required this.categoryType,
-      required this.category});
+      required this.category,
+      required this.subCategory});
 
   Map<String, dynamic> toMap() {
     return {
@@ -25,18 +27,20 @@ class Entry {
       'datetime': datetime,
       'amount': amount,
       'categoryType': categoryType.asString(),
-      'category': category
+      'category': category,
+      'subCategory': subCategory
     };
   }
 
   factory Entry.fromMap(Map<String, dynamic> map) {
     return Entry(
         id: map['id'],
-        title: map['title'] ?? "",
+        title: map['title'] ?? '',
         datetime: map['datetime'] ?? 0,
         amount: map['amount'] ?? 0,
-        categoryType: CategoryTypeExt.fromString(map['categoryType'] ?? ""),
-        category: map['category'] ?? "");
+        categoryType: CategoryTypeExt.fromString(map['categoryType'] ?? ''),
+        subCategory: map['subCategory'] ?? '',
+        category: map['category'] ?? '');
   }
 
   String toJSON() => json.encode(toMap());
@@ -46,6 +50,6 @@ class Entry {
 
   @override
   String toString() {
-    return 'Entry($datetime, $id, $title, $amount, $categoryType, $category)';
+    return 'Entry($datetime, $id, $title, $amount, $categoryType, $category, $subCategory)';
   }
 }

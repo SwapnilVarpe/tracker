@@ -145,7 +145,8 @@ class _NewEntryState extends ConsumerState<NewEntry> {
                               datetime: dateController.text,
                               amount: double.parse(amountController.text),
                               categoryType: categoryType,
-                              category: currentCategory));
+                              category: currentCategory,
+                              subCategory: ''));
 
                           if (entryId > 0) {
                             // FIXME: usa of context in async.
