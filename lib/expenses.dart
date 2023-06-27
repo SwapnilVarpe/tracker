@@ -112,7 +112,7 @@ class Expenses extends ConsumerWidget {
         child: entryList.when(
             data: (data) {
               return ListView(
-                  children: data.map((entry) {
+                  children: data.reversed.map((entry) {
                 return Card(
                     child: ListTile(
                   leading: Icon(
