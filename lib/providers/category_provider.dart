@@ -41,3 +41,8 @@ final subCategoryProvider = Provider<List<String>>((ref) {
     loading: () => [],
   );
 });
+
+final selectedSubCatProvider = StateProvider<String>((ref) {
+  // var catList = ref.watch(subCategoryProvider);
+  return 'None';
+});

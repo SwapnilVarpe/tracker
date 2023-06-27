@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracker/db/db_helper.dart';
+import 'package:tracker/modal/category.dart';
 
 import 'constants.dart';
-import 'providers/add_category_provider.dart';
+import 'providers/category_provider.dart';
 
 class AddCategory extends ConsumerStatefulWidget {
   const AddCategory({super.key});
@@ -44,7 +46,23 @@ class _AddCategoryState extends ConsumerState<AddCategory> {
           Column(
             children: [
               buildCatChip(categoryType),
-              inputTextField('Add new category', categoryController),
+              inputTextField('Add new category', categoryController, () async {
+                var cat = categoryController.text;
+
+                if (cat.isNotEmpty) {
+                  var num = await DBHelper.insertCategory(Category(
+                      category: cat,
+                      categoryType: categoryType,
+                      subCategory: ''));
+
+                  if (num > 0 && context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Category added')));
+
+                    ref.invalidate(categoryProvider);
+                  }
+                }
+              }),
               Expanded(
                   child: catList.when(
                       data: (data) => ListView(
@@ -75,7 +93,9 @@ class _AddCategoryState extends ConsumerState<AddCategory> {
                       data: (data) {
                         return DropdownButtonFormField(
                             value: currentCategory,
-                            items: data.map((e) {
+                            items: data
+                                .where((element) => element.subCategory.isEmpty)
+                                .map((e) {
                               return DropdownMenuItem<String>(
                                 value: e.category,
                                 child: Padding(
@@ -92,7 +112,23 @@ class _AddCategoryState extends ConsumerState<AddCategory> {
                       },
                       error: (error, stack) => const Text('Some error occured'),
                       loading: () => const CircularProgressIndicator())),
-              inputTextField('Add new sub category', subCatController),
+              inputTextField('Add new sub category', subCatController,
+                  () async {
+                var subCat = subCatController.text;
+                if (subCat.isNotEmpty) {
+                  var num = await DBHelper.insertCategory(Category(
+                      category: currentCategory,
+                      categoryType: categoryType,
+                      subCategory: subCat));
+
+                  if (num > 0 && context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Sub Category added')));
+
+                    ref.invalidate(categoryProvider);
+                  }
+                }
+              }),
               Expanded(
                   child: ListView(
                 children: subCatList
@@ -114,19 +150,22 @@ class _AddCategoryState extends ConsumerState<AddCategory> {
     );
   }
 
-  Padding inputTextField(String label, TextEditingController controller) {
+  Padding inputTextField(
+      String label, TextEditingController controller, onPressed) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
           Expanded(
-            child: TextField(
+            child: TextFormField(
               controller: controller,
               decoration: InputDecoration(labelText: label),
+              validator: (value) =>
+                  value == null || value.isEmpty ? 'Enter text' : null,
             ),
           ),
-          ElevatedButton(onPressed: () {}, child: const Text('Add'))
+          ElevatedButton(onPressed: onPressed, child: const Text('Add'))
         ],
       ),
     );

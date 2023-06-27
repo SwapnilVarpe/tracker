@@ -125,7 +125,8 @@ class Expenses extends ConsumerWidget {
                         TextStyle(color: getAmountColor(entry), fontSize: 17),
                   ),
                   title: Text(entry.title),
-                  subtitle: Text(entry.categoryType.asString()),
+                  subtitle: Text(
+                      '${entry.categoryType.asString()} ${entry.category} ${entry.subCategory}'),
                 ));
               }).toList());
             },

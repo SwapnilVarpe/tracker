@@ -7,7 +7,7 @@ import 'package:tracker/modal/entry.dart';
 import 'package:tracker/providers/expense_provider.dart';
 import 'package:tracker/util.dart';
 
-import 'providers/new_entry_provider.dart';
+import 'providers/category_provider.dart';
 import 'constants.dart';
 
 class NewEntry extends ConsumerStatefulWidget {
@@ -36,6 +36,8 @@ class _NewEntryState extends ConsumerState<NewEntry> {
     var categoryType = ref.watch(catTypeProvider);
     var categoryList = ref.watch(categoryProvider);
     var currentCategory = ref.watch(currentCatProvider);
+    var subCatList = ref.watch(subCategoryProvider);
+    var selectedSubCat = ref.watch(selectedSubCatProvider);
 
     return Scaffold(
         appBar: AppBar(title: const Text('Add Entry')),
@@ -100,7 +102,10 @@ class _NewEntryState extends ConsumerState<NewEntry> {
                         data: (data) {
                           return DropdownButtonFormField(
                               value: currentCategory,
-                              items: data.map((e) {
+                              items: data
+                                  .where(
+                                      (element) => element.subCategory.isEmpty)
+                                  .map((e) {
                                 return DropdownMenuItem<String>(
                                   value: e.category,
                                   child: Text(e.category),
@@ -114,6 +119,35 @@ class _NewEntryState extends ConsumerState<NewEntry> {
                         error: (error, stack) =>
                             const Text('Some error occured'),
                         loading: () => const CircularProgressIndicator())),
+                Visibility(
+                  visible: subCatList.isNotEmpty,
+                  child: SizedBox(
+                    height: 40,
+                    child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: ['None', ...subCatList].map(
+                          (subCat) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: ChoiceChip(
+                                label: Text(
+                                  subCat,
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSecondaryContainer),
+                                ),
+                                onSelected: (isSelected) => ref
+                                    .read(selectedSubCatProvider.notifier)
+                                    .state = subCat,
+                                selected: subCat == selectedSubCat,
+                              ),
+                            );
+                          },
+                        ).toList()),
+                  ),
+                ),
                 TextFormField(
                   controller: amountController,
                   validator: (value) {
@@ -162,12 +196,13 @@ class _NewEntryState extends ConsumerState<NewEntry> {
                               amount: double.parse(amountController.text),
                               categoryType: categoryType,
                               category: currentCategory,
-                              subCategory: ''));
+                              subCategory: selectedSubCat == 'None'
+                                  ? ''
+                                  : selectedSubCat));
 
-                          if (entryId > 0) {
-                            // FIXME: usa of context in async.
+                          if (entryId > 0 && context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: const Text('Entry added')));
+                                const SnackBar(content: Text('Entry added')));
 
                             ref.invalidate(entryListProvider);
                             context.go('/');
