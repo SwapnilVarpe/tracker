@@ -1,5 +1,7 @@
+import 'package:tracker/constants.dart';
+
 class Category {
-  final String categoryType;
+  final CategoryType categoryType;
   final String category;
   final String subCategory;
 
@@ -10,7 +12,7 @@ class Category {
 
   Map<String, String> toMap() {
     return {
-      'categoryType': categoryType,
+      'categoryType': categoryType.asString(),
       'category': category,
       'subCategory': subCategory
     };
@@ -19,7 +21,7 @@ class Category {
   factory Category.fromMap(Map<String, dynamic> map) {
     return Category(
         category: map['category'] ?? '',
-        categoryType: map['categoryType'] ?? '',
+        categoryType: CategoryTypeExt.fromString(map['categoryType']),
         subCategory: map['subCategory'] ?? '');
   }
 }

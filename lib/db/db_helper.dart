@@ -30,9 +30,60 @@ class DBHelper {
             ")",
           );
           db.execute("CREATE TABLE $_categoryTable("
-              "categoryType TEXT"
-              "category TEXT"
-              "subCategory TEXT");
+              "categoryType TEXT,"
+              "category TEXT,"
+              "subCategory TEXT"
+              ")");
+          // Adding basic categories
+          var expList = [
+            'Bill',
+            'Health',
+            'Grocery',
+            'Shopping',
+            'Food',
+            'Petrol',
+            'Medicine',
+            'Book',
+            'Car',
+            'Miscellanious'
+          ];
+          for (var exp in expList) {
+            db.insert(
+                _categoryTable,
+                Category(
+                        category: exp,
+                        categoryType: CategoryType.expense,
+                        subCategory: '')
+                    .toMap());
+          }
+
+          var incomeList = ['Salary', 'Interest', 'Dividend'];
+          for (var income in incomeList) {
+            db.insert(
+                _categoryTable,
+                Category(
+                        category: income,
+                        categoryType: CategoryType.income,
+                        subCategory: '')
+                    .toMap());
+          }
+
+          var investList = [
+            'Mutual Fund',
+            'Fixed Deposit',
+            'Stocks',
+            'T-Bill',
+            'PPF'
+          ];
+          for (var invest in investList) {
+            db.insert(
+                _categoryTable,
+                Category(
+                        category: invest,
+                        categoryType: CategoryType.investment,
+                        subCategory: '')
+                    .toMap());
+          }
         },
       );
     } catch (e) {

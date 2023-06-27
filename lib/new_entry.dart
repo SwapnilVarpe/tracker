@@ -84,20 +84,36 @@ class _NewEntryState extends ConsumerState<NewEntry> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: DropdownButtonFormField(
-                      value: currentCategory,
-                      items: categoryList.map((e) {
-                        return DropdownMenuItem<String>(
-                          value: e,
-                          child: Text(e),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        ref.read(currentCatProvider.notifier).state = value!;
-                      }),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          context.push('/add-category');
+                        },
+                        child: const Text('Add/Edit category'))
+                  ],
                 ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: categoryList.when(
+                        data: (data) {
+                          return DropdownButtonFormField(
+                              value: currentCategory,
+                              items: data.map((e) {
+                                return DropdownMenuItem<String>(
+                                  value: e.category,
+                                  child: Text(e.category),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                ref.read(currentCatProvider.notifier).state =
+                                    value!;
+                              });
+                        },
+                        error: (error, stack) =>
+                            const Text('Some error occured'),
+                        loading: () => const CircularProgressIndicator())),
                 TextFormField(
                   controller: amountController,
                   validator: (value) {

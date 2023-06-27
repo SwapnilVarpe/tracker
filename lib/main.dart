@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracker/add_category.dart';
 
 import 'expenses.dart';
 import 'money_stats.dart';
@@ -26,6 +27,12 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
           path: 'addEntry',
           builder: (BuildContext context, GoRouterState state) {
             return const NewEntry();
+          },
+        ),
+        GoRoute(
+          path: 'add-category',
+          builder: (context, state) {
+            return const AddCategory();
           },
         )
       ]),

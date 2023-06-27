@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracker/constants.dart';
+import 'package:tracker/db/db_helper.dart';
+import 'package:tracker/modal/category.dart';
 
 final catTypeProvider = StateProvider<CategoryType>((ref) {
   return CategoryType.expense;
@@ -7,18 +9,15 @@ final catTypeProvider = StateProvider<CategoryType>((ref) {
 
 final currentCatProvider = StateProvider<String>((ref) {
   var category = ref.watch(categoryProvider);
-  return category.isNotEmpty ? category[0] : 'Not found';
+  var list = category.asData?.value;
+
+  return list != null && list.isNotEmpty ? list[0].category : '';
 });
 
-final categoryProvider = StateProvider<List<String>>((ref) {
+final categoryProvider = FutureProvider<List<Category>>((ref) async {
   var catType = ref.watch(catTypeProvider);
 
-  switch (catType) {
-    case CategoryType.expense:
-      return ['Bill', 'Shopping', 'Health'];
-    case CategoryType.income:
-      return ['Salary', 'Interest'];
-    case CategoryType.investment:
-      return ['Stock', 'T-Bill'];
-  }
+  var catList = await DBHelper.getAllCategories();
+
+  return catList.where((element) => element.categoryType == catType).toList();
 });
