@@ -67,14 +67,38 @@ class _AddCategoryState extends ConsumerState<AddCategory> {
                   child: catList.when(
                       data: (data) => ListView(
                             children: data
+                                .where((element) => element.subCategory.isEmpty)
                                 .map((cat) => Card(
                                         child: ListTile(
                                       title: Text(cat.category),
                                       trailing: PopupMenuButton(
                                         icon: const Icon(Icons.more_vert),
                                         itemBuilder: (context) => [
-                                          const PopupMenuItem(
-                                              child: Text('Delete'))
+                                          PopupMenuItem(
+                                            child: const Text('Delete'),
+                                            onTap: () async {
+                                              int num =
+                                                  await DBHelper.deleteCategory(
+                                                      categoryType,
+                                                      cat.category);
+
+                                              if (context.mounted) {
+                                                if (num > 0) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(const SnackBar(
+                                                          content: Text(
+                                                              'Category deleted')));
+                                                  ref.invalidate(
+                                                      categoryProvider);
+                                                } else {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(const SnackBar(
+                                                          content: Text(
+                                                              'Cannot delete category')));
+                                                }
+                                              }
+                                            },
+                                          )
                                         ],
                                       ),
                                     )))
@@ -137,8 +161,30 @@ class _AddCategoryState extends ConsumerState<AddCategory> {
                           title: Text(cat),
                           trailing: PopupMenuButton(
                             icon: const Icon(Icons.more_vert),
-                            itemBuilder: (context) =>
-                                [const PopupMenuItem(child: Text('Delete'))],
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                child: const Text('Delete'),
+                                onTap: () async {
+                                  int num = await DBHelper.deleteSubCategory(
+                                      categoryType, currentCategory, cat);
+
+                                  if (context.mounted) {
+                                    if (num > 0) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  'Sub Category deleted')));
+                                      ref.invalidate(categoryProvider);
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  'Cannot delete sub category')));
+                                    }
+                                  }
+                                },
+                              )
+                            ],
                           ),
                         )))
                     .toList(),

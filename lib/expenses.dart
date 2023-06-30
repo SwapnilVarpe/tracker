@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracker/db/db_helper.dart';
 
 import 'providers/expense_provider.dart';
 import 'constants.dart';
@@ -119,10 +120,39 @@ class Expenses extends ConsumerWidget {
                     getAmountIcon(entry),
                     color: getAmountColor(entry),
                   ),
-                  trailing: Text(
-                    '₹${entry.amount}',
-                    style:
-                        TextStyle(color: getAmountColor(entry), fontSize: 17),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '₹${entry.amount}',
+                        style: TextStyle(
+                            color: getAmountColor(entry), fontSize: 17),
+                      ),
+                      const SizedBox(width: 10),
+                      PopupMenuButton(
+                        icon: const Icon(Icons.more_vert),
+                        itemBuilder: (context) => [
+                          PopupMenuItem(child: const Text('Edit')),
+                          PopupMenuItem(
+                            child: const Text('Delete'),
+                            onTap: () async {
+                              if (entry.id != null) {
+                                int num =
+                                    await DBHelper.deleteEntry(entry.id ?? 0);
+                                if (context.mounted) {
+                                  if (num > 0) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content: Text('Entry deleted')));
+                                    ref.invalidate(entryListProvider);
+                                  }
+                                }
+                              }
+                            },
+                          )
+                        ],
+                      )
+                    ],
                   ),
                   title: Text(entry.title),
                   subtitle: Text(

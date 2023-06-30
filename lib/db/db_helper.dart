@@ -22,7 +22,7 @@ class DBHelper {
         onCreate: (db, version) {
           db.execute(
             "CREATE TABLE $_entryTable("
-            "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "id INTEGER PRIMARY KEY, "
             "title TEXT, datetime TEXT, amount REAL,"
             "categoryType TEXT,"
             "subCategory TEXT,"
@@ -119,5 +119,40 @@ class DBHelper {
       var entry = maps[index];
       return Entry.fromMap(entry);
     });
+  }
+
+  static Future<int> deleteEntry(int id) async {
+    return await _database!
+        .delete(_entryTable, where: 'id = ?', whereArgs: [id]);
+  }
+
+  static Future<int> deleteCategory(
+      CategoryType categoryType, String category) async {
+    var entries = await _database!.query(_entryTable,
+        where: 'categoryType = ? AND category = ?',
+        whereArgs: [categoryType.asString(), category]);
+
+    if (entries.isEmpty) {
+      return await _database!.delete(_categoryTable,
+          where: 'categoryType = ? AND category = ?',
+          whereArgs: [categoryType.asString(), category]);
+    } else {
+      return 0;
+    }
+  }
+
+  static Future<int> deleteSubCategory(
+      CategoryType catType, String category, String subCategory) async {
+    var entries = await _database!.query(_entryTable,
+        where: 'categoryType = ? AND subCategory = ? AND category = ?',
+        whereArgs: [catType.asString(), subCategory, category]);
+
+    if (entries.isEmpty) {
+      return await _database!.delete(_categoryTable,
+          where: 'categoryType = ? AND category = ? AND subCategory = ?',
+          whereArgs: [catType.asString(), category, subCategory]);
+    } else {
+      return 0;
+    }
   }
 }

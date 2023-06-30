@@ -43,6 +43,6 @@ final subCategoryProvider = Provider<List<String>>((ref) {
 });
 
 final selectedSubCatProvider = StateProvider<String>((ref) {
-  // var catList = ref.watch(subCategoryProvider);
+  // 'None' is added so that sub cat can be unselected.
   return 'None';
 });
