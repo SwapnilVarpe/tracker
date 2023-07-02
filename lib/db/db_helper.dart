@@ -99,6 +99,11 @@ class DBHelper {
     return await _database!.insert(_categoryTable, category.toMap());
   }
 
+  static Future<int> updateEntry(Entry entry) async {
+    return await _database!.update(_entryTable, entry.toMap(),
+        where: 'id = ?', whereArgs: [entry.id]);
+  }
+
   static Future<List<Category>> getAllCategories() async {
     final List<Map<String, dynamic>> maps =
         await _database!.query(_categoryTable);
@@ -106,6 +111,17 @@ class DBHelper {
     return List.generate(maps.length, (index) {
       return Category.fromMap(maps[index]);
     });
+  }
+
+  static Future<Entry?> getEntryById(String id) async {
+    final List<Map<String, dynamic>> maps =
+        await _database!.query(_entryTable, where: 'id = ?', whereArgs: [id]);
+
+    if (maps.isEmpty) {
+      return null;
+    }
+
+    return Entry.fromMap(maps[0]);
   }
 
   static Future<List<Entry>> getEntriesByRange(String start, String end) async {

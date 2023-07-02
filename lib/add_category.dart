@@ -28,7 +28,7 @@ class _AddCategoryState extends ConsumerState<AddCategory> {
   Widget build(BuildContext context) {
     var categoryType = ref.watch(catTypeProvider);
     var catList = ref.watch(categoryProvider);
-    var currentCategory = ref.watch(currentCatProvider);
+    var currentCategory = ref.watch(selectedCatProvider);
     var subCatList = ref.watch(subCategoryProvider);
 
     return DefaultTabController(
@@ -58,7 +58,7 @@ class _AddCategoryState extends ConsumerState<AddCategory> {
                   if (num > 0 && context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Category added')));
-
+                    categoryController.text = '';
                     ref.invalidate(categoryProvider);
                   }
                 }
@@ -130,7 +130,7 @@ class _AddCategoryState extends ConsumerState<AddCategory> {
                               );
                             }).toList(),
                             onChanged: (value) {
-                              ref.read(currentCatProvider.notifier).state =
+                              ref.read(selectedCatProvider.notifier).state =
                                   value!;
                             });
                       },
@@ -148,7 +148,7 @@ class _AddCategoryState extends ConsumerState<AddCategory> {
                   if (num > 0 && context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Sub Category added')));
-
+                    subCatController.text = '';
                     ref.invalidate(categoryProvider);
                   }
                 }

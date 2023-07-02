@@ -3,6 +3,8 @@ import 'package:tracker/constants.dart';
 import 'package:tracker/db/db_helper.dart';
 import 'package:tracker/modal/category.dart';
 
+// Common providers between new_entry and new_category pages.
+
 final catTypeProvider = StateProvider<CategoryType>((ref) {
   return CategoryType.expense;
 });
@@ -15,7 +17,7 @@ final categoryProvider = FutureProvider<List<Category>>((ref) async {
   return catList.where((element) => element.categoryType == catType).toList();
 });
 
-final currentCatProvider = StateProvider<String>((ref) {
+final selectedCatProvider = StateProvider<String>((ref) {
   var category = ref.watch(categoryProvider);
   var list = category.asData?.value;
 
@@ -24,7 +26,7 @@ final currentCatProvider = StateProvider<String>((ref) {
 
 final subCategoryProvider = Provider<List<String>>((ref) {
   var catType = ref.watch(catTypeProvider);
-  var category = ref.watch(currentCatProvider);
+  var category = ref.watch(selectedCatProvider);
   var catList = ref.watch(categoryProvider);
 
   return catList.when(

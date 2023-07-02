@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tracker/db/db_helper.dart';
 
 import 'providers/expense_provider.dart';
@@ -132,7 +133,14 @@ class Expenses extends ConsumerWidget {
                       PopupMenuButton(
                         icon: const Icon(Icons.more_vert),
                         itemBuilder: (context) => [
-                          PopupMenuItem(child: const Text('Edit')),
+                          PopupMenuItem(
+                            child: const Text('Edit'),
+                            onTap: () => context.go(Uri(
+                                path: '/addEntry',
+                                queryParameters: {
+                                  'entryId': entry.id.toString()
+                                }).toString()),
+                          ),
                           PopupMenuItem(
                             child: const Text('Delete'),
                             onTap: () async {

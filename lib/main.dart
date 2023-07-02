@@ -26,7 +26,7 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
         GoRoute(
           path: 'addEntry',
           builder: (BuildContext context, GoRouterState state) {
-            return const NewEntry();
+            return NewEntry(entryId: state.queryParameters['entryId']);
           },
         ),
         GoRoute(
@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text("Tracker"),
       ),
       body: <Widget>[
-        Expenses(),
+        const Expenses(),
         const MoneyStats(),
         const TimeSchedule(),
         const TimeStats()
