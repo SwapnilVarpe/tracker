@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+
 import 'package:tracker/db/db_helper.dart';
 import 'package:tracker/modal/entry.dart';
 import 'package:tracker/providers/expense_provider.dart';
 import 'package:tracker/util.dart';
-
-import 'providers/new_entry_provider.dart';
+import 'providers/category_provider.dart';
 import 'constants.dart';
 
 class NewEntry extends ConsumerStatefulWidget {
@@ -35,8 +35,8 @@ class _NewEntryState extends ConsumerState<NewEntry> {
             : body(context, categoryState, categoryProvider));
   }
 
-  Form body(BuildContext context, NewEntryState categoryState,
-      StateNotifierProvider<NewEntryNotifier, NewEntryState> categoryProvider) {
+  Form body(BuildContext context, CategoryState categoryState,
+      StateNotifierProvider<CategoryNotifier, CategoryState> categoryProvider) {
     var categoryType = categoryState.categoryType;
     var selectedCategory = categoryState.selectedCategory;
     var selectedSubCat = categoryState.selectedSubCat;

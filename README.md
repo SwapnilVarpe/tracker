@@ -3,9 +3,7 @@ Tracker for money and time
 
 ## Todo:
 -   Expneses
-        Edit entry
 -   Cat/Sub cat
-        Cat is getting reset after adding sub cat.
 -   Money stats
         View by excluding some entries (so to negate large amounts in perticular month).
 -   Schedule >> Time slots
