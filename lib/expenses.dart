@@ -18,75 +18,7 @@ class Expenses extends ConsumerWidget {
     var summary = ref.watch(summaryProvider).value;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          child: SizedBox(
-              // height: 100,
-              child: Card(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Expenses',
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: colorScheme.onSurface),
-                      ),
-                      Text(
-                        '₹${summary != null ? summary[CategoryType.expense.asString()] ?? 0 : 0}',
-                        style: const TextStyle(
-                          color: Colors.red,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text('Income',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: colorScheme.onSurface)),
-                            Text(
-                              '₹${summary != null ? summary[CategoryType.income.asString()] ?? 0 : 0}',
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text('Investment',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: colorScheme.onSurface)),
-                            Text(
-                              '₹${summary != null ? summary[CategoryType.investment.asString()] ?? 0 : 0}',
-                            )
-                          ],
-                        ),
-                      )
-                    ]),
-              ],
-            ),
-          ))),
+      summaryCard(colorScheme, summary),
       SizedBox(
         height: 40,
         child: ListView(
@@ -130,36 +62,7 @@ class Expenses extends ConsumerWidget {
                             color: getAmountColor(entry), fontSize: 17),
                       ),
                       const SizedBox(width: 10),
-                      PopupMenuButton(
-                        icon: const Icon(Icons.more_vert),
-                        itemBuilder: (context) => [
-                          PopupMenuItem(
-                            child: const Text('Edit'),
-                            onTap: () => context.go(Uri(
-                                path: '/addEntry',
-                                queryParameters: {
-                                  'entryId': entry.id.toString()
-                                }).toString()),
-                          ),
-                          PopupMenuItem(
-                            child: const Text('Delete'),
-                            onTap: () async {
-                              if (entry.id != null) {
-                                int num =
-                                    await DBHelper.deleteEntry(entry.id ?? 0);
-                                if (context.mounted) {
-                                  if (num > 0) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                            content: Text('Entry deleted')));
-                                    ref.invalidate(entryListProvider);
-                                  }
-                                }
-                              }
-                            },
-                          )
-                        ],
-                      )
+                      cardMenuButton(entry, ref)
                     ],
                   ),
                   title: Text(entry.title),
@@ -172,6 +75,125 @@ class Expenses extends ConsumerWidget {
             error: (err, stack) => const Text('Error')),
       )
     ]);
+  }
+
+  Padding summaryCard(ColorScheme colorScheme, Map<String, double>? summary) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        child: SizedBox(
+            child: Card(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Expenses',
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: colorScheme.onSurface),
+                    ),
+                    Text(
+                      '₹${summary != null ? summary[CategoryType.expense.asString()] ?? 0 : 0}',
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text('Income',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: colorScheme.onSurface)),
+                      Text(
+                        '₹${summary != null ? summary[CategoryType.income.asString()] ?? 0 : 0}',
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text('Investment',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: colorScheme.onSurface)),
+                      Text(
+                        '₹${summary != null ? summary[CategoryType.investment.asString()] ?? 0 : 0}',
+                      )
+                    ],
+                  ),
+                )
+              ]),
+            ],
+          ),
+        )));
+  }
+
+  PopupMenuButton<dynamic> cardMenuButton(Entry entry, WidgetRef ref) {
+    return PopupMenuButton(
+      icon: const Icon(Icons.more_vert),
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          child: const Text('Edit'),
+          onTap: () => context.go(Uri(
+              path: '/addEntry',
+              queryParameters: {'entryId': entry.id.toString()}).toString()),
+        ),
+        PopupMenuItem(
+          child: const Text('Delete'),
+          onTap: () {
+            Future.delayed(
+                Duration.zero,
+                () => showDialog<String>(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        content:
+                            const Text('Do you want to delete this entry.'),
+                        actions: [
+                          TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('Cancel')),
+                          TextButton(
+                              onPressed: () async {
+                                if (entry.id != null) {
+                                  int num =
+                                      await DBHelper.deleteEntry(entry.id ?? 0);
+                                  if (context.mounted) {
+                                    if (num > 0) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              content: Text('Entry deleted')));
+                                      ref.invalidate(entryListProvider);
+                                      Navigator.pop(context);
+                                    }
+                                  }
+                                }
+                              },
+                              child: const Text('Delete'))
+                        ],
+                      ),
+                    ));
+          },
+        )
+      ],
+    );
   }
 
   Color getAmountColor(Entry entry) {
