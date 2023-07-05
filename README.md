@@ -5,7 +5,15 @@ Tracker for money and time
 -   Expneses
 -   Cat/Sub cat
 -   Money stats
-        View by excluding some entries (so to negate large amounts in perticular month).
+        Feature: View by excluding some entries (so to negate large amounts in perticular month).
+        Design:
+            Date range: Month selector and range selector
+            Summary of income, exp and investement.
+            Cat type selector
+            Filters:
+                Pie of categories, or list cat.
+                Pie of sub cats if exists.
+                List of items
 -   Schedule >> Time slots
     -   Time card from morning to night.
     -   Should be able to add what I did in given half hour or an hour.

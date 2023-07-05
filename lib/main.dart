@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracker/add_category.dart';
+import 'package:tracker/import.dart';
 
 import 'expenses.dart';
 import 'money_stats.dart';
@@ -34,6 +35,10 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
           builder: (context, state) {
             return const AddCategory();
           },
+        ),
+        GoRoute(
+          path: 'import',
+          builder: (context, state) => const Import(),
         )
       ]),
 ]);
@@ -71,6 +76,42 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Tracker"),
+      ),
+      drawer: Drawer(
+        child: ListView(padding: EdgeInsets.zero, children: [
+          DrawerHeader(
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primaryContainer),
+            child: Text(
+              'Drawer Header',
+              style: TextStyle(
+                fontSize: 24,
+              ),
+            ),
+          ),
+          ListTile(
+            title: const Text('Export'),
+            leading: Icon(Icons.upload),
+          ),
+          ListTile(
+            title: const Text('Import'),
+            leading: Icon(Icons.download),
+            onTap: () => context.go('/import'),
+          ),
+          ListTile(
+            title: const Text('Hide salary'),
+            leading: Icon(Icons.money_off),
+            trailing: Switch(value: true, onChanged: (isSelected) {}),
+          ),
+          ListTile(
+            title: const Text('Enable biometrics'),
+            leading: Icon(Icons.fingerprint),
+            trailing: Switch(
+              value: false,
+              onChanged: (value) {},
+            ),
+          )
+        ]),
       ),
       body: <Widget>[
         const Expenses(),
