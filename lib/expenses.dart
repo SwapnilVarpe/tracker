@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tracker/db/db_helper.dart';
 
+import 'package:tracker/db/db_helper.dart';
+import 'package:tracker/util.dart';
 import 'providers/expense_provider.dart';
 import 'constants.dart';
 import 'modal/entry.dart';
@@ -97,7 +98,7 @@ class Expenses extends ConsumerWidget {
                           color: colorScheme.onSurface),
                     ),
                     Text(
-                      '₹${summary != null ? summary[CategoryType.expense.asString()] ?? 0 : 0}',
+                      '₹${summary != null ? getIndianNumFormat(summary[CategoryType.expense.asString()] ?? 0) : 0}',
                       style: const TextStyle(
                         color: Colors.red,
                         fontSize: 25,

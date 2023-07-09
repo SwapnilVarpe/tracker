@@ -24,4 +24,14 @@ class Category {
         categoryType: CategoryTypeExt.fromString(map['categoryType']),
         subCategory: map['subCategory'] ?? '');
   }
+
+  @override
+  operator ==(other) =>
+      other is Category &&
+      categoryType == other.categoryType &&
+      category == other.category &&
+      subCategory == other.subCategory;
+
+  @override
+  int get hashCode => Object.hash(categoryType, category, subCategory);
 }

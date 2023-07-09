@@ -95,8 +95,30 @@ class DBHelper {
     return await _database!.insert(_entryTable, entry.toMap());
   }
 
+  static Future<int> insertManyEntry(List<Entry> list) async {
+    int total = 0;
+    for (var entry in list) {
+      int num = await insertEntry(entry);
+      if (num > 0) {
+        total++;
+      }
+    }
+    return total;
+  }
+
   static Future<int> insertCategory(Category category) async {
     return await _database!.insert(_categoryTable, category.toMap());
+  }
+
+  static Future<int> insertManyCategory(List<Category> list) async {
+    int total = 0;
+    for (var cat in list) {
+      int num = await insertCategory(cat);
+      if (num > 0) {
+        total++;
+      }
+    }
+    return total;
   }
 
   static Future<int> updateEntry(Entry entry) async {

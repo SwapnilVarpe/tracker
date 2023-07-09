@@ -57,8 +57,7 @@ class CategoryState {
       CategoryType? categoryType,
       String? selectedCategory,
       String? selectedSubCat,
-      List<cat.Category>? categoryList,
-      List<String>? subCategoryList}) {
+      List<cat.Category>? categoryList}) {
     return CategoryState(
       isLoading: isLoading ?? this.isLoading,
       controllers: controllers,

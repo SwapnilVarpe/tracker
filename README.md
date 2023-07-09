@@ -2,6 +2,7 @@
 Tracker for money and time
 
 ## Todo:
+-   Android build.
 -   Expneses
 -   Cat/Sub cat
 -   Money stats
@@ -22,14 +23,12 @@ Tracker for money and time
     -   Total time wasted/not counted.
         Time spend by category.
 -   Options:
-    -   Import data into db.
-    -   Dont show salary option.
     -   Unlock using fingerprint.
+    -   Settings provider, for number formatter and global setting.
 
 
 Issues:
 - Scroll issue: https://stackoverflow.com/questions/49153087/flutter-scrolling-to-a-widget-in-listview
 https://pub.dev/packages/scrollable_positioned_list
-- In add/edit catogory, if added new or deleted cat, cat gets reset to first one.
 
 

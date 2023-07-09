@@ -96,7 +96,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ListTile(
             title: const Text('Import'),
             leading: Icon(Icons.download),
-            onTap: () => context.go('/import'),
+            onTap: () {
+              context.pop();
+              context.go('/import');
+            },
           ),
           ListTile(
             title: const Text('Hide salary'),
