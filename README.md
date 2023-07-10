@@ -3,8 +3,10 @@ Tracker for money and time
 
 ## Todo:
 -   Android build.
+        App image icons.
+        Release build.
 -   Expneses
--   Cat/Sub cat
+        Number formatter
 -   Money stats
         Feature: View by excluding some entries (so to negate large amounts in perticular month).
         Design:
@@ -25,7 +27,9 @@ Tracker for money and time
 -   Options:
     -   Unlock using fingerprint.
     -   Settings provider, for number formatter and global setting.
-
+    -   Export
+    Components:
+        Use segamented buttons in cat/sub cat selection for Cat type.
 
 Issues:
 - Scroll issue: https://stackoverflow.com/questions/49153087/flutter-scrolling-to-a-widget-in-listview
