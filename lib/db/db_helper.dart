@@ -45,7 +45,6 @@ class DBHelper {
             'Medicine',
             'Book',
             'Car',
-            'Miscellanious'
           ];
           for (var exp in expList) {
             db.insert(
