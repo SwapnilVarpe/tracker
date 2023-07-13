@@ -122,15 +122,17 @@ class _MyHomePageState extends State<MyHomePage> {
         const TimeSchedule(),
         const TimeStats()
       ][_currentPageIndex],
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (_currentPageIndex == 0) {
-            context.go('/addEntry');
-          }
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: _currentPageIndex == 0
+          ? FloatingActionButton(
+              onPressed: () {
+                if (_currentPageIndex == 0) {
+                  context.go('/addEntry');
+                }
+              },
+              tooltip: 'Increment',
+              child: const Icon(Icons.add),
+            )
+          : null,
       // TODO: FAB is hiding last amount.
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: NavigationBar(

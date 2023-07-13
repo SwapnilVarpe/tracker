@@ -1,9 +1,32 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'constants.dart';
 
 bool isNumeric(String source) {
   return double.tryParse(source) != null;
+}
+
+Color getAmountColor(CategoryType categoryType) {
+  switch (categoryType) {
+    case CategoryType.expense:
+      return Colors.red;
+    case CategoryType.income:
+      return Colors.green;
+    case CategoryType.investment:
+      return Colors.orange;
+  }
+}
+
+IconData getAmountIcon(CategoryType categoryType) {
+  switch (categoryType) {
+    case CategoryType.expense:
+      return Icons.payments;
+    case CategoryType.income:
+      return Icons.attach_money;
+    case CategoryType.investment:
+      return Icons.trending_up;
+  }
 }
 
 class DateRange {
@@ -26,4 +49,4 @@ DateRange getMonthRange(String month) {
 }
 
 final _formatter = NumberFormat('##,##,##,###.##');
-String getIndianNumFormat(double num) => _formatter.format(num);
+String formatNum(double num) => _formatter.format(num);

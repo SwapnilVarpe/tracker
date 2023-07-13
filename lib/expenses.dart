@@ -51,16 +51,17 @@ class Expenses extends ConsumerWidget {
                 return Card(
                     child: ListTile(
                   leading: Icon(
-                    getAmountIcon(entry),
-                    color: getAmountColor(entry),
+                    getAmountIcon(entry.categoryType),
+                    color: getAmountColor(entry.categoryType),
                   ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        '₹${entry.amount}',
+                        '₹${formatNum(entry.amount)}',
                         style: TextStyle(
-                            color: getAmountColor(entry), fontSize: 17),
+                            color: getAmountColor(entry.categoryType),
+                            fontSize: 17),
                       ),
                       const SizedBox(width: 10),
                       cardMenuButton(entry, ref)
@@ -98,7 +99,7 @@ class Expenses extends ConsumerWidget {
                           color: colorScheme.onSurface),
                     ),
                     Text(
-                      '₹${summary != null ? getIndianNumFormat(summary[CategoryType.expense.asString()] ?? 0) : 0}',
+                      '₹${summary != null ? formatNum(summary[CategoryType.expense.asString()] ?? 0) : 0}',
                       style: const TextStyle(
                         color: Colors.red,
                         fontSize: 25,
@@ -120,7 +121,7 @@ class Expenses extends ConsumerWidget {
                               fontWeight: FontWeight.bold,
                               color: colorScheme.onSurface)),
                       Text(
-                        '₹${summary != null ? summary[CategoryType.income.asString()] ?? 0 : 0}',
+                        '₹${summary != null ? formatNum(summary[CategoryType.income.asString()] ?? 0) : 0}',
                       )
                     ],
                   ),
@@ -136,7 +137,7 @@ class Expenses extends ConsumerWidget {
                               fontWeight: FontWeight.bold,
                               color: colorScheme.onSurface)),
                       Text(
-                        '₹${summary != null ? summary[CategoryType.investment.asString()] ?? 0 : 0}',
+                        '₹${summary != null ? formatNum(summary[CategoryType.investment.asString()] ?? 0) : 0}',
                       )
                     ],
                   ),
@@ -195,27 +196,5 @@ class Expenses extends ConsumerWidget {
         )
       ],
     );
-  }
-
-  Color getAmountColor(Entry entry) {
-    switch (entry.categoryType) {
-      case CategoryType.expense:
-        return Colors.red;
-      case CategoryType.income:
-        return Colors.green;
-      case CategoryType.investment:
-        return Colors.orange;
-    }
-  }
-
-  IconData getAmountIcon(Entry entry) {
-    switch (entry.categoryType) {
-      case CategoryType.expense:
-        return Icons.payments;
-      case CategoryType.income:
-        return Icons.attach_money;
-      case CategoryType.investment:
-        return Icons.trending_up;
-    }
   }
 }

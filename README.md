@@ -8,6 +8,10 @@ Tracker for money and time
 -   Expneses
         Number formatter
 -   Money stats
+        Design change: Do similar to mobile app
+            How date filter
+            Then list of items grouped by category, on click on cat show items in it.
+
         Feature: View by excluding some entries (so to negate large amounts in perticular month).
         Design:
             Date range: Month selector and range selector

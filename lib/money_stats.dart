@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracker/providers/money_stat_provider.dart';
+import 'package:tracker/util.dart';
 
 import 'constants.dart';
 
@@ -101,48 +102,56 @@ class MoneyStats extends ConsumerWidget {
             ),
           ),
         ),
-        Visibility(
-          visible: subCategories.isNotEmpty,
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12),
-            child: Text('Sub category:'),
-          ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          child: Text('Sub category:'),
         ),
-        Visibility(
-          visible: subCategories.isNotEmpty,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              height: 40,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: ['', ...subCategories]
-                    .map((e) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                          child: ChoiceChip(
-                            label: Text(e.isEmpty ? 'All' : e),
-                            selected: e == state.subCategory,
-                            onSelected: (value) => ref
-                                .read(moneyStateProvider.notifier)
-                                .subCategory = e,
-                          ),
-                        ))
-                    .toList(),
-              ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0, left: 8),
+          child: SizedBox(
+            height: 40,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: ['', ...subCategories]
+                  .map((e) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: ChoiceChip(
+                          label: Text(e.isEmpty ? 'All' : e),
+                          selected: e == state.subCategory,
+                          onSelected: (value) => ref
+                              .read(moneyStateProvider.notifier)
+                              .subCategory = e,
+                        ),
+                      ))
+                  .toList(),
             ),
           ),
         ),
         Center(
-          child: Text('Total: $total'),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              '₹${formatNum(total)}',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: getAmountColor(state.categoryType),
+                  fontSize: 18),
+            ),
+          ),
         ),
         Expanded(
             child: ListView(
-          children: entries
-              .map((e) => Card(
-                    child: ListTile(title: Text(e.title)),
-                  ))
-              .toList(),
-        ))
+                children: entries
+                    .map((e) => Card(
+                            child: ListTile(
+                          trailing: Text(
+                            '₹${formatNum(e.amount)}',
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                          title: Text(e.title),
+                          subtitle: Text('${e.category} ${e.subCategory}'),
+                        )))
+                    .toList()))
       ],
     );
   }
