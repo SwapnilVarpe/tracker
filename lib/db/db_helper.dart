@@ -158,6 +158,21 @@ class DBHelper {
     });
   }
 
+  static Future<List<Entry>> getGroupbyCatEntries(
+      String start, String end, CategoryType categoryType) async {
+    final maps = await _database!.query(_entryTable,
+        columns: ['sum(amount) as amount', 'category'],
+        where: 'datetime >= ? AND datetime <= ? AND categoryType = ?',
+        whereArgs: [start, end, categoryType.asString()],
+        groupBy: 'category',
+        orderBy: 'amount DESC');
+
+    return List.generate(maps.length, (index) {
+      var entry = maps[index];
+      return Entry.fromMap(entry);
+    });
+  }
+
   static Future<int> deleteEntry(int id) async {
     return await _database!
         .delete(_entryTable, where: 'id = ?', whereArgs: [id]);

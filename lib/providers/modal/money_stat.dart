@@ -6,10 +6,15 @@ import 'package:tracker/modal/category.dart';
 
 part 'money_stat.freezed.dart';
 
+enum FilterBy { month, dateRage }
+
 @freezed
 class MoneyStat with _$MoneyStat {
   const factory MoneyStat(
-      {required String month,
+      {required FilterBy filterBy,
+      required String month,
+      required String startDate,
+      required String endDate,
       required CategoryType categoryType,
       required String category,
       required String subCategory,

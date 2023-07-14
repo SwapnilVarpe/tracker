@@ -1,29 +1,52 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracker/constants.dart';
 import 'package:tracker/db/db_helper.dart';
-import 'package:tracker/modal/entry.dart';
 import 'package:tracker/providers/modal/money_stat.dart';
 import 'package:tracker/util.dart';
 
 class MoneyStateNotifier extends StateNotifier<MoneyStat> {
   MoneyStateNotifier(MoneyStat state) : super(state) {
-    _init();
+    _updateEntries();
   }
 
-  _init() async {
-    var catList = await DBHelper.getAllCategories();
+  _updateEntries() async {
+    String start = state.startDate;
+    String end = state.endDate;
+
+    if (state.filterBy == FilterBy.month) {
+      var range = getMonthRange(state.month);
+      start = range.start;
+      end = range.end;
+    }
+    var entries =
+        await DBHelper.getGroupbyCatEntries(start, end, state.categoryType);
+    state = state.copyWith(entries: entries);
+  }
+
+  set filterBy(FilterBy filter) {
     var range = getMonthRange(state.month);
-    var entries = await DBHelper.getEntriesByRange(range.start, range.end);
-    state = state.copyWith(categories: catList, entries: entries);
+    state = state.copyWith(
+        filterBy: filter, startDate: range.start, endDate: range.end);
   }
 
   set month(String month) {
     state = state.copyWith(month: month);
-    _init();
+    _updateEntries();
+  }
+
+  set startDate(String date) {
+    state = state.copyWith(startDate: date);
+    _updateEntries();
+  }
+
+  set endDate(String date) {
+    state = state.copyWith(endDate: date);
+    _updateEntries();
   }
 
   set categoryType(CategoryType type) {
     state = state.copyWith(categoryType: type, category: '', subCategory: '');
+    _updateEntries();
   }
 
   set category(String cat) {
@@ -33,45 +56,16 @@ class MoneyStateNotifier extends StateNotifier<MoneyStat> {
   set subCategory(String subCat) {
     state = state.copyWith(subCategory: subCat);
   }
-
-  List<String> getCategories() {
-    return state.categories
-        .where((element) =>
-            element.categoryType == state.categoryType &&
-            element.subCategory.isEmpty)
-        .map((e) => e.category)
-        .toList();
-  }
-
-  List<String> getSubCategories() {
-    if (state.category.isEmpty) {
-      return [];
-    }
-    return state.categories
-        .where((element) =>
-            element.categoryType == state.categoryType &&
-            element.category == state.category &&
-            element.subCategory.isNotEmpty)
-        .map((e) => e.subCategory)
-        .toList();
-  }
-
-  List<Entry> getEntries() {
-    return state.entries
-        .where((element) =>
-            element.categoryType == state.categoryType &&
-            (state.category.isEmpty || element.category == state.category) &&
-            (state.subCategory.isEmpty ||
-                element.subCategory == state.subCategory))
-        .toList();
-  }
 }
 
 final moneyStateProvider =
     StateNotifierProvider<MoneyStateNotifier, MoneyStat>((ref) {
   var curMonth = DateTime.now().month;
   return MoneyStateNotifier(MoneyStat(
+      filterBy: FilterBy.month,
       month: months[curMonth - 1],
+      startDate: '',
+      endDate: '',
       categoryType: CategoryType.expense,
       category: '',
       subCategory: '',

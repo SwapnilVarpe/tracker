@@ -6,21 +6,12 @@ Tracker for money and time
         App image icons.
         Release build.
 -   Expneses
-        Number formatter
 -   Money stats
         Design change: Do similar to mobile app
             How date filter
             Then list of items grouped by category, on click on cat show items in it.
 
         Feature: View by excluding some entries (so to negate large amounts in perticular month).
-        Design:
-            Date range: Month selector and range selector
-            Summary of income, exp and investement.
-            Cat type selector
-            Filters:
-                Pie of categories, or list cat.
-                Pie of sub cats if exists.
-                List of items
 -   Schedule >> Time slots
     -   Time card from morning to night.
     -   Should be able to add what I did in given half hour or an hour.

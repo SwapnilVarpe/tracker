@@ -36,7 +36,7 @@ class Entry {
     return Entry(
         id: map['id'],
         title: map['title'] ?? '',
-        datetime: map['datetime'] ?? 0,
+        datetime: map['datetime'] ?? '',
         amount: map['amount'] ?? 0,
         categoryType: CategoryTypeExt.fromString(map['categoryType'] ?? ''),
         subCategory: map['subCategory'] ?? '',

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:tracker/providers/modal/money_stat.dart';
 import 'package:tracker/providers/money_stat_provider.dart';
 import 'package:tracker/util.dart';
 
@@ -11,13 +13,9 @@ class MoneyStats extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var state = ref.watch(moneyStateProvider);
-    var categories = ref.read(moneyStateProvider.notifier).getCategories();
-    var subCategories =
-        ref.read(moneyStateProvider.notifier).getSubCategories();
-    var entries = ref.read(moneyStateProvider.notifier).getEntries();
-    double total = entries.isEmpty
+    double total = state.entries.isEmpty
         ? 0
-        : entries
+        : state.entries
             .map((e) => e.amount)
             .reduce((value, element) => value + element);
 
@@ -25,35 +23,114 @@ class MoneyStats extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-            height: 40,
-            child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: months.map(
-                  (month) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: ChoiceChip(
-                          label: Text(
-                            month,
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSecondaryContainer),
-                          ),
-                          onSelected: (isSelected) {
-                            ref.read(moneyStateProvider.notifier).month = month;
-                          },
-                          selected: state.month == month
-                          // backgroundColor: colorScheme.secondaryContainer,
-                          // selectedColor: colorScheme.primaryContainer,
-                          ),
-                    );
-                  },
-                ).toList()),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+          child: Row(
+            children: [
+              const Text('Filter by:'),
+              Radio(
+                  value: FilterBy.month,
+                  groupValue: state.filterBy,
+                  onChanged: (filter) => ref
+                      .read(moneyStateProvider.notifier)
+                      .filterBy = FilterBy.month),
+              const Text('Month'),
+              const SizedBox(
+                width: 16,
+              ),
+              Radio(
+                  value: FilterBy.dateRage,
+                  groupValue: state.filterBy,
+                  onChanged: (filter) => ref
+                      .read(moneyStateProvider.notifier)
+                      .filterBy = FilterBy.dateRage),
+              const Text('Date range')
+            ],
           ),
         ),
+        Visibility(
+          visible: state.filterBy == FilterBy.month,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: SizedBox(
+              height: 40,
+              child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: months.map(
+                    (month) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: ChoiceChip(
+                            label: Text(
+                              month,
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSecondaryContainer),
+                            ),
+                            onSelected: (isSelected) {
+                              ref.read(moneyStateProvider.notifier).month =
+                                  month;
+                            },
+                            selected: state.month == month
+                            // backgroundColor: colorScheme.secondaryContainer,
+                            // selectedColor: colorScheme.primaryContainer,
+                            ),
+                      );
+                    },
+                  ).toList()),
+            ),
+          ),
+        ),
+        Visibility(
+            visible: state.filterBy == FilterBy.dateRage,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: TextEditingController(text: state.startDate),
+                      readOnly: true,
+                      onTap: () async {
+                        DateTime? date = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.parse(state.startDate),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2050));
+
+                        if (date != null) {
+                          var formattedDate =
+                              DateFormat('yyyy-MM-dd').format(date);
+                          ref.read(moneyStateProvider.notifier).startDate =
+                              formattedDate;
+                        }
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: TextField(
+                      readOnly: true,
+                      controller: TextEditingController(text: state.endDate),
+                      onTap: () async {
+                        DateTime? date = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.parse(state.endDate),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2050));
+
+                        if (date != null) {
+                          var formattedDate =
+                              DateFormat('yyyy-MM-dd').format(date);
+                          ref.read(moneyStateProvider.notifier).endDate =
+                              formattedDate;
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            )),
         Center(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -77,56 +154,6 @@ class MoneyStats extends ConsumerWidget {
             ),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12),
-          child: Text('Category:'),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-            height: 40,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: ['', ...categories]
-                  .map((e) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                        child: ChoiceChip(
-                          label: Text(e.isEmpty ? 'All' : e),
-                          selected: e == state.category,
-                          onSelected: (value) => ref
-                              .read(moneyStateProvider.notifier)
-                              .category = e,
-                        ),
-                      ))
-                  .toList(),
-            ),
-          ),
-        ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12),
-          child: Text('Sub category:'),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0, left: 8),
-          child: SizedBox(
-            height: 40,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: ['', ...subCategories]
-                  .map((e) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                        child: ChoiceChip(
-                          label: Text(e.isEmpty ? 'All' : e),
-                          selected: e == state.subCategory,
-                          onSelected: (value) => ref
-                              .read(moneyStateProvider.notifier)
-                              .subCategory = e,
-                        ),
-                      ))
-                  .toList(),
-            ),
-          ),
-        ),
         Center(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -141,15 +168,14 @@ class MoneyStats extends ConsumerWidget {
         ),
         Expanded(
             child: ListView(
-                children: entries
+                children: state.entries
                     .map((e) => Card(
                             child: ListTile(
                           trailing: Text(
                             '₹${formatNum(e.amount)}',
                             style: const TextStyle(fontSize: 16),
                           ),
-                          title: Text(e.title),
-                          subtitle: Text('${e.category} ${e.subCategory}'),
+                          title: Text(e.category),
                         )))
                     .toList()))
       ],
