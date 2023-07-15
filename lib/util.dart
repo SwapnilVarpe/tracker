@@ -50,3 +50,6 @@ DateRange getMonthRange(String month) {
 
 final _formatter = NumberFormat('##,##,##,###.##');
 String formatNum(double num) => _formatter.format(num);
+
+final _decimalFormatter = NumberFormat.decimalPatternDigits(decimalDigits: 2);
+String formatDecimal2D(double num) => _decimalFormatter.format(num);

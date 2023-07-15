@@ -30,7 +30,9 @@ class MoneyStateNotifier extends StateNotifier<MoneyStat> {
   }
 
   set month(String month) {
-    state = state.copyWith(month: month);
+    var range = getMonthRange(month);
+    state = state.copyWith(
+        month: month, startDate: range.start, endDate: range.end);
     _updateEntries();
   }
 
@@ -61,11 +63,12 @@ class MoneyStateNotifier extends StateNotifier<MoneyStat> {
 final moneyStateProvider =
     StateNotifierProvider<MoneyStateNotifier, MoneyStat>((ref) {
   var curMonth = DateTime.now().month;
+  var range = getMonthRange(months[curMonth - 1]);
   return MoneyStateNotifier(MoneyStat(
       filterBy: FilterBy.month,
       month: months[curMonth - 1],
-      startDate: '',
-      endDate: '',
+      startDate: range.start,
+      endDate: range.end,
       categoryType: CategoryType.expense,
       category: '',
       subCategory: '',

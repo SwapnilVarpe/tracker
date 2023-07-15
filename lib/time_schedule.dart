@@ -5,6 +5,6 @@ class TimeSchedule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('Schedule');
+    return const Center(child: Text('Work in progress'));
   }
 }

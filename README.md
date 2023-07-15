@@ -8,8 +8,8 @@ Tracker for money and time
 -   Expneses
 -   Money stats
         Design change: Do similar to mobile app
-            How date filter
             Then list of items grouped by category, on click on cat show items in it.
+            Add percentage in cateogry.
 
         Feature: View by excluding some entries (so to negate large amounts in perticular month).
 -   Schedule >> Time slots
@@ -23,8 +23,9 @@ Tracker for money and time
     -   Unlock using fingerprint.
     -   Settings provider, for number formatter and global setting.
     -   Export
-    Components:
-        Use segamented buttons in cat/sub cat selection for Cat type.
+
+Refactoring:
+    Move models to freezed.
 
 Issues:
 - Scroll issue: https://stackoverflow.com/questions/49153087/flutter-scrolling-to-a-widget-in-listview

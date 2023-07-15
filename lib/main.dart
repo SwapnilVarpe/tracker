@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracker/add_category.dart';
+import 'package:tracker/category_entry_details.dart';
+import 'package:tracker/constants.dart';
 import 'package:tracker/import.dart';
 
 import 'expenses.dart';
@@ -39,6 +41,17 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
         GoRoute(
           path: 'import',
           builder: (context, state) => const Import(),
+        ),
+        GoRoute(
+          path: 'category-entry-details',
+          builder: (context, state) {
+            return CategoryEntryDetails(
+                category: state.queryParameters['category'] ?? '',
+                categoryType: CategoryTypeExt.fromString(
+                    state.queryParameters['categoryType'] ?? ''),
+                endDate: state.queryParameters['endDate'] ?? '',
+                startDate: state.queryParameters['startDate'] ?? '');
+          },
         )
       ]),
 ]);
@@ -82,20 +95,20 @@ class _MyHomePageState extends State<MyHomePage> {
           DrawerHeader(
             decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primaryContainer),
-            child: Text(
-              'Drawer Header',
+            child: const Text(
+              'Tracker app',
               style: TextStyle(
                 fontSize: 24,
               ),
             ),
           ),
-          ListTile(
-            title: const Text('Export'),
+          const ListTile(
+            title: Text('Export'),
             leading: Icon(Icons.upload),
           ),
           ListTile(
             title: const Text('Import'),
-            leading: Icon(Icons.download),
+            leading: const Icon(Icons.download),
             onTap: () {
               context.pop();
               context.go('/import');
@@ -103,12 +116,12 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           ListTile(
             title: const Text('Hide salary'),
-            leading: Icon(Icons.money_off),
+            leading: const Icon(Icons.money_off),
             trailing: Switch(value: true, onChanged: (isSelected) {}),
           ),
           ListTile(
             title: const Text('Enable biometrics'),
-            leading: Icon(Icons.fingerprint),
+            leading: const Icon(Icons.fingerprint),
             trailing: Switch(
               value: false,
               onChanged: (value) {},

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:tracker/providers/modal/money_stat.dart';
 import 'package:tracker/providers/money_stat_provider.dart';
@@ -23,7 +24,7 @@ class MoneyStats extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
           child: Row(
             children: [
               const Text('Filter by:'),
@@ -176,6 +177,16 @@ class MoneyStats extends ConsumerWidget {
                             style: const TextStyle(fontSize: 16),
                           ),
                           title: Text(e.category),
+                          subtitle: Text(
+                              '${formatDecimal2D(e.amount * 100 / total)}%'),
+                          onTap: () => context.push(Uri(
+                              path: '/category-entry-details',
+                              queryParameters: {
+                                'category': e.category,
+                                'startDate': state.startDate,
+                                'endDate': state.endDate,
+                                'categoryType': state.categoryType.asString()
+                              }).toString()),
                         )))
                     .toList()))
       ],

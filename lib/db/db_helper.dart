@@ -150,7 +150,9 @@ class DBHelper {
       return [];
     }
     final List<Map<String, dynamic>> maps = await _database!.query(_entryTable,
-        where: 'datetime >= ? AND datetime <= ?', whereArgs: [start, end]);
+        where: 'datetime >= ? AND datetime <= ?',
+        whereArgs: [start, end],
+        orderBy: 'datetime DESC');
 
     return List.generate(maps.length, (index) {
       var entry = maps[index];
@@ -165,6 +167,36 @@ class DBHelper {
         where: 'datetime >= ? AND datetime <= ? AND categoryType = ?',
         whereArgs: [start, end, categoryType.asString()],
         groupBy: 'category',
+        orderBy: 'amount DESC');
+
+    return List.generate(maps.length, (index) {
+      var entry = maps[index];
+      return Entry.fromMap(entry);
+    });
+  }
+
+  static Future<List<Entry>> getGroupbySubCatEntries(String start, String end,
+      CategoryType categoryType, String category) async {
+    final maps = await _database!.query(_entryTable,
+        columns: ['sum(amount) as amount', 'subCategory'],
+        where:
+            'datetime >= ? AND datetime <= ? AND categoryType = ? AND category = ?',
+        whereArgs: [start, end, categoryType.asString(), category],
+        groupBy: 'subCategory',
+        orderBy: 'amount DESC');
+
+    return List.generate(maps.length, (index) {
+      var entry = maps[index];
+      return Entry.fromMap(entry);
+    });
+  }
+
+  static Future<List<Entry>> getSubCatEntries(String start, String end,
+      CategoryType categoryType, String category) async {
+    final maps = await _database!.query(_entryTable,
+        where:
+            'datetime >= ? AND datetime <= ? AND categoryType = ? AND category = ?',
+        whereArgs: [start, end, categoryType.asString(), category],
         orderBy: 'amount DESC');
 
     return List.generate(maps.length, (index) {

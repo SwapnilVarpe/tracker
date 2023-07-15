@@ -5,6 +5,6 @@ class TimeStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('Time stats');
+    return const Center(child: Text('Work in progress'));
   }
 }
