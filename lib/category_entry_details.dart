@@ -29,28 +29,44 @@ class CategoryEntryDetails extends ConsumerWidget {
       appBar: AppBar(title: const Text('Category entry details')),
       body: Column(
         children: [
-          const Text('Sub categories'),
           Expanded(
             child: entries.when(
               data: (data) {
+                var total = data.$2;
+                var list = data.$1;
                 return ListView.builder(
-                  itemCount: data.length,
+                  itemCount: list.length,
                   itemBuilder: (context, index) {
-                    var item = data[index];
+                    var item = list[index];
 
                     if (item.isHeader) {
-                      return Text(item.header);
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                            left: 8.0, top: 24, bottom: 8),
+                        child: Text(
+                          item.header,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 14),
+                        ),
+                      );
                     }
                     var title = item.isGroupby
                         ? item.entry?.subCategory
                         : item.entry?.title;
-                    var amount = item.entry?.amount;
+                    var amount = item.entry?.amount ?? 0;
 
                     return Card(
                       child: ListTile(
-                        title: Text(title ?? ''),
-                        trailing: Text(formatNum(amount ?? 0)),
-                      ),
+                          title: Text(
+                              title == null || title.isEmpty ? '-' : title),
+                          trailing: Text(
+                            '₹${formatNum(amount)}',
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                          subtitle: item.isGroupby
+                              ? Text(
+                                  '${formatDecimal2D(amount * 100 / total)}%')
+                              : Text(formatDateDdMmm(item.entry?.datetime))),
                     );
                   },
                 );

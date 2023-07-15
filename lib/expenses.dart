@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 import 'package:tracker/db/db_helper.dart';
 import 'package:tracker/util.dart';
@@ -72,7 +71,7 @@ class Expenses extends ConsumerWidget {
                     ),
                     title: Text(entry.title),
                     subtitle: Text(
-                        '${DateFormat('dd MMM').format(DateTime.parse(entry.datetime))} : ${entry.category} ${entry.subCategory}'),
+                        '${formatDateDdMmm(entry.datetime)} : ${entry.category} ${entry.subCategory}'),
                   ));
                 },
               );

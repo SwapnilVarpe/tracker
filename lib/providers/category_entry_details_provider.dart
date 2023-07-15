@@ -13,7 +13,8 @@ class SubCatListItem {
 }
 
 final categoryEntryDetailsProvider = FutureProvider.autoDispose
-    .family<List<SubCatListItem>, CategoryEntryDetail>((ref, arg) async {
+    .family<(List<SubCatListItem>, double), CategoryEntryDetail>(
+        (ref, arg) async {
   final subCatGroupby = await DBHelper.getGroupbySubCatEntries(
       arg.start, arg.end, arg.categoryType, arg.category);
   final subCatList = await DBHelper.getSubCatEntries(
@@ -26,12 +27,14 @@ final categoryEntryDetailsProvider = FutureProvider.autoDispose
     for (var element in subCatList) {
       list.add(SubCatListItem(false, element, '', false));
     }
-    return list;
+    return (list, 0.0);
   }
 
+  var total = 0.0;
   list.add(const SubCatListItem(
       true, null, 'Entries grouped by sub category', false));
   for (var element in subCatGroupby) {
+    total += element.amount;
     list.add(SubCatListItem(false, element, '', true));
   }
 
@@ -40,5 +43,5 @@ final categoryEntryDetailsProvider = FutureProvider.autoDispose
     list.add(SubCatListItem(false, element, '', false));
   }
 
-  return list;
+  return (list, total);
 });

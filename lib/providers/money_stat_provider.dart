@@ -27,6 +27,7 @@ class MoneyStateNotifier extends StateNotifier<MoneyStat> {
     var range = getMonthRange(state.month);
     state = state.copyWith(
         filterBy: filter, startDate: range.start, endDate: range.end);
+    _updateEntries();
   }
 
   set month(String month) {

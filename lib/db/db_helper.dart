@@ -197,7 +197,7 @@ class DBHelper {
         where:
             'datetime >= ? AND datetime <= ? AND categoryType = ? AND category = ?',
         whereArgs: [start, end, categoryType.asString(), category],
-        orderBy: 'amount DESC');
+        orderBy: 'datetime DESC');
 
     return List.generate(maps.length, (index) {
       var entry = maps[index];

@@ -53,3 +53,10 @@ String formatNum(double num) => _formatter.format(num);
 
 final _decimalFormatter = NumberFormat.decimalPatternDigits(decimalDigits: 2);
 String formatDecimal2D(double num) => _decimalFormatter.format(num);
+
+String formatDateDdMmm(String? date) {
+  if (date == null) {
+    return '';
+  }
+  return DateFormat('dd MMM').format(DateTime.parse(date));
+}
