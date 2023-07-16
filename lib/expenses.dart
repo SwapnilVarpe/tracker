@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'package:tracker/db/db_helper.dart';
 import 'package:tracker/util.dart';
@@ -9,7 +10,21 @@ import 'constants.dart';
 import 'modal/entry.dart';
 
 class Expenses extends ConsumerWidget {
-  const Expenses({super.key});
+  final ItemScrollController scrollController = ItemScrollController();
+  Expenses({super.key}) {
+    Future.delayed(
+      const Duration(seconds: 1),
+      () {
+        if (scrollController.isAttached) {
+          var curMonth = DateTime.now().month;
+          scrollController.scrollTo(
+              index: curMonth - 3,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut);
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,26 +37,25 @@ class Expenses extends ConsumerWidget {
       summaryCard(colorScheme, summary),
       SizedBox(
         height: 40,
-        child: ListView(
+        child: ScrollablePositionedList.builder(
+            itemScrollController: scrollController,
             scrollDirection: Axis.horizontal,
-            children: months.map(
-              (month) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: ChoiceChip(
-                    label: Text(
-                      month,
-                      style: TextStyle(color: colorScheme.onSecondaryContainer),
-                    ),
-                    onSelected: (isSelected) =>
-                        ref.read(monthProvider.notifier).state = month,
-                    selected: selectedMonth == month,
-                    // backgroundColor: colorScheme.secondaryContainer,
-                    // selectedColor: colorScheme.primaryContainer,
+            itemCount: months.length,
+            itemBuilder: (context, index) {
+              var month = months[index];
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: ChoiceChip(
+                  label: Text(
+                    month,
+                    style: TextStyle(color: colorScheme.onSecondaryContainer),
                   ),
-                );
-              },
-            ).toList()),
+                  onSelected: (isSelected) =>
+                      ref.read(monthProvider.notifier).state = month,
+                  selected: selectedMonth == month,
+                ),
+              );
+            }),
       ),
       Expanded(
         child: entryList.when(

@@ -130,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ]),
       ),
       body: <Widget>[
-        const Expenses(),
+        Expenses(),
         const MoneyStats(),
         const TimeSchedule(),
         const TimeStats()

@@ -22,9 +22,8 @@ mixin _$MoneyStat {
   String get endDate => throw _privateConstructorUsedError;
   CategoryType get categoryType => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
-  String get subCategory => throw _privateConstructorUsedError;
-  double get total => throw _privateConstructorUsedError;
-  List<Category> get categories => throw _privateConstructorUsedError;
+  ItemScrollController get itemScrollController =>
+      throw _privateConstructorUsedError;
   List<Entry> get entries => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -44,9 +43,7 @@ abstract class $MoneyStatCopyWith<$Res> {
       String endDate,
       CategoryType categoryType,
       String category,
-      String subCategory,
-      double total,
-      List<Category> categories,
+      ItemScrollController itemScrollController,
       List<Entry> entries});
 }
 
@@ -69,9 +66,7 @@ class _$MoneyStatCopyWithImpl<$Res, $Val extends MoneyStat>
     Object? endDate = null,
     Object? categoryType = null,
     Object? category = null,
-    Object? subCategory = null,
-    Object? total = null,
-    Object? categories = null,
+    Object? itemScrollController = null,
     Object? entries = null,
   }) {
     return _then(_value.copyWith(
@@ -99,18 +94,10 @@ class _$MoneyStatCopyWithImpl<$Res, $Val extends MoneyStat>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String,
-      subCategory: null == subCategory
-          ? _value.subCategory
-          : subCategory // ignore: cast_nullable_to_non_nullable
-              as String,
-      total: null == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
-              as double,
-      categories: null == categories
-          ? _value.categories
-          : categories // ignore: cast_nullable_to_non_nullable
-              as List<Category>,
+      itemScrollController: null == itemScrollController
+          ? _value.itemScrollController
+          : itemScrollController // ignore: cast_nullable_to_non_nullable
+              as ItemScrollController,
       entries: null == entries
           ? _value.entries
           : entries // ignore: cast_nullable_to_non_nullable
@@ -133,9 +120,7 @@ abstract class _$$_MoneyStatCopyWith<$Res> implements $MoneyStatCopyWith<$Res> {
       String endDate,
       CategoryType categoryType,
       String category,
-      String subCategory,
-      double total,
-      List<Category> categories,
+      ItemScrollController itemScrollController,
       List<Entry> entries});
 }
 
@@ -156,9 +141,7 @@ class __$$_MoneyStatCopyWithImpl<$Res>
     Object? endDate = null,
     Object? categoryType = null,
     Object? category = null,
-    Object? subCategory = null,
-    Object? total = null,
-    Object? categories = null,
+    Object? itemScrollController = null,
     Object? entries = null,
   }) {
     return _then(_$_MoneyStat(
@@ -186,18 +169,10 @@ class __$$_MoneyStatCopyWithImpl<$Res>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String,
-      subCategory: null == subCategory
-          ? _value.subCategory
-          : subCategory // ignore: cast_nullable_to_non_nullable
-              as String,
-      total: null == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
-              as double,
-      categories: null == categories
-          ? _value._categories
-          : categories // ignore: cast_nullable_to_non_nullable
-              as List<Category>,
+      itemScrollController: null == itemScrollController
+          ? _value.itemScrollController
+          : itemScrollController // ignore: cast_nullable_to_non_nullable
+              as ItemScrollController,
       entries: null == entries
           ? _value._entries
           : entries // ignore: cast_nullable_to_non_nullable
@@ -216,12 +191,9 @@ class _$_MoneyStat with DiagnosticableTreeMixin implements _MoneyStat {
       required this.endDate,
       required this.categoryType,
       required this.category,
-      required this.subCategory,
-      required this.total,
-      required final List<Category> categories,
+      required this.itemScrollController,
       required final List<Entry> entries})
-      : _categories = categories,
-        _entries = entries;
+      : _entries = entries;
 
   @override
   final FilterBy filterBy;
@@ -236,17 +208,7 @@ class _$_MoneyStat with DiagnosticableTreeMixin implements _MoneyStat {
   @override
   final String category;
   @override
-  final String subCategory;
-  @override
-  final double total;
-  final List<Category> _categories;
-  @override
-  List<Category> get categories {
-    if (_categories is EqualUnmodifiableListView) return _categories;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_categories);
-  }
-
+  final ItemScrollController itemScrollController;
   final List<Entry> _entries;
   @override
   List<Entry> get entries {
@@ -257,7 +219,7 @@ class _$_MoneyStat with DiagnosticableTreeMixin implements _MoneyStat {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MoneyStat(filterBy: $filterBy, month: $month, startDate: $startDate, endDate: $endDate, categoryType: $categoryType, category: $category, subCategory: $subCategory, total: $total, categories: $categories, entries: $entries)';
+    return 'MoneyStat(filterBy: $filterBy, month: $month, startDate: $startDate, endDate: $endDate, categoryType: $categoryType, category: $category, itemScrollController: $itemScrollController, entries: $entries)';
   }
 
   @override
@@ -271,9 +233,7 @@ class _$_MoneyStat with DiagnosticableTreeMixin implements _MoneyStat {
       ..add(DiagnosticsProperty('endDate', endDate))
       ..add(DiagnosticsProperty('categoryType', categoryType))
       ..add(DiagnosticsProperty('category', category))
-      ..add(DiagnosticsProperty('subCategory', subCategory))
-      ..add(DiagnosticsProperty('total', total))
-      ..add(DiagnosticsProperty('categories', categories))
+      ..add(DiagnosticsProperty('itemScrollController', itemScrollController))
       ..add(DiagnosticsProperty('entries', entries));
   }
 
@@ -292,11 +252,8 @@ class _$_MoneyStat with DiagnosticableTreeMixin implements _MoneyStat {
                 other.categoryType == categoryType) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            (identical(other.subCategory, subCategory) ||
-                other.subCategory == subCategory) &&
-            (identical(other.total, total) || other.total == total) &&
-            const DeepCollectionEquality()
-                .equals(other._categories, _categories) &&
+            (identical(other.itemScrollController, itemScrollController) ||
+                other.itemScrollController == itemScrollController) &&
             const DeepCollectionEquality().equals(other._entries, _entries));
   }
 
@@ -309,9 +266,7 @@ class _$_MoneyStat with DiagnosticableTreeMixin implements _MoneyStat {
       endDate,
       categoryType,
       category,
-      subCategory,
-      total,
-      const DeepCollectionEquality().hash(_categories),
+      itemScrollController,
       const DeepCollectionEquality().hash(_entries));
 
   @JsonKey(ignore: true)
@@ -329,9 +284,7 @@ abstract class _MoneyStat implements MoneyStat {
       required final String endDate,
       required final CategoryType categoryType,
       required final String category,
-      required final String subCategory,
-      required final double total,
-      required final List<Category> categories,
+      required final ItemScrollController itemScrollController,
       required final List<Entry> entries}) = _$_MoneyStat;
 
   @override
@@ -347,11 +300,7 @@ abstract class _MoneyStat implements MoneyStat {
   @override
   String get category;
   @override
-  String get subCategory;
-  @override
-  double get total;
-  @override
-  List<Category> get categories;
+  ItemScrollController get itemScrollController;
   @override
   List<Entry> get entries;
   @override

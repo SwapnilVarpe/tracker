@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:tracker/providers/modal/money_stat.dart';
 import 'package:tracker/providers/money_stat_provider.dart';
 import 'package:tracker/util.dart';
@@ -54,31 +55,28 @@ class MoneyStats extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: SizedBox(
               height: 40,
-              child: ListView(
+              child: ScrollablePositionedList.builder(
+                  itemScrollController: state.itemScrollController,
                   scrollDirection: Axis.horizontal,
-                  children: months.map(
-                    (month) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: ChoiceChip(
-                            label: Text(
-                              month,
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSecondaryContainer),
-                            ),
-                            onSelected: (isSelected) {
-                              ref.read(moneyStateProvider.notifier).month =
-                                  month;
-                            },
-                            selected: state.month == month
-                            // backgroundColor: colorScheme.secondaryContainer,
-                            // selectedColor: colorScheme.primaryContainer,
-                            ),
-                      );
-                    },
-                  ).toList()),
+                  itemCount: months.length,
+                  itemBuilder: (context, index) {
+                    var month = months[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: ChoiceChip(
+                          label: Text(
+                            month,
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSecondaryContainer),
+                          ),
+                          onSelected: (isSelected) {
+                            ref.read(moneyStateProvider.notifier).month = month;
+                          },
+                          selected: state.month == month),
+                    );
+                  }),
             ),
           ),
         ),
