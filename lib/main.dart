@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:tracker/add_category.dart';
 import 'package:tracker/category_entry_details.dart';
 import 'package:tracker/constants.dart';
 import 'package:tracker/import.dart';
+import 'package:tracker/modal/entry.dart';
+import 'package:tracker/util.dart';
 
 import 'expenses.dart';
 import 'money_stats.dart';
@@ -102,9 +108,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          const ListTile(
-            title: Text('Export'),
-            leading: Icon(Icons.upload),
+          ListTile(
+            title: const Text('Export'),
+            leading: const Icon(Icons.upload),
+            onTap: () => _exportData(),
           ),
           ListTile(
             title: const Text('Import'),
@@ -165,5 +172,17 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
+  }
+
+  void _exportData() async {
+    final dir = await getTemporaryDirectory();
+    List<Entry> data = await DBHelper.getAllEntries();
+    final str = convertToCSV(data);
+    final path = '${dir.path}/mt-data.csv';
+
+    File file = File(path);
+    await file.writeAsString(str);
+    Share.shareXFiles([XFile(path, mimeType: 'text/csv')],
+        subject: 'Exported file');
   }
 }

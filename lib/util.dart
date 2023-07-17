@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tracker/modal/entry.dart';
 
 import 'constants.dart';
 
@@ -59,4 +60,16 @@ String formatDateDdMmm(String? date) {
     return '';
   }
   return DateFormat('dd MMM').format(DateTime.parse(date));
+}
+
+String convertToCSV(List<Entry> enties) {
+  StringBuffer buffer = StringBuffer();
+  buffer.writeln('Date,Title,Amount,Category Type,Category,Sub Category');
+
+  for (var entry in enties) {
+    buffer.writeln(
+        '${entry.datetime},"${entry.title}",${entry.amount},${entry.categoryType.asString()},${entry.category},${entry.subCategory}');
+  }
+
+  return buffer.toString();
 }

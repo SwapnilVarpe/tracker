@@ -145,6 +145,15 @@ class DBHelper {
     return Entry.fromMap(maps[0]);
   }
 
+  static Future<List<Entry>> getAllEntries() async {
+    final maps = await _database!.query(_entryTable);
+
+    return List.generate(maps.length, (index) {
+      var entry = maps[index];
+      return Entry.fromMap(entry);
+    });
+  }
+
   static Future<List<Entry>> getEntriesByRange(String start, String end) async {
     if (_database == null) {
       return [];
