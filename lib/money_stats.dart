@@ -166,27 +166,30 @@ class MoneyStats extends ConsumerWidget {
           ),
         ),
         Expanded(
-            child: ListView(
-                children: state.entries
-                    .map((e) => Card(
-                            child: ListTile(
-                          trailing: Text(
-                            '₹${formatNum(e.amount)}',
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                          title: Text(e.category),
-                          subtitle: Text(
-                              '${formatDecimal2D(e.amount * 100 / total)}%'),
-                          onTap: () => context.push(Uri(
-                              path: '/category-entry-details',
-                              queryParameters: {
-                                'category': e.category,
-                                'startDate': state.startDate,
-                                'endDate': state.endDate,
-                                'categoryType': state.categoryType.asString()
-                              }).toString()),
-                        )))
-                    .toList()))
+            child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView(
+              children: state.entries
+                  .map((e) => Card(
+                          child: ListTile(
+                        trailing: Text(
+                          '₹${formatNum(e.amount)}',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        title: Text(e.category),
+                        subtitle:
+                            Text('${formatDecimal2D(e.amount * 100 / total)}%'),
+                        onTap: () => context.push(Uri(
+                            path: '/category-entry-details',
+                            queryParameters: {
+                              'category': e.category,
+                              'startDate': state.startDate,
+                              'endDate': state.endDate,
+                              'categoryType': state.categoryType.asString()
+                            }).toString()),
+                      )))
+                  .toList()),
+        ))
       ],
     );
   }

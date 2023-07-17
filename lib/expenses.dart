@@ -60,34 +60,37 @@ class Expenses extends ConsumerWidget {
       Expanded(
         child: entryList.when(
             data: (data) {
-              return ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  var entry = data[index];
-                  return Card(
-                      child: ListTile(
-                    leading: Icon(
-                      getAmountIcon(entry.categoryType),
-                      color: getAmountColor(entry.categoryType),
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          '₹${formatNum(entry.amount)}',
-                          style: TextStyle(
-                              color: getAmountColor(entry.categoryType),
-                              fontSize: 17),
-                        ),
-                        const SizedBox(width: 10),
-                        cardMenuButton(entry, ref)
-                      ],
-                    ),
-                    title: Text(entry.title),
-                    subtitle: Text(
-                        '${formatDateDdMmm(entry.datetime)} : ${entry.category} ${entry.subCategory}'),
-                  ));
-                },
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    var entry = data[index];
+                    return Card(
+                        child: ListTile(
+                      leading: Icon(
+                        getAmountIcon(entry.categoryType),
+                        color: getAmountColor(entry.categoryType),
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            '₹${formatNum(entry.amount)}',
+                            style: TextStyle(
+                                color: getAmountColor(entry.categoryType),
+                                fontSize: 17),
+                          ),
+                          const SizedBox(width: 10),
+                          cardMenuButton(entry, ref)
+                        ],
+                      ),
+                      title: Text(entry.title),
+                      subtitle: Text(
+                          '${formatDateDdMmm(entry.datetime)} : ${entry.category} ${entry.subCategory}'),
+                    ));
+                  },
+                ),
               );
             },
             loading: () => const CircularProgressIndicator(),

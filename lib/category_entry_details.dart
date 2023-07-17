@@ -30,49 +30,52 @@ class CategoryEntryDetails extends ConsumerWidget {
       body: Column(
         children: [
           Expanded(
-            child: entries.when(
-              data: (data) {
-                var total = data.$2;
-                var list = data.$1;
-                return ListView.builder(
-                  itemCount: list.length,
-                  itemBuilder: (context, index) {
-                    var item = list[index];
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: entries.when(
+                data: (data) {
+                  var total = data.$2;
+                  var list = data.$1;
+                  return ListView.builder(
+                    itemCount: list.length,
+                    itemBuilder: (context, index) {
+                      var item = list[index];
 
-                    if (item.isHeader) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8.0, top: 24, bottom: 8),
-                        child: Text(
-                          item.header,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 14),
-                        ),
-                      );
-                    }
-                    var title = item.isGroupby
-                        ? item.entry?.subCategory
-                        : item.entry?.title;
-                    var amount = item.entry?.amount ?? 0;
-
-                    return Card(
-                      child: ListTile(
-                          title: Text(
-                              title == null || title.isEmpty ? '-' : title),
-                          trailing: Text(
-                            '₹${formatNum(amount)}',
-                            style: const TextStyle(fontSize: 16),
+                      if (item.isHeader) {
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8.0, top: 24, bottom: 8),
+                          child: Text(
+                            item.header,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 14),
                           ),
-                          subtitle: item.isGroupby
-                              ? Text(
-                                  '${formatDecimal2D(amount * 100 / total)}%')
-                              : Text(formatDateDdMmm(item.entry?.datetime))),
-                    );
-                  },
-                );
-              },
-              error: (error, stackTrace) => const Text('Error'),
-              loading: () => const CircularProgressIndicator(),
+                        );
+                      }
+                      var title = item.isGroupby
+                          ? item.entry?.subCategory
+                          : item.entry?.title;
+                      var amount = item.entry?.amount ?? 0;
+
+                      return Card(
+                        child: ListTile(
+                            title: Text(
+                                title == null || title.isEmpty ? '-' : title),
+                            trailing: Text(
+                              '₹${formatNum(amount)}',
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                            subtitle: item.isGroupby
+                                ? Text(
+                                    '${formatDecimal2D(amount * 100 / total)}%')
+                                : Text(formatDateDdMmm(item.entry?.datetime))),
+                      );
+                    },
+                  );
+                },
+                error: (error, stackTrace) => const Text('Error'),
+                loading: () => const CircularProgressIndicator(),
+              ),
             ),
           )
         ],

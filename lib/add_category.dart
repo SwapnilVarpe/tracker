@@ -66,42 +66,45 @@ class _AddCategoryState extends ConsumerState<AddCategory> {
                 }
               }),
               Expanded(
-                child: ListView(
-                  children: catList
-                      .map((cat) => Card(
-                              child: ListTile(
-                            title: Text(cat.category),
-                            trailing: PopupMenuButton(
-                              icon: const Icon(Icons.more_vert),
-                              itemBuilder: (context) => [
-                                PopupMenuItem(
-                                  child: const Text('Delete'),
-                                  onTap: () async {
-                                    int num = await DBHelper.deleteCategory(
-                                        categoryType, cat.category);
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView(
+                    children: catList
+                        .map((cat) => Card(
+                                child: ListTile(
+                              title: Text(cat.category),
+                              trailing: PopupMenuButton(
+                                icon: const Icon(Icons.more_vert),
+                                itemBuilder: (context) => [
+                                  PopupMenuItem(
+                                    child: const Text('Delete'),
+                                    onTap: () async {
+                                      int num = await DBHelper.deleteCategory(
+                                          categoryType, cat.category);
 
-                                    if (context.mounted) {
-                                      if (num > 0) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                content:
-                                                    Text('Category deleted')));
-                                        ref
-                                            .read(categoryProvider.notifier)
-                                            .reload();
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    'Cannot delete category')));
+                                      if (context.mounted) {
+                                        if (num > 0) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content: Text(
+                                                      'Category deleted')));
+                                          ref
+                                              .read(categoryProvider.notifier)
+                                              .reload();
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content: Text(
+                                                      'Cannot delete category')));
+                                        }
                                       }
-                                    }
-                                  },
-                                )
-                              ],
-                            ),
-                          )))
-                      .toList(),
+                                    },
+                                  )
+                                ],
+                              ),
+                            )))
+                        .toList(),
+                  ),
                 ),
               )
             ],
@@ -145,42 +148,45 @@ class _AddCategoryState extends ConsumerState<AddCategory> {
                 }
               }),
               Expanded(
-                  child: ListView(
-                children: subCatList
-                    .map((cat) => Card(
-                            child: ListTile(
-                          title: Text(cat),
-                          trailing: PopupMenuButton(
-                            icon: const Icon(Icons.more_vert),
-                            itemBuilder: (context) => [
-                              PopupMenuItem(
-                                child: const Text('Delete'),
-                                onTap: () async {
-                                  int num = await DBHelper.deleteSubCategory(
-                                      categoryType, currentCategory, cat);
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView(
+                  children: subCatList
+                      .map((cat) => Card(
+                              child: ListTile(
+                            title: Text(cat),
+                            trailing: PopupMenuButton(
+                              icon: const Icon(Icons.more_vert),
+                              itemBuilder: (context) => [
+                                PopupMenuItem(
+                                  child: const Text('Delete'),
+                                  onTap: () async {
+                                    int num = await DBHelper.deleteSubCategory(
+                                        categoryType, currentCategory, cat);
 
-                                  if (context.mounted) {
-                                    if (num > 0) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                              content: Text(
-                                                  'Sub Category deleted')));
-                                      ref
-                                          .read(categoryProvider.notifier)
-                                          .reload();
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                              content: Text(
-                                                  'Cannot delete sub category')));
+                                    if (context.mounted) {
+                                      if (num > 0) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                                content: Text(
+                                                    'Sub Category deleted')));
+                                        ref
+                                            .read(categoryProvider.notifier)
+                                            .reload();
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                                content: Text(
+                                                    'Cannot delete sub category')));
+                                      }
                                     }
-                                  }
-                                },
-                              )
-                            ],
-                          ),
-                        )))
-                    .toList(),
+                                  },
+                                )
+                              ],
+                            ),
+                          )))
+                      .toList(),
+                ),
               ))
             ],
           )
