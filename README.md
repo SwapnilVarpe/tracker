@@ -26,7 +26,6 @@ Refactoring:
     *IMP* Change import column order after importing all data.
 
 To publish, what needs to be done:
-    Change app id and folders.
     Add biometrics.
         https://pub.dev/packages/local_auth
     Import/export column order issue.

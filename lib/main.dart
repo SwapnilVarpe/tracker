@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tracker/add_category.dart';
@@ -88,54 +91,26 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentPageIndex = 0;
+  bool isAuthenticated = false;
+  final LocalAuthentication auth = LocalAuthentication();
+
+  @override
+  void initState() {
+    super.initState();
+    _authenticate();
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (!isAuthenticated) {
+      return _splashScreen();
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Tracker"),
       ),
-      drawer: Drawer(
-        child: ListView(padding: EdgeInsets.zero, children: [
-          DrawerHeader(
-            decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer),
-            child: const Text(
-              'Tracker app',
-              style: TextStyle(
-                fontSize: 24,
-              ),
-            ),
-          ),
-          ListTile(
-            title: const Text('Export'),
-            leading: const Icon(Icons.upload),
-            onTap: () => _exportData(),
-          ),
-          ListTile(
-            title: const Text('Import'),
-            leading: const Icon(Icons.download),
-            onTap: () {
-              context.pop();
-              context.go('/import');
-            },
-          ),
-          ListTile(
-            title: const Text('Hide salary'),
-            leading: const Icon(Icons.money_off),
-            trailing: Switch(value: true, onChanged: (isSelected) {}),
-          ),
-          ListTile(
-            title: const Text('Enable biometrics'),
-            leading: const Icon(Icons.fingerprint),
-            trailing: Switch(
-              value: false,
-              onChanged: (value) {},
-            ),
-          )
-        ]),
-      ),
+      drawer: drawer(context),
       body: <Widget>[
         Expenses(),
         const MoneyStats(),
@@ -174,6 +149,53 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Center _splashScreen() => const Center(
+        child: Text('Welcome!'),
+      );
+
+  Drawer drawer(BuildContext context) {
+    return Drawer(
+      child: ListView(padding: EdgeInsets.zero, children: [
+        DrawerHeader(
+          decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primaryContainer),
+          child: const Text(
+            'Tracker app',
+            style: TextStyle(
+              fontSize: 24,
+            ),
+          ),
+        ),
+        ListTile(
+          title: const Text('Export'),
+          leading: const Icon(Icons.upload),
+          onTap: () => _exportData(),
+        ),
+        ListTile(
+          title: const Text('Import'),
+          leading: const Icon(Icons.download),
+          onTap: () {
+            context.pop();
+            context.go('/import');
+          },
+        ),
+        ListTile(
+          title: const Text('Hide salary'),
+          leading: const Icon(Icons.money_off),
+          trailing: Switch(value: true, onChanged: (isSelected) {}),
+        ),
+        ListTile(
+          title: const Text('Enable biometrics'),
+          leading: const Icon(Icons.fingerprint),
+          trailing: Switch(
+            value: false,
+            onChanged: (value) {},
+          ),
+        )
+      ]),
+    );
+  }
+
   void _exportData() async {
     final dir = await getTemporaryDirectory();
     List<Entry> data = await DBHelper.getAllEntries();
@@ -184,5 +206,50 @@ class _MyHomePageState extends State<MyHomePage> {
     await file.writeAsString(str);
     Share.shareXFiles([XFile(path, mimeType: 'text/csv')],
         subject: 'Exported file');
+  }
+
+  void _authenticate() async {
+    try {
+      final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
+      final bool canAuthenticate =
+          canAuthenticateWithBiometrics || await auth.isDeviceSupported();
+
+      if (!canAuthenticate) {
+        _login();
+        return;
+      }
+
+      final List<BiometricType> availableBiometrics =
+          await auth.getAvailableBiometrics();
+
+      bool didAuthenticate = false;
+      if (availableBiometrics.isNotEmpty) {
+        didAuthenticate = await auth.authenticate(
+            localizedReason: 'Please authenticate to show account balance',
+            options: const AuthenticationOptions(biometricOnly: true));
+      } else {
+        didAuthenticate = await auth.authenticate(
+            localizedReason: 'Please authenticate to show account balance');
+      }
+
+      if (didAuthenticate) {
+        _login();
+      }
+    } on MissingPluginException {
+      _login();
+    } on PlatformException catch (e) {
+      if (e.code == auth_error.notEnrolled) {
+        _login();
+      }
+    } on Exception catch (e) {
+      print(e);
+    }
+  }
+
+  void _login() {
+    setState(() {
+      isAuthenticated = true;
+      _currentPageIndex = 0;
+    });
   }
 }
