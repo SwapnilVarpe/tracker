@@ -149,8 +149,10 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Center _splashScreen() => const Center(
-        child: Text('Welcome!'),
+  Scaffold _splashScreen() => const Scaffold(
+        body: Center(
+          child: Text('Welcome!'),
+        ),
       );
 
   Drawer drawer(BuildContext context) {
