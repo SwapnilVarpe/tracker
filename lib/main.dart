@@ -150,16 +150,30 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Scaffold _splashScreen() => Scaffold(
+        backgroundColor: const Color(0xff7959b7),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.max,
           children: [
-            const Text('Welcome!'),
-            ElevatedButton(
-                onPressed: () {
-                  _authenticate();
-                },
-                child: const Text("Login"))
+            Image.asset('lib/assets/icon/only_logo.png'),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Center(
+                child: Text(
+                  'Money & Time Tracker',
+                  style: TextStyle(color: Colors.white54, fontSize: 20),
+                ),
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.fingerprint_outlined,
+                color: Colors.white38,
+              ),
+              style: const ButtonStyle(iconSize: MaterialStatePropertyAll(60)),
+            )
           ],
         ),
       );
@@ -259,7 +273,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _login() {
     setState(() {
-      isAuthenticated = true;
+      isAuthenticated = false;
       _currentPageIndex = 0;
     });
   }
