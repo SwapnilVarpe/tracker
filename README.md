@@ -32,3 +32,4 @@ To publish, what needs to be done:
     App icons and logo.
 
 
+Logo icon color: #7959b7

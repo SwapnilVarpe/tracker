@@ -149,9 +149,18 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Scaffold _splashScreen() => const Scaffold(
-        body: Center(
-          child: Text('Welcome!'),
+  Scaffold _splashScreen() => Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text('Welcome!'),
+            ElevatedButton(
+                onPressed: () {
+                  _authenticate();
+                },
+                child: const Text("Login"))
+          ],
         ),
       );
 
