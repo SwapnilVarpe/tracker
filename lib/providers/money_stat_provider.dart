@@ -76,7 +76,7 @@ class MoneyStateNotifier extends StateNotifier<MoneyStat> {
 }
 
 final moneyStateProvider =
-    StateNotifierProvider.autoDispose<MoneyStateNotifier, MoneyStat>((ref) {
+    StateNotifierProvider<MoneyStateNotifier, MoneyStat>((ref) {
   var curMonth = DateTime.now().month;
   var range = getMonthRange(months[curMonth - 1]);
   return MoneyStateNotifier(MoneyStat(

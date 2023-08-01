@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:tracker/db/db_helper.dart';
 import 'package:tracker/modal/entry.dart';
 import 'package:tracker/providers/expense_provider.dart';
+import 'package:tracker/providers/money_stat_provider.dart';
 import 'package:tracker/util.dart';
 import 'providers/category_provider.dart';
 import 'constants.dart';
@@ -200,8 +201,11 @@ class _NewEntryState extends ConsumerState<NewEntry> {
                       if (entryId > 0 && context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Entry added')));
-
+                        controllers.title.text = '';
+                        controllers.date.text = '';
+                        controllers.amount.text = '';
                         ref.invalidate(entryListProvider);
+                        ref.invalidate(moneyStateProvider);
                         context.go('/');
                       }
                     }

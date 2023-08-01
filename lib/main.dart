@@ -152,27 +152,39 @@ class _MyHomePageState extends State<MyHomePage> {
   Scaffold _splashScreen() => Scaffold(
         backgroundColor: const Color(0xff7959b7),
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.max,
           children: [
-            Image.asset('lib/assets/icon/only_logo.png'),
-            const Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Center(
-                child: Text(
-                  'Money & Time Tracker',
-                  style: TextStyle(color: Colors.white54, fontSize: 20),
-                ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Image.asset('lib/assets/icon/only_logo.png'),
+                  const Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Center(
+                      child: Text(
+                        'Money & Time Tracker',
+                        style: TextStyle(color: Colors.white54, fontSize: 20),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.fingerprint_outlined,
-                color: Colors.white38,
+            Padding(
+              padding: const EdgeInsets.all(14.0),
+              child: IconButton(
+                onPressed: () {
+                  _authenticate();
+                },
+                icon: const Icon(
+                  Icons.fingerprint_outlined,
+                  color: Colors.white38,
+                ),
+                style:
+                    const ButtonStyle(iconSize: MaterialStatePropertyAll(60)),
               ),
-              style: const ButtonStyle(iconSize: MaterialStatePropertyAll(60)),
             )
           ],
         ),
@@ -204,19 +216,19 @@ class _MyHomePageState extends State<MyHomePage> {
             context.go('/import');
           },
         ),
-        ListTile(
-          title: const Text('Hide salary'),
-          leading: const Icon(Icons.money_off),
-          trailing: Switch(value: true, onChanged: (isSelected) {}),
-        ),
-        ListTile(
-          title: const Text('Enable biometrics'),
-          leading: const Icon(Icons.fingerprint),
-          trailing: Switch(
-            value: false,
-            onChanged: (value) {},
-          ),
-        )
+        // ListTile(
+        //   title: const Text('Hide salary'),
+        //   leading: const Icon(Icons.money_off),
+        //   trailing: Switch(value: true, onChanged: (isSelected) {}),
+        // ),
+        // ListTile(
+        //   title: const Text('Enable biometrics'),
+        //   leading: const Icon(Icons.fingerprint),
+        //   trailing: Switch(
+        //     value: false,
+        //     onChanged: (value) {},
+        //   ),
+        // )
       ]),
     );
   }
@@ -273,7 +285,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _login() {
     setState(() {
-      isAuthenticated = false;
+      isAuthenticated = true;
       _currentPageIndex = 0;
     });
   }
