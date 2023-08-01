@@ -3,9 +3,7 @@ Tracker for money and time
 
 ## Todo:
 -   Android build.
-        App image icons.
         Release build.
-            Change app id/site name
             site name: com.apps.swapnilvarpe.tracker
 -   Expneses
 -   Money stats
@@ -18,7 +16,6 @@ Tracker for money and time
     -   Total time wasted/not counted.
         Time spend by category.
 -   Options:
-    -   Unlock using fingerprint.
     -   Settings provider, for number formatter and global setting.
 
 Refactoring:
@@ -26,10 +23,7 @@ Refactoring:
     *IMP* Change import column order after importing all data.
 
 To publish, what needs to be done:
-    Add biometrics.
-        https://pub.dev/packages/local_auth
     Import/export column order issue.
-    App icons and logo.
 
 
 Logo icon color: #7959b7

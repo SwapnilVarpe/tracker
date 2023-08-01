@@ -65,11 +65,11 @@ class _ImportState extends ConsumerState<Import> {
     // Date,Title,Category Type,Category,Amount,SubCat
     rows.skip(1).forEach((row) {
       entries.add(Entry(
-          title: row[1],
           datetime: row[0],
-          amount: double.tryParse(row[4]) ?? 0,
-          categoryType: CategoryTypeExt.fromString(row[2]),
-          category: row[3],
+          title: row[1],
+          amount: double.tryParse(row[2]) ?? 0,
+          categoryType: CategoryTypeExt.fromString(row[3]),
+          category: row[4],
           subCategory: row[5]));
     });
     return entries;
