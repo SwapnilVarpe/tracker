@@ -206,6 +206,7 @@ class _NewEntryState extends ConsumerState<NewEntry> {
                         controllers.amount.text = '';
                         ref.invalidate(entryListProvider);
                         ref.invalidate(moneyStateProvider);
+                        ref.invalidate(categoryStateProvider);
                         context.go('/');
                       }
                     }

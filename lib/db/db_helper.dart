@@ -85,9 +85,8 @@ class DBHelper {
           }
         },
       );
-    } catch (e) {
-      print(e);
-    }
+      // ignore: empty_catches
+    } catch (e) {}
   }
 
   static Future<int> insertEntry(Entry entry) async {

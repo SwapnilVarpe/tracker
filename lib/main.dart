@@ -278,8 +278,6 @@ class _MyHomePageState extends State<MyHomePage> {
       if (e.code == auth_error.notEnrolled) {
         _login();
       }
-    } on Exception catch (e) {
-      print(e);
     }
   }
 

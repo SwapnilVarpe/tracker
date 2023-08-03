@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fast_csv/fast_csv.dart' as _fast_csv;
+import 'package:fast_csv/fast_csv.dart' as fast_csv;
 import 'package:tracker/constants.dart';
 import 'package:tracker/db/db_helper.dart';
 
@@ -60,7 +60,7 @@ class _ImportState extends ConsumerState<Import> {
   }
 
   List<Entry> parseEntries(String csv) {
-    var rows = _fast_csv.parse(csv);
+    var rows = fast_csv.parse(csv);
     List<Entry> entries = [];
     // Date,Title,Category Type,Category,Amount,SubCat
     rows.skip(1).forEach((row) {
