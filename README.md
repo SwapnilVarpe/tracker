@@ -23,5 +23,8 @@ Refactoring:
 
 To publish, what needs to be done:
     App update check, to retain data.
+    Build command:
+        flutter clean
+        flutter build apk --split-per-abi
 
 Logo icon color: #7959b7
