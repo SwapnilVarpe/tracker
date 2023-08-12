@@ -20,10 +20,8 @@ Tracker for money and time
 
 Refactoring:
     Move models to freezed.
-    *IMP* Change import column order after importing all data.
 
 To publish, what needs to be done:
-    Import/export column order issue.
-
+    App update check, to retain data.
 
 Logo icon color: #7959b7

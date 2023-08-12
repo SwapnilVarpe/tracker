@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tracker/add_category.dart';
@@ -92,12 +93,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _currentPageIndex = 0;
   bool isAuthenticated = false;
+  PackageInfo? packageInfo;
   final LocalAuthentication auth = LocalAuthentication();
 
   @override
   void initState() {
     super.initState();
     _authenticate();
+    _initPackageInfo();
   }
 
   @override
@@ -196,11 +199,20 @@ class _MyHomePageState extends State<MyHomePage> {
         DrawerHeader(
           decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primaryContainer),
-          child: const Text(
-            'Tracker app',
-            style: TextStyle(
-              fontSize: 24,
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Tracker app',
+                style: TextStyle(
+                  fontSize: 24,
+                ),
+              ),
+              Text(
+                'Version: ${packageInfo?.version}-${packageInfo?.buildNumber}',
+                style: TextStyle(fontSize: 12),
+              )
+            ],
           ),
         ),
         ListTile(
@@ -285,6 +297,13 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       isAuthenticated = true;
       _currentPageIndex = 0;
+    });
+  }
+
+  Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      packageInfo = info;
     });
   }
 }
