@@ -2,9 +2,9 @@
 Tracker for money and time
 
 ## Todo:
+-   Issues:
+        ** (Is this needed?)Check unique contraints in sub cat and cat
 -   Android build.
-        Release build.
-            site name: com.apps.swapnilvarpe.tracker
 -   Expneses
 -   Money stats
         Feature: View by excluding some entries (so to negate large amounts in perticular month).

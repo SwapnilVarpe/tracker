@@ -160,7 +160,7 @@ class DBHelper {
     final List<Map<String, dynamic>> maps = await _database!.query(_entryTable,
         where: 'datetime >= ? AND datetime <= ?',
         whereArgs: [start, end],
-        orderBy: 'datetime DESC');
+        orderBy: 'datetime DESC, id DESC');
 
     return List.generate(maps.length, (index) {
       var entry = maps[index];

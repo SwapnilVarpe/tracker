@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:tracker/constants.dart';
 
 import 'package:tracker/db/db_helper.dart';
 import 'package:tracker/modal/category.dart' as cat;
 import 'package:tracker/modal/entry.dart';
+import 'package:tracker/util.dart';
 
 @immutable
 class TextControllers {
@@ -14,8 +16,11 @@ class TextControllers {
 
   const TextControllers(this.title, this.amount, this.date);
   factory TextControllers.init() {
-    return TextControllers(TextEditingController(), TextEditingController(),
-        TextEditingController());
+    return TextControllers(
+        TextEditingController(),
+        TextEditingController(),
+        TextEditingController(
+            text: DateFormat(dateFormat).format(DateTime.now())));
   }
 
   void dispose() {
@@ -72,7 +77,8 @@ class CategoryState {
     return allCategoryList
         .where((element) =>
             element.categoryType == categoryType && element.subCategory.isEmpty)
-        .toList();
+        .toList()
+      ..sort((a, b) => a.category.compareTo(b.category));
   }
 
   List<String> subCategoryList() {
@@ -82,7 +88,8 @@ class CategoryState {
             element.category == selectedCategory &&
             element.subCategory.isNotEmpty)
         .map((e) => e.subCategory)
-        .toList();
+        .toList()
+      ..sort();
   }
 }
 
