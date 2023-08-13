@@ -14,6 +14,7 @@ import 'package:tracker/pages/category_entry_details.dart';
 import 'package:tracker/constants.dart';
 import 'package:tracker/pages/import.dart';
 import 'package:tracker/modal/entry.dart';
+import 'package:tracker/pages/new_time_entry.dart';
 import 'package:tracker/util.dart';
 
 import 'expenses.dart';
@@ -61,6 +62,13 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
                     state.queryParameters['categoryType'] ?? ''),
                 endDate: state.queryParameters['endDate'] ?? '',
                 startDate: state.queryParameters['startDate'] ?? '');
+          },
+        ),
+        GoRoute(
+          path: 'new-time-entry',
+          builder: (context, state) {
+            return NewTimeEntry(
+                hour: int.tryParse(state.queryParameters['hour'] ?? ''));
           },
         )
       ]),
