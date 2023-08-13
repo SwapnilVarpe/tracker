@@ -175,7 +175,7 @@ class Expenses extends ConsumerWidget {
         PopupMenuItem(
           child: const Text('Edit'),
           onTap: () => context.go(Uri(
-              path: '/addEntry',
+              path: '/add-entry',
               queryParameters: {'entryId': entry.id.toString()}).toString()),
         ),
         PopupMenuItem(

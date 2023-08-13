@@ -9,10 +9,10 @@ import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:tracker/add_category.dart';
-import 'package:tracker/category_entry_details.dart';
+import 'package:tracker/pages/add_category.dart';
+import 'package:tracker/pages/category_entry_details.dart';
 import 'package:tracker/constants.dart';
-import 'package:tracker/import.dart';
+import 'package:tracker/pages/import.dart';
 import 'package:tracker/modal/entry.dart';
 import 'package:tracker/util.dart';
 
@@ -20,7 +20,7 @@ import 'expenses.dart';
 import 'money_stats.dart';
 import 'time_schedule.dart';
 import 'time_stats.dart';
-import 'new_entry.dart';
+import 'pages/new_entry.dart';
 import 'db/db_helper.dart';
 
 void main() async {
@@ -37,7 +37,7 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
       },
       routes: [
         GoRoute(
-          path: 'addEntry',
+          path: 'add-entry',
           builder: (BuildContext context, GoRouterState state) {
             return NewEntry(entryId: state.queryParameters['entryId']);
           },
@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ? FloatingActionButton(
               onPressed: () {
                 if (_currentPageIndex == 0) {
-                  context.go('/addEntry');
+                  context.go('/add-entry');
                 }
               },
               tooltip: 'Increment',
@@ -210,7 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Text(
                 'Version: ${packageInfo?.version}-${packageInfo?.buildNumber}',
-                style: TextStyle(fontSize: 12),
+                style: const TextStyle(fontSize: 12),
               )
             ],
           ),

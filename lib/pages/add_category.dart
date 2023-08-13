@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracker/db/db_helper.dart';
 import 'package:tracker/modal/category.dart';
 import 'package:tracker/providers/category_provider.dart';
-import 'constants.dart';
+import '../constants.dart';
 
 class AddCategory extends ConsumerStatefulWidget {
   const AddCategory({super.key});
