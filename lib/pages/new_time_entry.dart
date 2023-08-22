@@ -9,7 +9,7 @@ class NewTimeEntry extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('New time entry'),
+          title: const Text('New time entry'),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -19,23 +19,39 @@ class NewTimeEntry extends ConsumerWidget {
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Note'),
               ),
-              const Text('Category'),
-              SizedBox(
-                height: 40,
-                child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: ['None'].map((e) {
-                      return ChoiceChip(label: Text(e), selected: false);
-                    }).toList()),
+              Padding(
+                padding: const EdgeInsets.only(top: 14.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Category'),
+                    SizedBox(
+                      height: 40,
+                      child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: ['None'].map((e) {
+                            return ChoiceChip(label: Text(e), selected: false);
+                          }).toList()),
+                    ),
+                  ],
+                ),
               ),
-              const Text('Sub category'),
-              SizedBox(
-                height: 40,
-                child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: ['None'].map((e) {
-                      return ChoiceChip(label: Text(e), selected: false);
-                    }).toList()),
+              Padding(
+                padding: const EdgeInsets.only(top: 14.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Sub category'),
+                    SizedBox(
+                      height: 40,
+                      child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: ['None'].map((e) {
+                            return ChoiceChip(label: Text(e), selected: false);
+                          }).toList()),
+                    ),
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,12 +73,23 @@ class NewTimeEntry extends ConsumerWidget {
                   )
                 ],
               ),
+              const Text('Date'),
               const Text('Select time range'),
               RangeSlider(
                 max: 60,
                 min: 0,
                 values: const RangeValues(0, 40),
                 onChanged: (value) {},
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Is recurring?'),
+                  Switch(
+                    value: false,
+                    onChanged: (value) {},
+                  )
+                ],
               ),
               const Spacer(),
               Padding(
