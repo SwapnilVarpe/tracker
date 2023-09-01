@@ -21,10 +21,11 @@ Tracker for money and time
 Refactoring:
     Move models to freezed.
 
+Improv:
+
 To publish, what needs to be done:
-    App update check, to retain data.
     Build command:
         flutter clean
         flutter build apk --split-per-abi
-
+    Gen freezed models: flutter pub run build_runner build --delete-conflicting-outputs
 Logo icon color: #7959b7

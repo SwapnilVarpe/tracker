@@ -85,9 +85,12 @@ class Expenses extends ConsumerWidget {
                           cardMenuButton(entry, ref)
                         ],
                       ),
-                      title: Text(entry.title),
-                      subtitle: Text(
-                          '${formatDateDdMmm(entry.datetime)} : ${entry.category} ${entry.subCategory}'),
+                      title: Text(entry.title.isEmpty
+                          ? '${entry.category} ${entry.subCategory}'
+                          : entry.title),
+                      subtitle: Text(entry.title.isEmpty
+                          ? formatDateDdMmm(entry.datetime)
+                          : '${formatDateDdMmm(entry.datetime)} : ${entry.category} ${entry.subCategory}'),
                     ));
                   },
                 ),
