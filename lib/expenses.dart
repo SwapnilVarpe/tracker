@@ -17,10 +17,12 @@ class Expenses extends ConsumerWidget {
       () {
         if (scrollController.isAttached) {
           var curMonth = DateTime.now().month;
-          scrollController.scrollTo(
-              index: curMonth - 3,
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.easeInOut);
+          if (curMonth - 3 > 0) {
+            scrollController.scrollTo(
+                index: curMonth - 3,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut);
+          }
         }
       },
     );

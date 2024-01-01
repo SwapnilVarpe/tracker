@@ -65,10 +65,12 @@ class MoneyStateNotifier extends StateNotifier<MoneyStat> {
       () {
         if (state.itemScrollController.isAttached) {
           var curMonth = DateTime.now().month;
-          state.itemScrollController.scrollTo(
-              index: curMonth - 3,
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.easeInOut);
+          if (curMonth - 3 > 0) {
+            state.itemScrollController.scrollTo(
+                index: curMonth - 3,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut);
+          }
         }
       },
     );
