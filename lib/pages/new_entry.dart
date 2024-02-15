@@ -52,15 +52,30 @@ class _NewEntryState extends ConsumerState<NewEntry> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: TextFormField(
+                controller: controllers.amount,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter an amount';
+                  } else if (!isNumeric(value)) {
+                    return 'Enter number';
+                  }
+                  return null;
+                },
+                decoration: const InputDecoration(labelText: 'Amount'),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+              ),
+            ),
             TextFormField(
               controller: controllers.title,
               decoration: const InputDecoration(labelText: 'Title'),
-              validator: (value) => value == null || value.isEmpty
-                  ? 'Title cannot be empty'
-                  : null,
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,40 +157,30 @@ class _NewEntryState extends ConsumerState<NewEntry> {
                     ).toList()),
               ),
             ),
-            TextFormField(
-              controller: controllers.amount,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Enter an amount';
-                } else if (!isNumeric(value)) {
-                  return 'Enter number';
-                }
-                return null;
-              },
-              decoration: const InputDecoration(labelText: 'Amount'),
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
-            ),
-            TextFormField(
-              controller: controllers.date,
-              decoration: const InputDecoration(
-                  icon: Icon(Icons.calendar_month), label: Text('Enter date')),
-              readOnly: true,
-              validator: (value) =>
-                  value == null || value.isEmpty ? 'Enter a date' : null,
-              onTap: () async {
-                DateTime? date = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2050));
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: TextFormField(
+                controller: controllers.date,
+                decoration: const InputDecoration(
+                    icon: Icon(Icons.calendar_month),
+                    label: Text('Enter date')),
+                readOnly: true,
+                validator: (value) =>
+                    value == null || value.isEmpty ? 'Enter a date' : null,
+                onTap: () async {
+                  DateTime? date = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2050));
 
-                if (date != null) {
-                  var formattedDate = DateFormat('yyyy-MM-dd').format(date);
+                  if (date != null) {
+                    var formattedDate = DateFormat('yyyy-MM-dd').format(date);
 
-                  controllers.date.text = formattedDate;
-                }
-              },
+                    controllers.date.text = formattedDate;
+                  }
+                },
+              ),
             ),
             const Spacer(),
             Padding(

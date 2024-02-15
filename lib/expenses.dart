@@ -17,10 +17,12 @@ class Expenses extends ConsumerWidget {
       () {
         if (scrollController.isAttached) {
           var curMonth = DateTime.now().month;
-          scrollController.scrollTo(
-              index: curMonth - 3,
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.easeInOut);
+          if (curMonth - 3 > 0) {
+            scrollController.scrollTo(
+                index: curMonth - 3,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut);
+          }
         }
       },
     );
@@ -85,9 +87,12 @@ class Expenses extends ConsumerWidget {
                           cardMenuButton(entry, ref)
                         ],
                       ),
-                      title: Text(entry.title),
-                      subtitle: Text(
-                          '${formatDateDdMmm(entry.datetime)} : ${entry.category} ${entry.subCategory}'),
+                      title: Text(entry.title.isEmpty
+                          ? '${entry.category} ${entry.subCategory}'
+                          : entry.title),
+                      subtitle: Text(entry.title.isEmpty
+                          ? formatDateDdMmm(entry.datetime)
+                          : '${formatDateDdMmm(entry.datetime)} : ${entry.category} ${entry.subCategory}'),
                     ));
                   },
                 ),

@@ -52,15 +52,19 @@ class CategoryEntryDetails extends ConsumerWidget {
                           ),
                         );
                       }
+                      var entry = item.entry;
+                      if (entry == null) return const Text("");
+
                       var title = item.isGroupby
-                          ? item.entry?.subCategory
-                          : item.entry?.title;
+                          ? entry.subCategory
+                          : (entry.title.isEmpty
+                              ? '${item.entry?.category} ${item.entry?.subCategory}'
+                              : entry.title);
                       var amount = item.entry?.amount ?? 0;
 
                       return Card(
                         child: ListTile(
-                            title: Text(
-                                title == null || title.isEmpty ? '-' : title),
+                            title: Text(title.isEmpty ? '-' : title),
                             trailing: Text(
                               '₹${formatNum(amount)}',
                               style: const TextStyle(fontSize: 16),
@@ -68,7 +72,7 @@ class CategoryEntryDetails extends ConsumerWidget {
                             subtitle: item.isGroupby
                                 ? Text(
                                     '${formatDecimal2D(amount * 100 / total)}%')
-                                : Text(formatDateDdMmm(item.entry?.datetime))),
+                                : Text(formatDateDdMmm(entry.datetime))),
                       );
                     },
                   );
