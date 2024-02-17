@@ -17,7 +17,7 @@ class NewTimeEntry extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Note'),
+                decoration: const InputDecoration(labelText: 'Title'),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 14.0),
@@ -53,43 +53,51 @@ class NewTimeEntry extends ConsumerWidget {
                   ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Is this future event/reminder?'),
-                  Switch(
-                    value: false,
-                    onChanged: (value) {},
-                  )
-                ],
+              Padding(
+                padding: const EdgeInsets.only(top: 14.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Duration (max 60 min)'),
+                    Slider(
+                        max: 60,
+                        divisions: 60,
+                        value: 50,
+                        onChanged: (value) {})
+                  ],
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('All day'),
-                  Switch(
-                    value: false,
-                    onChanged: (value) {},
-                  )
-                ],
+              Padding(
+                padding: const EdgeInsets.only(top: 14.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Difficulty (max 10)'),
+                    Slider(
+                        max: 10, divisions: 10, value: 5, onChanged: (value) {})
+                  ],
+                ),
               ),
-              const Text('Date'),
-              const Text('Select time range'),
-              RangeSlider(
-                max: 60,
-                min: 0,
-                values: const RangeValues(0, 40),
-                onChanged: (value) {},
+              Padding(
+                padding: const EdgeInsets.only(top: 14.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Satisfaction (max 10)'),
+                    Slider(
+                        max: 10, divisions: 10, value: 5, onChanged: (value) {})
+                  ],
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Is recurring?'),
-                  Switch(
-                    value: false,
-                    onChanged: (value) {},
-                  )
-                ],
+              Padding(
+                padding: const EdgeInsets.only(top: 14.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Self/Group (Is group)'),
+                    Switch(value: false, onChanged: (value) {})
+                  ],
+                ),
               ),
               const Spacer(),
               Padding(

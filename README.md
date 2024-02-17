@@ -3,17 +3,20 @@ Tracker for money and time
 
 ## Todo:
 -   Issues:
-        ** (Is this needed?)Check unique contraints in sub cat and cat
--   Android build.
--   Expneses
 -   Money stats
         Feature: View by excluding some entries (so to negate large amounts in perticular month).
 -   Schedule >> Time slots
     -   Time card from morning to night.
     -   Should be able to add what I did in given half hour or an hour.
-    -   Can add schedule if I want.
+    -   Can add schedule if I want??
+    -   Adding both whole day schudule and what I did.
+        -   Three col.: Time, Planned, Actual
+        -   Add Predicted difficulty and satisfaction level and corr. actual levels
+        -   Cat and sub cats
+        -   Needs to be simple, need not be min to min recording but overall hourly record.
 -   Time stats
-    -   Total time wasted/not counted.
+    -   Total time worked/utilized.
+    -   Most satisfying tasks.
         Time spend by category.
 -   Options:
     -   Settings provider, for number formatter and global setting.
