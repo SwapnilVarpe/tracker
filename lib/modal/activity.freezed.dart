@@ -20,11 +20,10 @@ Activity _$ActivityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Activity {
-  int get hour => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
   String get subCategory => throw _privateConstructorUsedError;
-  DateTime get dateTime => throw _privateConstructorUsedError;
+  DateTime get activityDate => throw _privateConstructorUsedError;
   TaskEntryType get taskEntryType => throw _privateConstructorUsedError;
   bool get isGroupActivity => throw _privateConstructorUsedError;
   int get duration => throw _privateConstructorUsedError;
@@ -43,11 +42,10 @@ abstract class $ActivityCopyWith<$Res> {
       _$ActivityCopyWithImpl<$Res, Activity>;
   @useResult
   $Res call(
-      {int hour,
-      String title,
+      {String title,
       String category,
       String subCategory,
-      DateTime dateTime,
+      DateTime activityDate,
       TaskEntryType taskEntryType,
       bool isGroupActivity,
       int duration,
@@ -68,11 +66,10 @@ class _$ActivityCopyWithImpl<$Res, $Val extends Activity>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hour = null,
     Object? title = null,
     Object? category = null,
     Object? subCategory = null,
-    Object? dateTime = null,
+    Object? activityDate = null,
     Object? taskEntryType = null,
     Object? isGroupActivity = null,
     Object? duration = null,
@@ -80,10 +77,6 @@ class _$ActivityCopyWithImpl<$Res, $Val extends Activity>
     Object? satisfaction = null,
   }) {
     return _then(_value.copyWith(
-      hour: null == hour
-          ? _value.hour
-          : hour // ignore: cast_nullable_to_non_nullable
-              as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -96,9 +89,9 @@ class _$ActivityCopyWithImpl<$Res, $Val extends Activity>
           ? _value.subCategory
           : subCategory // ignore: cast_nullable_to_non_nullable
               as String,
-      dateTime: null == dateTime
-          ? _value.dateTime
-          : dateTime // ignore: cast_nullable_to_non_nullable
+      activityDate: null == activityDate
+          ? _value.activityDate
+          : activityDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
       taskEntryType: null == taskEntryType
           ? _value.taskEntryType
@@ -132,11 +125,10 @@ abstract class _$$_ActivityCopyWith<$Res> implements $ActivityCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int hour,
-      String title,
+      {String title,
       String category,
       String subCategory,
-      DateTime dateTime,
+      DateTime activityDate,
       TaskEntryType taskEntryType,
       bool isGroupActivity,
       int duration,
@@ -155,11 +147,10 @@ class __$$_ActivityCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hour = null,
     Object? title = null,
     Object? category = null,
     Object? subCategory = null,
-    Object? dateTime = null,
+    Object? activityDate = null,
     Object? taskEntryType = null,
     Object? isGroupActivity = null,
     Object? duration = null,
@@ -167,10 +158,6 @@ class __$$_ActivityCopyWithImpl<$Res>
     Object? satisfaction = null,
   }) {
     return _then(_$_Activity(
-      hour: null == hour
-          ? _value.hour
-          : hour // ignore: cast_nullable_to_non_nullable
-              as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -183,9 +170,9 @@ class __$$_ActivityCopyWithImpl<$Res>
           ? _value.subCategory
           : subCategory // ignore: cast_nullable_to_non_nullable
               as String,
-      dateTime: null == dateTime
-          ? _value.dateTime
-          : dateTime // ignore: cast_nullable_to_non_nullable
+      activityDate: null == activityDate
+          ? _value.activityDate
+          : activityDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
       taskEntryType: null == taskEntryType
           ? _value.taskEntryType
@@ -215,11 +202,10 @@ class __$$_ActivityCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Activity implements _Activity {
   const _$_Activity(
-      {required this.hour,
-      required this.title,
+      {required this.title,
       required this.category,
       required this.subCategory,
-      required this.dateTime,
+      required this.activityDate,
       required this.taskEntryType,
       required this.isGroupActivity,
       required this.duration,
@@ -230,15 +216,13 @@ class _$_Activity implements _Activity {
       _$$_ActivityFromJson(json);
 
   @override
-  final int hour;
-  @override
   final String title;
   @override
   final String category;
   @override
   final String subCategory;
   @override
-  final DateTime dateTime;
+  final DateTime activityDate;
   @override
   final TaskEntryType taskEntryType;
   @override
@@ -252,7 +236,7 @@ class _$_Activity implements _Activity {
 
   @override
   String toString() {
-    return 'Activity(hour: $hour, title: $title, category: $category, subCategory: $subCategory, dateTime: $dateTime, taskEntryType: $taskEntryType, isGroupActivity: $isGroupActivity, duration: $duration, difficulty: $difficulty, satisfaction: $satisfaction)';
+    return 'Activity(title: $title, category: $category, subCategory: $subCategory, activityDate: $activityDate, taskEntryType: $taskEntryType, isGroupActivity: $isGroupActivity, duration: $duration, difficulty: $difficulty, satisfaction: $satisfaction)';
   }
 
   @override
@@ -260,14 +244,13 @@ class _$_Activity implements _Activity {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Activity &&
-            (identical(other.hour, hour) || other.hour == hour) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.category, category) ||
                 other.category == category) &&
             (identical(other.subCategory, subCategory) ||
                 other.subCategory == subCategory) &&
-            (identical(other.dateTime, dateTime) ||
-                other.dateTime == dateTime) &&
+            (identical(other.activityDate, activityDate) ||
+                other.activityDate == activityDate) &&
             (identical(other.taskEntryType, taskEntryType) ||
                 other.taskEntryType == taskEntryType) &&
             (identical(other.isGroupActivity, isGroupActivity) ||
@@ -284,11 +267,10 @@ class _$_Activity implements _Activity {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      hour,
       title,
       category,
       subCategory,
-      dateTime,
+      activityDate,
       taskEntryType,
       isGroupActivity,
       duration,
@@ -311,11 +293,10 @@ class _$_Activity implements _Activity {
 
 abstract class _Activity implements Activity {
   const factory _Activity(
-      {required final int hour,
-      required final String title,
+      {required final String title,
       required final String category,
       required final String subCategory,
-      required final DateTime dateTime,
+      required final DateTime activityDate,
       required final TaskEntryType taskEntryType,
       required final bool isGroupActivity,
       required final int duration,
@@ -325,15 +306,13 @@ abstract class _Activity implements Activity {
   factory _Activity.fromJson(Map<String, dynamic> json) = _$_Activity.fromJson;
 
   @override
-  int get hour;
-  @override
   String get title;
   @override
   String get category;
   @override
   String get subCategory;
   @override
-  DateTime get dateTime;
+  DateTime get activityDate;
   @override
   TaskEntryType get taskEntryType;
   @override

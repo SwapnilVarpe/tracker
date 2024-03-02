@@ -9,6 +9,5 @@ final dayProvider = StateProvider<DateTime>((ref) {
 
 final dayActivityProvider = FutureProvider<List<Activity>>((ref) async {
   var day = ref.watch(dayProvider);
-
   return List.empty();
 });

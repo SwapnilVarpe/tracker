@@ -8,11 +8,10 @@ enum TaskEntryType { planned, actual }
 @freezed
 class Activity with _$Activity {
   const factory Activity(
-      {required int hour,
-      required String title,
+      {required String title,
       required String category,
       required String subCategory,
-      required DateTime dateTime,
+      required DateTime activityDate,
       required TaskEntryType taskEntryType,
       required bool isGroupActivity,
       required int duration,

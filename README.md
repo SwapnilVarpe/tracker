@@ -1,4 +1,4 @@
-# tracker
+# Tracker
 Tracker for money and time
 
 
@@ -8,21 +8,20 @@ Tracker for money and time
 ## Todo:
 -   Issues:
 -   Money stats
-        Feature: View by excluding some entries (so to negate large amounts in perticular month).
 -   Schedule >> Time slots
-    -   Time card from morning to night.
-    -   Should be able to add what I did in given half hour or an hour.
-    -   Can add schedule if I want??
-    -   Adding both whole day schudule and what I did.
-        -   [[Todo]]
-            Add cate component in time page.
-            Chane cat component to take activity as input and corr. modification.
-            DB changes for activity table (insert, edit etc.)
+        Support for adding multiple tasks in one hour.
+        Show task info on card
+            Cat,sub cat, title, move to actual, mark as done, Exp. diff and pleasure and actual, duration.
+        On move to actual, copy task to actual.
+        Add mark as done field in activity.
 
-        -   Three col.: Time, Planned, Actual
+        Chane cat component to take activity as input and corr. modification.
+        DB changes for activity table (insert, edit etc.)
+
         -   Add Predicted difficulty and satisfaction level and corr. actual levels
         -   Cat and sub cats
         -   Needs to be simple, need not be min to min recording but overall hourly record.
+
 -   Time stats
     -   Total time worked/utilized.
     -   Most satisfying tasks.
@@ -32,6 +31,7 @@ Tracker for money and time
 
 Refactoring:
     Move models to freezed.
+    ** Use new slider component for month selector in exp and stats page.
 
 Improv:
 

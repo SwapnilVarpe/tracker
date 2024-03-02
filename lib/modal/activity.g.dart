@@ -7,11 +7,10 @@ part of 'activity.dart';
 // **************************************************************************
 
 _$_Activity _$$_ActivityFromJson(Map<String, dynamic> json) => _$_Activity(
-      hour: json['hour'] as int,
       title: json['title'] as String,
       category: json['category'] as String,
       subCategory: json['subCategory'] as String,
-      dateTime: DateTime.parse(json['dateTime'] as String),
+      activityDate: DateTime.parse(json['activityDate'] as String),
       taskEntryType: $enumDecode(_$TaskEntryTypeEnumMap, json['taskEntryType']),
       isGroupActivity: json['isGroupActivity'] as bool,
       duration: json['duration'] as int,
@@ -21,11 +20,10 @@ _$_Activity _$$_ActivityFromJson(Map<String, dynamic> json) => _$_Activity(
 
 Map<String, dynamic> _$$_ActivityToJson(_$_Activity instance) =>
     <String, dynamic>{
-      'hour': instance.hour,
       'title': instance.title,
       'category': instance.category,
       'subCategory': instance.subCategory,
-      'dateTime': instance.dateTime.toIso8601String(),
+      'activityDate': instance.activityDate.toIso8601String(),
       'taskEntryType': _$TaskEntryTypeEnumMap[instance.taskEntryType]!,
       'isGroupActivity': instance.isGroupActivity,
       'duration': instance.duration,
