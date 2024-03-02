@@ -125,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: <Widget>[
         Expenses(),
         const MoneyStats(),
-        const TimeSchedule(),
+        TimeSchedule(),
         const TimeStats()
       ][_currentPageIndex],
       floatingActionButton: _currentPageIndex == 0

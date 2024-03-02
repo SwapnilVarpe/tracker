@@ -1,6 +1,10 @@
 # tracker
 Tracker for money and time
 
+
+# Components
+- Create basic slider component for dates and month slider.
+
 ## Todo:
 -   Issues:
 -   Money stats
@@ -10,6 +14,11 @@ Tracker for money and time
     -   Should be able to add what I did in given half hour or an hour.
     -   Can add schedule if I want??
     -   Adding both whole day schudule and what I did.
+        -   [[Todo]]
+            Add cate component in time page.
+            Chane cat component to take activity as input and corr. modification.
+            DB changes for activity table (insert, edit etc.)
+
         -   Three col.: Time, Planned, Actual
         -   Add Predicted difficulty and satisfaction level and corr. actual levels
         -   Cat and sub cats

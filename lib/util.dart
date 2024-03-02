@@ -16,6 +16,8 @@ Color getAmountColor(CategoryType categoryType) {
       return Colors.green;
     case CategoryType.investment:
       return Colors.orange;
+    case CategoryType.activity:
+      return Colors.black;
   }
 }
 
@@ -27,6 +29,8 @@ IconData getAmountIcon(CategoryType categoryType) {
       return Icons.attach_money;
     case CategoryType.investment:
       return Icons.trending_up;
+    case CategoryType.activity:
+      return Icons.man;
   }
 }
 

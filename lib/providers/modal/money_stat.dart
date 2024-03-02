@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart' hide Category;
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:tracker/constants.dart';
 import 'package:tracker/modal/entry.dart';
 
@@ -17,6 +16,6 @@ class MoneyStat with _$MoneyStat {
       required String endDate,
       required CategoryType categoryType,
       required String category,
-      required ItemScrollController itemScrollController,
+      required int initialScrollIndex,
       required List<Entry> entries}) = _MoneyStat;
 }
