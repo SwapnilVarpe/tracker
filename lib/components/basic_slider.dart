@@ -6,7 +6,7 @@ typedef ItemGen<T> = T Function(T value);
 class BasicSlider<T> extends StatefulWidget {
   const BasicSlider(
       {super.key,
-      this.widgetHeight = 90,
+      this.widgetHeight = 70,
       required this.firstState,
       required this.selectedItem,
       this.numOfItem = 5,

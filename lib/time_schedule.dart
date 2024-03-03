@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:tracker/components/basic_slider.dart';
 import 'package:tracker/components/date_widget.dart';
+import 'package:tracker/modal/activity.dart';
 import 'package:tracker/providers/time_schedule_provider.dart';
 
 class TimeSchedule extends ConsumerWidget {
@@ -17,125 +18,72 @@ class TimeSchedule extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     var day = ref.watch(dayProvider);
+    var activityData = ref.watch(dayActivityProvider);
     return Column(
       children: [
         _header(),
         Expanded(
-          child: ScrollablePositionedList.separated(
-              initialScrollIndex: initialIndex,
-              itemCount: hours.length,
-              separatorBuilder: (context, index) => const Divider(),
-              itemBuilder: (context, index) {
-                // onTap: () => context.go('/new-time-entry'),
-                return Container(
-                  color: index % 2 == 0
-                      ? Colors.transparent
-                      : colorScheme.background,
-                  child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Time
-                        SizedBox(
-                            width: 75,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Align(
-                                alignment: Alignment.topCenter,
-                                child: Text(
-                                  DateFormat('hh:mm a').format(hours[index]),
-                                  style: const TextStyle(fontSize: 12),
-                                ),
-                              ),
-                            )),
-                        // Planned
-                        Expanded(
-                            child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Card(
-                              color: colorScheme.secondaryContainer,
-                              child: InkWell(
-                                onTap: () {
-                                  context.go('/new-time-entry');
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.all(4.0),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        'Line 2',
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 10),
+            child: activityData.when(
+                data: (data) {
+                  return ScrollablePositionedList.separated(
+                      initialScrollIndex: initialIndex,
+                      itemCount: hours.length,
+                      separatorBuilder: (context, index) => const Divider(),
+                      itemBuilder: (context, index) {
+                        // onTap: () => context.go('/new-time-entry'),
+                        return Container(
+                          color: index % 2 == 0
+                              ? Colors.transparent
+                              : colorScheme.background,
+                          child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Time
+                                SizedBox(
+                                    width: 75,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Align(
+                                        alignment: Alignment.topCenter,
+                                        child: Text(
+                                          DateFormat('hh:mm a')
+                                              .format(hours[index]),
+                                          style: const TextStyle(fontSize: 12),
+                                        ),
                                       ),
-                                      Text(
-                                        'Line 3',
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 10),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Card(
-                                color: colorScheme.secondaryContainer,
-                                child: InkWell(
-                                  onTap: () {
-                                    context.go('/new-time-entry');
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsets.all(4.0),
+                                    )),
+                                // Planned
+                                Expanded(
                                     child: Column(
-                                      children: [
-                                        Text(
-                                          'Line 2',
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(fontSize: 10),
-                                        ),
-                                        Text(
-                                          'Line 3',
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(fontSize: 10),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ))
-                          ],
-                        )),
-                        // Actual
-                        Expanded(
-                            child: Card(
-                          color: colorScheme.secondaryContainer,
-                          child: InkWell(
-                            onTap: () {
-                              context.go('/new-time-entry');
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.all(4.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    'Line 2',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 10),
-                                  ),
-                                  Text(
-                                    'Line 3',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 10),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )),
-                      ]),
-                );
-              }),
-        ),
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: _getActivityCards(
+                                      colorScheme,
+                                      context,
+                                      data.planned[index],
+                                      index,
+                                      TaskEntryType.planned),
+                                )),
+                                // Actual
+                                Expanded(
+                                    child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: _getActivityCards(
+                                      colorScheme,
+                                      context,
+                                      data.actual[index],
+                                      index,
+                                      TaskEntryType.actual),
+                                )),
+                              ]),
+                        );
+                      });
+                },
+                loading: () => const CircularProgressIndicator(),
+                error: (err, stack) => const Text('Error'))),
         BasicSlider<DateTime>(
           firstState: DateTime.now().subtract(const Duration(days: 1)),
           numOfItem: 3,
@@ -153,29 +101,66 @@ class TimeSchedule extends ConsumerWidget {
     );
   }
 
+  List<Widget> _getActivityCards(ColorScheme colorScheme, BuildContext context,
+      List<Activity>? activities, int hour, TaskEntryType taskType) {
+    List<Widget> list = [];
+
+    if (activities?.isNotEmpty ?? false) {
+      for (var activity in activities!) {
+        list.add(
+          Card(
+            color: colorScheme.secondaryContainer,
+            child: InkWell(
+              onTap: () {
+                context.go('/new-time-entry');
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Text(activity.title),
+              ),
+            ),
+          ),
+        );
+      }
+    }
+
+    // Add "Add new" card
+    list.add(
+      Card(
+        color: colorScheme.secondaryContainer,
+        child: InkWell(
+          onTap: () {
+            context.go('/new-time-entry');
+          },
+          child: const Align(alignment: Alignment.center, child: Text('+')),
+        ),
+      ),
+    );
+    return list;
+  }
+
   SizedBox _header() {
     return const SizedBox(
-        height: 30,
-        child: Row(children: [
-          SizedBox(
-              width: 75,
-              child: Padding(
-                padding: EdgeInsets.all(4.0),
-                child:
-                    Align(alignment: Alignment.center, child: Text('Time')),
-              )),
-          Expanded(
-              child: Padding(
-            padding: EdgeInsets.all(4.0),
-            child: Align(alignment: Alignment.center, child: Text('Planned')),
-          )),
-          Expanded(
-              child: Padding(
-            padding: EdgeInsets.all(4.0),
-            child: Align(alignment: Alignment.center, child: Text('Actual')),
-          )),
-        ]),
-      );
+      height: 30,
+      child: Row(children: [
+        SizedBox(
+            width: 75,
+            child: Padding(
+              padding: EdgeInsets.all(4.0),
+              child: Align(alignment: Alignment.center, child: Text('Time')),
+            )),
+        Expanded(
+            child: Padding(
+          padding: EdgeInsets.all(4.0),
+          child: Align(alignment: Alignment.center, child: Text('Planned')),
+        )),
+        Expanded(
+            child: Padding(
+          padding: EdgeInsets.all(4.0),
+          child: Align(alignment: Alignment.center, child: Text('Actual')),
+        )),
+      ]),
+    );
   }
 
   List<DateTime> _hours() {

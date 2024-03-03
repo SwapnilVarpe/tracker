@@ -13,7 +13,8 @@ Tracker for money and time
         Show task info on card
             Cat,sub cat, title, move to actual, mark as done, Exp. diff and pleasure and actual, duration.
         On move to actual, copy task to actual.
-        Add mark as done field in activity.
+        Extra card for add new activity.
+        Get list of activity from DB and sort and show on UI.
 
         Chane cat component to take activity as input and corr. modification.
         DB changes for activity table (insert, edit etc.)

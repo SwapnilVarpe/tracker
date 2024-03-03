@@ -6,7 +6,7 @@ typedef OnSelected = void Function(DateTime date);
 class DateWidget extends StatelessWidget {
   const DateWidget(
       {super.key,
-      this.width = 70,
+      this.width = 50,
       required this.date,
       required this.color,
       required this.onSelected});
@@ -22,22 +22,22 @@ class DateWidget extends StatelessWidget {
         onTap: () => onSelected.call(date),
         child: Container(
           width: width,
-          margin: const EdgeInsets.all(3.0),
+          margin: const EdgeInsets.all(2.0),
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               color: color),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(5.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(DateFormat("MMM").format(date).toUpperCase(), // Month
-                    style: const TextStyle(fontSize: 10)),
+                    style: const TextStyle(fontSize: 9)),
                 Text(date.day.toString(), // Date
-                    style: const TextStyle(fontSize: 20)),
+                    style: const TextStyle(fontSize: 15)),
                 Text(DateFormat("E").format(date).toUpperCase(), // WeekDay
-                    style: const TextStyle(fontSize: 10))
+                    style: const TextStyle(fontSize: 9))
               ],
             ),
           ),

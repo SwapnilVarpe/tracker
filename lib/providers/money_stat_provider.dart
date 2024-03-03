@@ -5,7 +5,7 @@ import 'package:tracker/providers/modal/money_stat.dart';
 import 'package:tracker/util.dart';
 
 class MoneyStateNotifier extends StateNotifier<MoneyStat> {
-  MoneyStateNotifier(MoneyStat state) : super(state) {
+  MoneyStateNotifier(super.state) {
     _updateEntries();
   }
 
