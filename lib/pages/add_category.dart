@@ -7,7 +7,8 @@ import 'package:tracker/providers/category_provider.dart';
 import '../constants.dart';
 
 class AddCategory extends ConsumerStatefulWidget {
-  const AddCategory({super.key});
+  final bool isActivity;
+  const AddCategory({super.key, required this.isActivity});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _AddCategoryState();
@@ -26,7 +27,8 @@ class _AddCategoryState extends ConsumerState<AddCategory> {
 
   @override
   Widget build(BuildContext context) {
-    var categoryProvider = categoryStateProvider('');
+    var categoryProvider =
+        categoryStateProvider((id: '', isActivity: widget.isActivity));
     var categoryState = ref.watch(categoryProvider);
     var categoryType = categoryState.categoryType;
     var catList = categoryState.categoryList();
@@ -223,30 +225,40 @@ class _AddCategoryState extends ConsumerState<AddCategory> {
       child: Row(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          FilterChip(
-              label: Text(CategoryType.expense.asString()),
-              selected: categoryType == CategoryType.expense,
-              showCheckmark: false,
-              onSelected: (onSelected) => ref
-                  .read(categoryProvider.notifier)
-                  .categoryType = CategoryType.expense),
-          FilterChip(
-              label: Text(CategoryType.income.asString()),
-              selected: categoryType == CategoryType.income,
-              showCheckmark: false,
-              onSelected: (onSelected) => ref
-                  .read(categoryProvider.notifier)
-                  .categoryType = CategoryType.income),
-          FilterChip(
-              label: Text(CategoryType.investment.asString()),
-              showCheckmark: false,
-              selected: categoryType == CategoryType.investment,
-              onSelected: (onSelected) => ref
-                  .read(categoryProvider.notifier)
-                  .categoryType = CategoryType.investment),
-        ],
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: widget.isActivity
+            ? [
+                FilterChip(
+                    label: Text(CategoryType.activity.asString()),
+                    selected: categoryType == CategoryType.activity,
+                    showCheckmark: false,
+                    onSelected: (onSelected) => ref
+                        .read(categoryProvider.notifier)
+                        .categoryType = CategoryType.activity)
+              ]
+            : [
+                FilterChip(
+                    label: Text(CategoryType.expense.asString()),
+                    selected: categoryType == CategoryType.expense,
+                    showCheckmark: false,
+                    onSelected: (onSelected) => ref
+                        .read(categoryProvider.notifier)
+                        .categoryType = CategoryType.expense),
+                FilterChip(
+                    label: Text(CategoryType.income.asString()),
+                    selected: categoryType == CategoryType.income,
+                    showCheckmark: false,
+                    onSelected: (onSelected) => ref
+                        .read(categoryProvider.notifier)
+                        .categoryType = CategoryType.income),
+                FilterChip(
+                    label: Text(CategoryType.investment.asString()),
+                    showCheckmark: false,
+                    selected: categoryType == CategoryType.investment,
+                    onSelected: (onSelected) => ref
+                        .read(categoryProvider.notifier)
+                        .categoryType = CategoryType.investment),
+              ],
       ),
     );
   }

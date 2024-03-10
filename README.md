@@ -16,12 +16,11 @@ Tracker for money and time
         Extra card for add new activity.
         Get list of activity from DB and sort and show on UI.
 
-        Chane cat component to take activity as input and corr. modification.
         DB changes for activity table (insert, edit etc.)
 
         -   Add Predicted difficulty and satisfaction level and corr. actual levels
-        -   Cat and sub cats
-        -   Needs to be simple, need not be min to min recording but overall hourly record.
+        ** Test with old db version 1.
+        Export/Import activities.
 
 -   Time stats
     -   Total time worked/utilized.

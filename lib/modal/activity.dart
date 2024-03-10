@@ -8,7 +8,8 @@ enum TaskEntryType { planned, actual }
 @freezed
 class Activity with _$Activity {
   const factory Activity(
-      {required String title,
+      {int? id,
+      required String title,
       required String category,
       required String subCategory,
       required DateTime activityDate,

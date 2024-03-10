@@ -12,7 +12,7 @@ part of 'money_stat.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$MoneyStat {
@@ -106,10 +106,11 @@ class _$MoneyStatCopyWithImpl<$Res, $Val extends MoneyStat>
 }
 
 /// @nodoc
-abstract class _$$_MoneyStatCopyWith<$Res> implements $MoneyStatCopyWith<$Res> {
-  factory _$$_MoneyStatCopyWith(
-          _$_MoneyStat value, $Res Function(_$_MoneyStat) then) =
-      __$$_MoneyStatCopyWithImpl<$Res>;
+abstract class _$$MoneyStatImplCopyWith<$Res>
+    implements $MoneyStatCopyWith<$Res> {
+  factory _$$MoneyStatImplCopyWith(
+          _$MoneyStatImpl value, $Res Function(_$MoneyStatImpl) then) =
+      __$$MoneyStatImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -124,11 +125,11 @@ abstract class _$$_MoneyStatCopyWith<$Res> implements $MoneyStatCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_MoneyStatCopyWithImpl<$Res>
-    extends _$MoneyStatCopyWithImpl<$Res, _$_MoneyStat>
-    implements _$$_MoneyStatCopyWith<$Res> {
-  __$$_MoneyStatCopyWithImpl(
-      _$_MoneyStat _value, $Res Function(_$_MoneyStat) _then)
+class __$$MoneyStatImplCopyWithImpl<$Res>
+    extends _$MoneyStatCopyWithImpl<$Res, _$MoneyStatImpl>
+    implements _$$MoneyStatImplCopyWith<$Res> {
+  __$$MoneyStatImplCopyWithImpl(
+      _$MoneyStatImpl _value, $Res Function(_$MoneyStatImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -143,7 +144,7 @@ class __$$_MoneyStatCopyWithImpl<$Res>
     Object? initialScrollIndex = null,
     Object? entries = null,
   }) {
-    return _then(_$_MoneyStat(
+    return _then(_$MoneyStatImpl(
       filterBy: null == filterBy
           ? _value.filterBy
           : filterBy // ignore: cast_nullable_to_non_nullable
@@ -182,8 +183,8 @@ class __$$_MoneyStatCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_MoneyStat with DiagnosticableTreeMixin implements _MoneyStat {
-  const _$_MoneyStat(
+class _$MoneyStatImpl with DiagnosticableTreeMixin implements _MoneyStat {
+  const _$MoneyStatImpl(
       {required this.filterBy,
       required this.month,
       required this.startDate,
@@ -237,10 +238,10 @@ class _$_MoneyStat with DiagnosticableTreeMixin implements _MoneyStat {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MoneyStat &&
+            other is _$MoneyStatImpl &&
             (identical(other.filterBy, filterBy) ||
                 other.filterBy == filterBy) &&
             (identical(other.month, month) || other.month == month) &&
@@ -271,8 +272,8 @@ class _$_MoneyStat with DiagnosticableTreeMixin implements _MoneyStat {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MoneyStatCopyWith<_$_MoneyStat> get copyWith =>
-      __$$_MoneyStatCopyWithImpl<_$_MoneyStat>(this, _$identity);
+  _$$MoneyStatImplCopyWith<_$MoneyStatImpl> get copyWith =>
+      __$$MoneyStatImplCopyWithImpl<_$MoneyStatImpl>(this, _$identity);
 }
 
 abstract class _MoneyStat implements MoneyStat {
@@ -284,7 +285,7 @@ abstract class _MoneyStat implements MoneyStat {
       required final CategoryType categoryType,
       required final String category,
       required final int initialScrollIndex,
-      required final List<Entry> entries}) = _$_MoneyStat;
+      required final List<Entry> entries}) = _$MoneyStatImpl;
 
   @override
   FilterBy get filterBy;
@@ -304,6 +305,6 @@ abstract class _MoneyStat implements MoneyStat {
   List<Entry> get entries;
   @override
   @JsonKey(ignore: true)
-  _$$_MoneyStatCopyWith<_$_MoneyStat> get copyWith =>
+  _$$MoneyStatImplCopyWith<_$MoneyStatImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

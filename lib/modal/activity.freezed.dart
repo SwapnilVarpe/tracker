@@ -12,7 +12,7 @@ part of 'activity.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Activity _$ActivityFromJson(Map<String, dynamic> json) {
   return _Activity.fromJson(json);
@@ -20,6 +20,7 @@ Activity _$ActivityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Activity {
+  int? get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
   String get subCategory => throw _privateConstructorUsedError;
@@ -42,7 +43,8 @@ abstract class $ActivityCopyWith<$Res> {
       _$ActivityCopyWithImpl<$Res, Activity>;
   @useResult
   $Res call(
-      {String title,
+      {int? id,
+      String title,
       String category,
       String subCategory,
       DateTime activityDate,
@@ -66,6 +68,7 @@ class _$ActivityCopyWithImpl<$Res, $Val extends Activity>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? title = null,
     Object? category = null,
     Object? subCategory = null,
@@ -77,6 +80,10 @@ class _$ActivityCopyWithImpl<$Res, $Val extends Activity>
     Object? satisfaction = null,
   }) {
     return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -118,14 +125,16 @@ class _$ActivityCopyWithImpl<$Res, $Val extends Activity>
 }
 
 /// @nodoc
-abstract class _$$_ActivityCopyWith<$Res> implements $ActivityCopyWith<$Res> {
-  factory _$$_ActivityCopyWith(
-          _$_Activity value, $Res Function(_$_Activity) then) =
-      __$$_ActivityCopyWithImpl<$Res>;
+abstract class _$$ActivityImplCopyWith<$Res>
+    implements $ActivityCopyWith<$Res> {
+  factory _$$ActivityImplCopyWith(
+          _$ActivityImpl value, $Res Function(_$ActivityImpl) then) =
+      __$$ActivityImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {String title,
+      {int? id,
+      String title,
       String category,
       String subCategory,
       DateTime activityDate,
@@ -137,16 +146,17 @@ abstract class _$$_ActivityCopyWith<$Res> implements $ActivityCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_ActivityCopyWithImpl<$Res>
-    extends _$ActivityCopyWithImpl<$Res, _$_Activity>
-    implements _$$_ActivityCopyWith<$Res> {
-  __$$_ActivityCopyWithImpl(
-      _$_Activity _value, $Res Function(_$_Activity) _then)
+class __$$ActivityImplCopyWithImpl<$Res>
+    extends _$ActivityCopyWithImpl<$Res, _$ActivityImpl>
+    implements _$$ActivityImplCopyWith<$Res> {
+  __$$ActivityImplCopyWithImpl(
+      _$ActivityImpl _value, $Res Function(_$ActivityImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? title = null,
     Object? category = null,
     Object? subCategory = null,
@@ -157,7 +167,11 @@ class __$$_ActivityCopyWithImpl<$Res>
     Object? difficulty = null,
     Object? satisfaction = null,
   }) {
-    return _then(_$_Activity(
+    return _then(_$ActivityImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -200,9 +214,10 @@ class __$$_ActivityCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Activity implements _Activity {
-  const _$_Activity(
-      {required this.title,
+class _$ActivityImpl implements _Activity {
+  const _$ActivityImpl(
+      {this.id,
+      required this.title,
       required this.category,
       required this.subCategory,
       required this.activityDate,
@@ -212,9 +227,11 @@ class _$_Activity implements _Activity {
       required this.difficulty,
       required this.satisfaction});
 
-  factory _$_Activity.fromJson(Map<String, dynamic> json) =>
-      _$$_ActivityFromJson(json);
+  factory _$ActivityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ActivityImplFromJson(json);
 
+  @override
+  final int? id;
   @override
   final String title;
   @override
@@ -236,14 +253,15 @@ class _$_Activity implements _Activity {
 
   @override
   String toString() {
-    return 'Activity(title: $title, category: $category, subCategory: $subCategory, activityDate: $activityDate, taskEntryType: $taskEntryType, isGroupActivity: $isGroupActivity, duration: $duration, difficulty: $difficulty, satisfaction: $satisfaction)';
+    return 'Activity(id: $id, title: $title, category: $category, subCategory: $subCategory, activityDate: $activityDate, taskEntryType: $taskEntryType, isGroupActivity: $isGroupActivity, duration: $duration, difficulty: $difficulty, satisfaction: $satisfaction)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Activity &&
+            other is _$ActivityImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.category, category) ||
                 other.category == category) &&
@@ -267,6 +285,7 @@ class _$_Activity implements _Activity {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
       title,
       category,
       subCategory,
@@ -280,12 +299,12 @@ class _$_Activity implements _Activity {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ActivityCopyWith<_$_Activity> get copyWith =>
-      __$$_ActivityCopyWithImpl<_$_Activity>(this, _$identity);
+  _$$ActivityImplCopyWith<_$ActivityImpl> get copyWith =>
+      __$$ActivityImplCopyWithImpl<_$ActivityImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ActivityToJson(
+    return _$$ActivityImplToJson(
       this,
     );
   }
@@ -293,7 +312,8 @@ class _$_Activity implements _Activity {
 
 abstract class _Activity implements Activity {
   const factory _Activity(
-      {required final String title,
+      {final int? id,
+      required final String title,
       required final String category,
       required final String subCategory,
       required final DateTime activityDate,
@@ -301,10 +321,13 @@ abstract class _Activity implements Activity {
       required final bool isGroupActivity,
       required final int duration,
       required final int difficulty,
-      required final int satisfaction}) = _$_Activity;
+      required final int satisfaction}) = _$ActivityImpl;
 
-  factory _Activity.fromJson(Map<String, dynamic> json) = _$_Activity.fromJson;
+  factory _Activity.fromJson(Map<String, dynamic> json) =
+      _$ActivityImpl.fromJson;
 
+  @override
+  int? get id;
   @override
   String get title;
   @override
@@ -325,6 +348,6 @@ abstract class _Activity implements Activity {
   int get satisfaction;
   @override
   @JsonKey(ignore: true)
-  _$$_ActivityCopyWith<_$_Activity> get copyWith =>
+  _$$ActivityImplCopyWith<_$ActivityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

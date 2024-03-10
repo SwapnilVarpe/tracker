@@ -95,12 +95,14 @@ class CategoryState {
 
 class CategoryNotifier extends StateNotifier<CategoryState> {
   final String entryId;
-  CategoryNotifier({required this.entryId}) : super(CategoryState.loading()) {
+  final bool isActivity;
+  CategoryNotifier({required this.entryId, required this.isActivity})
+      : super(CategoryState.loading()) {
     _init();
   }
 
   Future<void> _init() async {
-    var categoryList = await DBHelper.getAllCategories();
+    var categoryList = await DBHelper.getAllCategories(isActivity);
     Entry? entry;
 
     if (entryId.isNotEmpty) {
@@ -108,7 +110,9 @@ class CategoryNotifier extends StateNotifier<CategoryState> {
     }
 
     // Update state, if entry exist then use it otherwise set default values.
-    var catType = entry?.categoryType ?? CategoryType.expense;
+    var catType = !isActivity
+        ? entry?.categoryType ?? CategoryType.expense
+        : CategoryType.activity;
 
     if (entry != null) {
       state.controllers.amount.text = entry.amount.toString();
@@ -145,7 +149,7 @@ class CategoryNotifier extends StateNotifier<CategoryState> {
   }
 
   void reload() async {
-    var categoryList = await DBHelper.getAllCategories();
+    var categoryList = await DBHelper.getAllCategories(isActivity);
     state = state.copyWith(categoryList: categoryList);
   }
 
@@ -156,8 +160,9 @@ class CategoryNotifier extends StateNotifier<CategoryState> {
   }
 }
 
-final categoryStateProvider =
-    StateNotifierProvider.family<CategoryNotifier, CategoryState, String>(
-        (ref, id) {
-  return CategoryNotifier(entryId: id);
+typedef CatProviderArg = ({String id, bool isActivity});
+
+final categoryStateProvider = StateNotifierProvider.family<CategoryNotifier,
+    CategoryState, CatProviderArg>((ref, arg) {
+  return CategoryNotifier(entryId: arg.id, isActivity: arg.isActivity);
 });

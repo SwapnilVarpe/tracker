@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class NewTimeEntry extends ConsumerWidget {
   final int? hour;
@@ -18,6 +19,19 @@ class NewTimeEntry extends ConsumerWidget {
             children: [
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Title'),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        context.push(Uri(
+                                path: '/add-category',
+                                queryParameters: {'isActivity': 'true'})
+                            .toString());
+                      },
+                      child: const Text('Add/Edit category'))
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 14.0),

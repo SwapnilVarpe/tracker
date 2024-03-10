@@ -24,7 +24,7 @@ class _NewEntryState extends ConsumerState<NewEntry> {
 
   @override
   Widget build(BuildContext context) {
-    var categoryProvider = categoryStateProvider(widget.entryId ?? '');
+    var categoryProvider = categoryStateProvider((id: widget.entryId ?? '', isActivity: false));
     var categoryState = ref.watch(categoryProvider);
 
     return Scaffold(

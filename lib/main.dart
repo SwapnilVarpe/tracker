@@ -46,7 +46,9 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
         GoRoute(
           path: 'add-category',
           builder: (context, state) {
-            return const AddCategory();
+            bool isActivity =
+                state.uri.queryParameters['isActivity'] == 'true' ? true : false;
+            return AddCategory(isActivity: isActivity);
           },
         ),
         GoRoute(

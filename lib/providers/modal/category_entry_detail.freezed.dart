@@ -12,7 +12,7 @@ part of 'category_entry_detail.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$CategoryEntryDetail {
@@ -76,11 +76,11 @@ class _$CategoryEntryDetailCopyWithImpl<$Res, $Val extends CategoryEntryDetail>
 }
 
 /// @nodoc
-abstract class _$$_CategoryEntryDetailCopyWith<$Res>
+abstract class _$$CategoryEntryDetailImplCopyWith<$Res>
     implements $CategoryEntryDetailCopyWith<$Res> {
-  factory _$$_CategoryEntryDetailCopyWith(_$_CategoryEntryDetail value,
-          $Res Function(_$_CategoryEntryDetail) then) =
-      __$$_CategoryEntryDetailCopyWithImpl<$Res>;
+  factory _$$CategoryEntryDetailImplCopyWith(_$CategoryEntryDetailImpl value,
+          $Res Function(_$CategoryEntryDetailImpl) then) =
+      __$$CategoryEntryDetailImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -88,11 +88,11 @@ abstract class _$$_CategoryEntryDetailCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CategoryEntryDetailCopyWithImpl<$Res>
-    extends _$CategoryEntryDetailCopyWithImpl<$Res, _$_CategoryEntryDetail>
-    implements _$$_CategoryEntryDetailCopyWith<$Res> {
-  __$$_CategoryEntryDetailCopyWithImpl(_$_CategoryEntryDetail _value,
-      $Res Function(_$_CategoryEntryDetail) _then)
+class __$$CategoryEntryDetailImplCopyWithImpl<$Res>
+    extends _$CategoryEntryDetailCopyWithImpl<$Res, _$CategoryEntryDetailImpl>
+    implements _$$CategoryEntryDetailImplCopyWith<$Res> {
+  __$$CategoryEntryDetailImplCopyWithImpl(_$CategoryEntryDetailImpl _value,
+      $Res Function(_$CategoryEntryDetailImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -103,7 +103,7 @@ class __$$_CategoryEntryDetailCopyWithImpl<$Res>
     Object? categoryType = null,
     Object? category = null,
   }) {
-    return _then(_$_CategoryEntryDetail(
+    return _then(_$CategoryEntryDetailImpl(
       start: null == start
           ? _value.start
           : start // ignore: cast_nullable_to_non_nullable
@@ -126,8 +126,8 @@ class __$$_CategoryEntryDetailCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CategoryEntryDetail implements _CategoryEntryDetail {
-  const _$_CategoryEntryDetail(
+class _$CategoryEntryDetailImpl implements _CategoryEntryDetail {
+  const _$CategoryEntryDetailImpl(
       {required this.start,
       required this.end,
       required this.categoryType,
@@ -148,10 +148,10 @@ class _$_CategoryEntryDetail implements _CategoryEntryDetail {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CategoryEntryDetail &&
+            other is _$CategoryEntryDetailImpl &&
             (identical(other.start, start) || other.start == start) &&
             (identical(other.end, end) || other.end == end) &&
             (identical(other.categoryType, categoryType) ||
@@ -167,8 +167,8 @@ class _$_CategoryEntryDetail implements _CategoryEntryDetail {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CategoryEntryDetailCopyWith<_$_CategoryEntryDetail> get copyWith =>
-      __$$_CategoryEntryDetailCopyWithImpl<_$_CategoryEntryDetail>(
+  _$$CategoryEntryDetailImplCopyWith<_$CategoryEntryDetailImpl> get copyWith =>
+      __$$CategoryEntryDetailImplCopyWithImpl<_$CategoryEntryDetailImpl>(
           this, _$identity);
 }
 
@@ -177,7 +177,7 @@ abstract class _CategoryEntryDetail implements CategoryEntryDetail {
       {required final String start,
       required final String end,
       required final CategoryType categoryType,
-      required final String category}) = _$_CategoryEntryDetail;
+      required final String category}) = _$CategoryEntryDetailImpl;
 
   @override
   String get start;
@@ -189,6 +189,6 @@ abstract class _CategoryEntryDetail implements CategoryEntryDetail {
   String get category;
   @override
   @JsonKey(ignore: true)
-  _$$_CategoryEntryDetailCopyWith<_$_CategoryEntryDetail> get copyWith =>
+  _$$CategoryEntryDetailImplCopyWith<_$CategoryEntryDetailImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

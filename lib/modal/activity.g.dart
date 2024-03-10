@@ -6,7 +6,9 @@ part of 'activity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Activity _$$_ActivityFromJson(Map<String, dynamic> json) => _$_Activity(
+_$ActivityImpl _$$ActivityImplFromJson(Map<String, dynamic> json) =>
+    _$ActivityImpl(
+      id: json['id'] as int?,
       title: json['title'] as String,
       category: json['category'] as String,
       subCategory: json['subCategory'] as String,
@@ -18,8 +20,9 @@ _$_Activity _$$_ActivityFromJson(Map<String, dynamic> json) => _$_Activity(
       satisfaction: json['satisfaction'] as int,
     );
 
-Map<String, dynamic> _$$_ActivityToJson(_$_Activity instance) =>
+Map<String, dynamic> _$$ActivityImplToJson(_$ActivityImpl instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'title': instance.title,
       'category': instance.category,
       'subCategory': instance.subCategory,

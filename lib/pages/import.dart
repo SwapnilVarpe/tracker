@@ -26,7 +26,7 @@ class _ImportState extends ConsumerState<Import> {
 
   @override
   Widget build(BuildContext context) {
-    var catStateProvider = categoryStateProvider('');
+    var catStateProvider = categoryStateProvider((id: '', isActivity: false));
     var categoryState = ref.watch(catStateProvider);
 
     return Scaffold(
