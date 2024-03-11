@@ -6,6 +6,19 @@ final dayProvider = StateProvider<DateTime>((ref) {
   return DateTime.now();
 });
 
+final hourProvider = StateProvider((ref) {
+  var day = ref.watch(dayProvider);
+
+  List<DateTime> list = [];
+  var now = day;
+  var timeCounter = DateTime(now.year, now.month, now.day, 0, 0, 0);
+  for (int hour = 0; hour <= 24; hour++) {
+    list.add(timeCounter);
+    timeCounter = timeCounter.add(const Duration(hours: 1));
+  }
+  return list;
+});
+
 class ActivityData {
   const ActivityData({required this.planned, required this.actual});
 

@@ -15,9 +15,9 @@ _$ActivityImpl _$$ActivityImplFromJson(Map<String, dynamic> json) =>
       activityDate: DateTime.parse(json['activityDate'] as String),
       taskEntryType: $enumDecode(_$TaskEntryTypeEnumMap, json['taskEntryType']),
       isGroupActivity: json['isGroupActivity'] as bool,
-      duration: json['duration'] as int,
-      difficulty: json['difficulty'] as int,
-      satisfaction: json['satisfaction'] as int,
+      duration: (json['duration'] as num).toDouble(),
+      difficulty: (json['difficulty'] as num).toDouble(),
+      satisfaction: (json['satisfaction'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$$ActivityImplToJson(_$ActivityImpl instance) =>

@@ -9,6 +9,7 @@ import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:tracker/modal/activity.dart';
 import 'package:tracker/pages/add_category.dart';
 import 'package:tracker/pages/category_entry_details.dart';
 import 'package:tracker/constants.dart';
@@ -46,8 +47,9 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
         GoRoute(
           path: 'add-category',
           builder: (context, state) {
-            bool isActivity =
-                state.uri.queryParameters['isActivity'] == 'true' ? true : false;
+            bool isActivity = state.uri.queryParameters['isActivity'] == 'true'
+                ? true
+                : false;
             return AddCategory(isActivity: isActivity);
           },
         ),
@@ -69,8 +71,15 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
         GoRoute(
           path: 'new-time-entry',
           builder: (context, state) {
+            var id = state.uri.queryParameters['activityId'];
             return NewTimeEntry(
-                hour: int.tryParse(state.uri.queryParameters['hour'] ?? ''));
+              hour: DateTime.parse(state.uri.queryParameters['hour'] ?? ''),
+              taskEntryType: state.uri.queryParameters['taskEntryType'] ==
+                      TaskEntryType.actual.toString()
+                  ? TaskEntryType.actual
+                  : TaskEntryType.planned,
+              activityId: id != null ? int.tryParse(id) : null,
+            );
           },
         )
       ]),

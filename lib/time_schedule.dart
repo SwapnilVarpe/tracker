@@ -9,16 +9,15 @@ import 'package:tracker/modal/activity.dart';
 import 'package:tracker/providers/time_schedule_provider.dart';
 
 class TimeSchedule extends ConsumerWidget {
-  final int initialIndex = DateTime.now().hour;
-  late final List<DateTime> hours = _hours();
-
-  TimeSchedule({super.key});
+  const TimeSchedule({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     var day = ref.watch(dayProvider);
     var activityData = ref.watch(dayActivityProvider);
+    var hours = ref.watch(hourProvider);
+    int initialIndex = day.hour;
     return Column(
       children: [
         _header(),
@@ -63,7 +62,7 @@ class TimeSchedule extends ConsumerWidget {
                                       colorScheme,
                                       context,
                                       data.planned[index],
-                                      index,
+                                      hours[index],
                                       TaskEntryType.planned),
                                 )),
                                 // Actual
@@ -75,7 +74,7 @@ class TimeSchedule extends ConsumerWidget {
                                       colorScheme,
                                       context,
                                       data.actual[index],
-                                      index,
+                                      hours[index],
                                       TaskEntryType.actual),
                                 )),
                               ]),
@@ -102,7 +101,7 @@ class TimeSchedule extends ConsumerWidget {
   }
 
   List<Widget> _getActivityCards(ColorScheme colorScheme, BuildContext context,
-      List<Activity>? activities, int hour, TaskEntryType taskType) {
+      List<Activity>? activities, DateTime hour, TaskEntryType taskType) {
     List<Widget> list = [];
 
     if (activities?.isNotEmpty ?? false) {
@@ -112,7 +111,11 @@ class TimeSchedule extends ConsumerWidget {
             color: colorScheme.secondaryContainer,
             child: InkWell(
               onTap: () {
-                context.go('/new-time-entry');
+                context.go(Uri(path: '/new-time-entry', queryParameters: {
+                  'activityId': activity.id,
+                  'taskEntryType': activity.taskEntryType.toString(),
+                  'hour': hour.toString()
+                }).toString());
               },
               child: Padding(
                 padding: const EdgeInsets.all(4.0),
@@ -130,7 +133,10 @@ class TimeSchedule extends ConsumerWidget {
         color: colorScheme.secondaryContainer,
         child: InkWell(
           onTap: () {
-            context.go('/new-time-entry');
+            context.go(Uri(path: '/new-time-entry', queryParameters: {
+              'hour': hour.toString(),
+              'taskEntryType': taskType.toString(),
+            }).toString());
           },
           child: const Align(alignment: Alignment.center, child: Text('+')),
         ),
@@ -161,16 +167,5 @@ class TimeSchedule extends ConsumerWidget {
         )),
       ]),
     );
-  }
-
-  List<DateTime> _hours() {
-    List<DateTime> list = [];
-    var now = DateTime.now();
-    var timeCounter = DateTime(now.year, now.month, now.day, 0, 0, 0);
-    for (int hour = 0; hour <= 24; hour++) {
-      list.add(timeCounter);
-      timeCounter = timeCounter.add(const Duration(hours: 1));
-    }
-    return list;
   }
 }

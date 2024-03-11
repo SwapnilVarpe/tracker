@@ -15,9 +15,9 @@ class Activity with _$Activity {
       required DateTime activityDate,
       required TaskEntryType taskEntryType,
       required bool isGroupActivity,
-      required int duration,
-      required int difficulty,
-      required int satisfaction}) = _Activity;
+      required double duration,
+      required double difficulty,
+      required double satisfaction}) = _Activity;
 
   factory Activity.fromJson(Map<String, Object?> json) =>
       _$ActivityFromJson(json);

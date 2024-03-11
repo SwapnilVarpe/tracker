@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:tracker/constants.dart';
+import 'package:tracker/modal/activity.dart';
 import 'package:tracker/modal/category.dart';
 import 'package:tracker/modal/entry.dart';
 
@@ -300,5 +301,31 @@ class DBHelper {
     } else {
       return 0;
     }
+  }
+
+  // Activity functions
+  static Future<int> insertActivity(Activity activity) async {
+    return await _database!.insert(_activityTable, activity.toJson());
+  }
+
+  static Future<int> updateActivity(Activity activity) async {
+    return await _database!.update(_activityTable, activity.toJson(),
+        where: 'id = ?', whereArgs: [activity.id]);
+  }
+
+  static Future<List<Activity>> getActivitiesByDay(DateTime day) async {
+    var start = DateTime(day.year, day.month, day.day, 0);
+    var end = DateTime(day.year, day.month, day.day, 23, 59, 59);
+
+    final List<Map<String, dynamic>> maps = await _database!.query(
+      _activityTable,
+      where: 'datetime >= ? AND datetime <= ?',
+      whereArgs: [start, end],
+    );
+
+    return List.generate(maps.length, (index) {
+      var activity = maps[index];
+      return Activity.fromJson(activity);
+    });
   }
 }

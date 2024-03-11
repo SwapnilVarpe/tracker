@@ -27,9 +27,9 @@ mixin _$Activity {
   DateTime get activityDate => throw _privateConstructorUsedError;
   TaskEntryType get taskEntryType => throw _privateConstructorUsedError;
   bool get isGroupActivity => throw _privateConstructorUsedError;
-  int get duration => throw _privateConstructorUsedError;
-  int get difficulty => throw _privateConstructorUsedError;
-  int get satisfaction => throw _privateConstructorUsedError;
+  double get duration => throw _privateConstructorUsedError;
+  double get difficulty => throw _privateConstructorUsedError;
+  double get satisfaction => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,9 +50,9 @@ abstract class $ActivityCopyWith<$Res> {
       DateTime activityDate,
       TaskEntryType taskEntryType,
       bool isGroupActivity,
-      int duration,
-      int difficulty,
-      int satisfaction});
+      double duration,
+      double difficulty,
+      double satisfaction});
 }
 
 /// @nodoc
@@ -111,15 +111,15 @@ class _$ActivityCopyWithImpl<$Res, $Val extends Activity>
       duration: null == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       difficulty: null == difficulty
           ? _value.difficulty
           : difficulty // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       satisfaction: null == satisfaction
           ? _value.satisfaction
           : satisfaction // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
     ) as $Val);
   }
 }
@@ -140,9 +140,9 @@ abstract class _$$ActivityImplCopyWith<$Res>
       DateTime activityDate,
       TaskEntryType taskEntryType,
       bool isGroupActivity,
-      int duration,
-      int difficulty,
-      int satisfaction});
+      double duration,
+      double difficulty,
+      double satisfaction});
 }
 
 /// @nodoc
@@ -199,15 +199,15 @@ class __$$ActivityImplCopyWithImpl<$Res>
       duration: null == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       difficulty: null == difficulty
           ? _value.difficulty
           : difficulty // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       satisfaction: null == satisfaction
           ? _value.satisfaction
           : satisfaction // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
     ));
   }
 }
@@ -245,11 +245,11 @@ class _$ActivityImpl implements _Activity {
   @override
   final bool isGroupActivity;
   @override
-  final int duration;
+  final double duration;
   @override
-  final int difficulty;
+  final double difficulty;
   @override
-  final int satisfaction;
+  final double satisfaction;
 
   @override
   String toString() {
@@ -319,9 +319,9 @@ abstract class _Activity implements Activity {
       required final DateTime activityDate,
       required final TaskEntryType taskEntryType,
       required final bool isGroupActivity,
-      required final int duration,
-      required final int difficulty,
-      required final int satisfaction}) = _$ActivityImpl;
+      required final double duration,
+      required final double difficulty,
+      required final double satisfaction}) = _$ActivityImpl;
 
   factory _Activity.fromJson(Map<String, dynamic> json) =
       _$ActivityImpl.fromJson;
@@ -341,11 +341,11 @@ abstract class _Activity implements Activity {
   @override
   bool get isGroupActivity;
   @override
-  int get duration;
+  double get duration;
   @override
-  int get difficulty;
+  double get difficulty;
   @override
-  int get satisfaction;
+  double get satisfaction;
   @override
   @JsonKey(ignore: true)
   _$$ActivityImplCopyWith<_$ActivityImpl> get copyWith =>

@@ -17,6 +17,9 @@ Tracker for money and time
         Get list of activity from DB and sort and show on UI.
 
         DB changes for activity table (insert, edit etc.)
+        Change new time entry page to take id and hour.
+            ** cat provider is used in new entry and edit cat also.
+            Use cat provider and stateful state for controllers.
 
         -   Add Predicted difficulty and satisfaction level and corr. actual levels
         ** Test with old db version 1.
