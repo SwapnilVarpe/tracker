@@ -9,19 +9,15 @@ Tracker for money and time
 -   Issues:
 -   Money stats
 -   Schedule >> Time slots
-        Support for adding multiple tasks in one hour.
         Show task info on card
             Cat,sub cat, title, move to actual, mark as done, Exp. diff and pleasure and actual, duration.
         On move to actual, copy task to actual.
-        Extra card for add new activity.
-        Get list of activity from DB and sort and show on UI.
 
-        DB changes for activity table (insert, edit etc.)
+        Different colors for planned and actual?
+        Remove title as mandatory?
+
         Change new time entry page to take id and hour.
-            ** cat provider is used in new entry and edit cat also.
-            Use cat provider and stateful state for controllers.
 
-        -   Add Predicted difficulty and satisfaction level and corr. actual levels
         ** Test with old db version 1.
         Export/Import activities.
 

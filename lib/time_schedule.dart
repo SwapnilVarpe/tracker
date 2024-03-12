@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:go_router/go_router.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:string_capitalize/string_capitalize.dart';
 import 'package:tracker/components/basic_slider.dart';
 import 'package:tracker/components/date_widget.dart';
 import 'package:tracker/modal/activity.dart';
@@ -119,7 +120,24 @@ class TimeSchedule extends ConsumerWidget {
               },
               child: Padding(
                 padding: const EdgeInsets.all(4.0),
-                child: Text(activity.title),
+                child: Column(
+                  children: [
+                    Text(activity.title.capitalize()),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          '${activity.duration} min',
+                          style: const TextStyle(fontSize: 10),
+                        ),
+                        Text(
+                          '${activity.category} ${activity.subCategory.isEmpty ? '' : ' : ${activity.subCategory}'}',
+                          style: const TextStyle(fontSize: 10),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),

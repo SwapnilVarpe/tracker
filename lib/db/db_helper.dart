@@ -40,7 +40,8 @@ class DBHelper {
       "isGroupActivity INTEGER,"
       "duration INTEGER,"
       "difficulty INTEGER,"
-      "satisfaction INTEGER"
+      "satisfaction INTEGER,"
+      "copyId INTEGER"
       ")",
     );
 
@@ -311,6 +312,17 @@ class DBHelper {
   static Future<int> updateActivity(Activity activity) async {
     return await _database!.update(_activityTable, activity.toJson(),
         where: 'id = ?', whereArgs: [activity.id]);
+  }
+
+  static Future<Activity?> getActivityById(String id) async {
+    final List<Map<String, dynamic>> maps = await _database!
+        .query(_activityTable, where: 'id = ?', whereArgs: [id]);
+
+    if (maps.isEmpty) {
+      return null;
+    }
+
+    return Activity.fromJson(maps[0]);
   }
 
   static Future<List<Activity>> getActivitiesByDay(DateTime day) async {

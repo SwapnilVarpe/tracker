@@ -17,7 +17,8 @@ class Activity with _$Activity {
       required int isGroupActivity,
       required double duration,
       required double difficulty,
-      required double satisfaction}) = _Activity;
+      required double satisfaction,
+      int? copyId}) = _Activity;
 
   factory Activity.fromJson(Map<String, Object?> json) =>
       _$ActivityFromJson(json);

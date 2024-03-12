@@ -22,6 +22,7 @@ class NewTimeEntry extends ConsumerStatefulWidget {
 }
 
 class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
+  var categoryProvider = categoryStateProvider((id: '', isActivity: true));
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   double _duration = 15.0;
@@ -32,11 +33,26 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
   @override
   void initState() {
     super.initState();
+    getActivity();
+  }
+
+  Future<void> getActivity() async {
+    if (widget.activityId != null && widget.activityId! > 0) {
+      var act = await DBHelper.getActivityById(widget.activityId!.toString());
+
+      if (act != null) {
+        titleController.text = act.title;
+        ref.read(categoryProvider.notifier).selectedCategory = act.category;
+        ref.read(categoryProvider.notifier).selectedSubCat = act.subCategory;
+        _duration = act.duration;
+        _difficulty = act.difficulty;
+        _satisfaction = act.satisfaction;
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    var categoryProvider = categoryStateProvider((id: '', isActivity: true));
     var categoryState = ref.watch(categoryProvider);
 
     var selectedCategory = categoryState.selectedCategory;
@@ -188,6 +204,30 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
                   ),
                 ),
                 const Spacer(),
+                Visibility(
+                    visible: widget.activityId != null,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: const ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.red)),
+                        child: const Text(
+                          'Delete',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    )),
+                Visibility(
+                    visible: widget.activityId != null,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: const Text('Mark as done'),
+                      ),
+                    )),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
@@ -216,6 +256,7 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
                                 const SnackBar(
                                     content: Text('Activity added')));
 
+                            ref.invalidate(categoryProvider);
                             ref.invalidate(dayActivityProvider);
                             Navigator.of(context).pop();
                           }

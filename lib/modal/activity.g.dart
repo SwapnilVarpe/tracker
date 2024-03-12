@@ -18,6 +18,7 @@ _$ActivityImpl _$$ActivityImplFromJson(Map<String, dynamic> json) =>
       duration: (json['duration'] as num).toDouble(),
       difficulty: (json['difficulty'] as num).toDouble(),
       satisfaction: (json['satisfaction'] as num).toDouble(),
+      copyId: json['copyId'] as int?,
     );
 
 Map<String, dynamic> _$$ActivityImplToJson(_$ActivityImpl instance) =>
@@ -32,6 +33,7 @@ Map<String, dynamic> _$$ActivityImplToJson(_$ActivityImpl instance) =>
       'duration': instance.duration,
       'difficulty': instance.difficulty,
       'satisfaction': instance.satisfaction,
+      'copyId': instance.copyId,
     };
 
 const _$TaskEntryTypeEnumMap = {
