@@ -37,7 +37,7 @@ class DBHelper {
       "category TEXT,"
       "subCategory TEXT,"
       "taskEntryType TEXT,"
-      "isGroupActivity TEXT,"
+      "isGroupActivity INTEGER,"
       "duration INTEGER,"
       "difficulty INTEGER,"
       "satisfaction INTEGER"
@@ -319,8 +319,8 @@ class DBHelper {
 
     final List<Map<String, dynamic>> maps = await _database!.query(
       _activityTable,
-      where: 'datetime >= ? AND datetime <= ?',
-      whereArgs: [start, end],
+      where: 'activityDate >= ? AND activityDate <= ?',
+      whereArgs: [start.toIso8601String(), end.toIso8601String()],
     );
 
     return List.generate(maps.length, (index) {

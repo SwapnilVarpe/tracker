@@ -14,7 +14,7 @@ class Activity with _$Activity {
       required String subCategory,
       required DateTime activityDate,
       required TaskEntryType taskEntryType,
-      required bool isGroupActivity,
+      required int isGroupActivity,
       required double duration,
       required double difficulty,
       required double satisfaction}) = _Activity;

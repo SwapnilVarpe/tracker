@@ -26,7 +26,7 @@ mixin _$Activity {
   String get subCategory => throw _privateConstructorUsedError;
   DateTime get activityDate => throw _privateConstructorUsedError;
   TaskEntryType get taskEntryType => throw _privateConstructorUsedError;
-  bool get isGroupActivity => throw _privateConstructorUsedError;
+  int get isGroupActivity => throw _privateConstructorUsedError;
   double get duration => throw _privateConstructorUsedError;
   double get difficulty => throw _privateConstructorUsedError;
   double get satisfaction => throw _privateConstructorUsedError;
@@ -49,7 +49,7 @@ abstract class $ActivityCopyWith<$Res> {
       String subCategory,
       DateTime activityDate,
       TaskEntryType taskEntryType,
-      bool isGroupActivity,
+      int isGroupActivity,
       double duration,
       double difficulty,
       double satisfaction});
@@ -107,7 +107,7 @@ class _$ActivityCopyWithImpl<$Res, $Val extends Activity>
       isGroupActivity: null == isGroupActivity
           ? _value.isGroupActivity
           : isGroupActivity // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as int,
       duration: null == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
@@ -139,7 +139,7 @@ abstract class _$$ActivityImplCopyWith<$Res>
       String subCategory,
       DateTime activityDate,
       TaskEntryType taskEntryType,
-      bool isGroupActivity,
+      int isGroupActivity,
       double duration,
       double difficulty,
       double satisfaction});
@@ -195,7 +195,7 @@ class __$$ActivityImplCopyWithImpl<$Res>
       isGroupActivity: null == isGroupActivity
           ? _value.isGroupActivity
           : isGroupActivity // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as int,
       duration: null == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
@@ -243,7 +243,7 @@ class _$ActivityImpl implements _Activity {
   @override
   final TaskEntryType taskEntryType;
   @override
-  final bool isGroupActivity;
+  final int isGroupActivity;
   @override
   final double duration;
   @override
@@ -318,7 +318,7 @@ abstract class _Activity implements Activity {
       required final String subCategory,
       required final DateTime activityDate,
       required final TaskEntryType taskEntryType,
-      required final bool isGroupActivity,
+      required final int isGroupActivity,
       required final double duration,
       required final double difficulty,
       required final double satisfaction}) = _$ActivityImpl;
@@ -339,7 +339,7 @@ abstract class _Activity implements Activity {
   @override
   TaskEntryType get taskEntryType;
   @override
-  bool get isGroupActivity;
+  int get isGroupActivity;
   @override
   double get duration;
   @override

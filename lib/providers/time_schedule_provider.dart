@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracker/db/db_helper.dart';
 
 import 'package:tracker/modal/activity.dart';
 
@@ -28,20 +29,27 @@ class ActivityData {
 
 final dayActivityProvider = FutureProvider<ActivityData>((ref) async {
   var day = ref.watch(dayProvider);
-  var testMap = <int, List<Activity>>{};
-  var testMap2 = <int, List<Activity>>{};
+  var planned = <int, List<Activity>>{};
+  var actual = <int, List<Activity>>{};
 
-  var testA = Activity(
-      title: "Text",
-      category: '',
-      subCategory: '',
-      activityDate: DateTime.now(),
-      taskEntryType: TaskEntryType.planned,
-      isGroupActivity: false,
-      duration: 10,
-      difficulty: 1,
-      satisfaction: 1);
-  testMap[10] = [testA];
-  testMap2[15] = [testA.copyWith(taskEntryType: TaskEntryType.actual)];
-  return ActivityData(planned: testMap, actual: testMap2);
+  var list = await DBHelper.getActivitiesByDay(day);
+
+  for (var activity in list) {
+    if (activity.taskEntryType == TaskEntryType.planned) {
+      var hour = activity.activityDate.hour;
+      if (planned.containsKey(hour)) {
+        planned[hour]?.add(activity);
+      } else {
+        planned[hour] = [activity];
+      }
+    } else {
+      var hour = activity.activityDate.hour;
+      if (actual.containsKey(hour)) {
+        actual[hour]?.add(activity);
+      } else {
+        actual[hour] = [activity];
+      }
+    }
+  }
+  return ActivityData(planned: planned, actual: actual);
 });

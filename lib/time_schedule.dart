@@ -112,7 +112,7 @@ class TimeSchedule extends ConsumerWidget {
             child: InkWell(
               onTap: () {
                 context.go(Uri(path: '/new-time-entry', queryParameters: {
-                  'activityId': activity.id,
+                  'activityId': activity.id.toString(),
                   'taskEntryType': activity.taskEntryType.toString(),
                   'hour': hour.toString()
                 }).toString());

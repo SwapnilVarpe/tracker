@@ -202,7 +202,7 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
                                   : selectedSubCat,
                               activityDate: widget.hour,
                               taskEntryType: widget.taskEntryType,
-                              isGroupActivity: _isGroup,
+                              isGroupActivity: _isGroup ? 1 : 0,
                               duration: _duration,
                               difficulty: _difficulty,
                               satisfaction: _satisfaction);
