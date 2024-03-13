@@ -107,6 +107,10 @@ class TimeSchedule extends ConsumerWidget {
 
     if (activities?.isNotEmpty ?? false) {
       for (var activity in activities!) {
+        var catStr =
+            '${activity.category} ${activity.subCategory.isEmpty ? '' : ': ${activity.subCategory}'}';
+        var header =
+            activity.title.isEmpty ? catStr : activity.title.capitalize();
         list.add(
           Card(
             color: colorScheme.secondaryContainer,
@@ -122,7 +126,10 @@ class TimeSchedule extends ConsumerWidget {
                 padding: const EdgeInsets.all(4.0),
                 child: Column(
                   children: [
-                    Text(activity.title.capitalize()),
+                    Text(
+                      header,
+                      style: const TextStyle(fontSize: 12),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -130,9 +137,12 @@ class TimeSchedule extends ConsumerWidget {
                           '${activity.duration} min',
                           style: const TextStyle(fontSize: 10),
                         ),
-                        Text(
-                          '${activity.category} ${activity.subCategory.isEmpty ? '' : ' : ${activity.subCategory}'}',
-                          style: const TextStyle(fontSize: 10),
+                        Visibility(
+                          visible: activity.title.isNotEmpty,
+                          child: Text(
+                            catStr,
+                            style: const TextStyle(fontSize: 10),
+                          ),
                         ),
                       ],
                     )

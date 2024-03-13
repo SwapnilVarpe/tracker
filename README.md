@@ -11,12 +11,9 @@ Tracker for money and time
 -   Schedule >> Time slots
         Show task info on card
             Cat,sub cat, title, move to actual, mark as done, Exp. diff and pleasure and actual, duration.
-        On move to actual, copy task to actual.
 
         Different colors for planned and actual?
-        Remove title as mandatory?
-
-        Change new time entry page to take id and hour.
+        Support changing time slot.
 
         ** Test with old db version 1.
         Export/Import activities.
