@@ -25,8 +25,8 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
   var categoryProvider = categoryStateProvider((id: '', isActivity: true));
   final titleController = TextEditingController();
   double _duration = 15.0;
-  double _difficulty = 3.0;
-  double _satisfaction = 3.0;
+  double _difficulty = 1.0;
+  double _satisfaction = 1.0;
   bool _isGroup = false;
 
   @override
@@ -69,138 +69,146 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextFormField(
-                controller: titleController,
-                validator: (value) => value!.isEmpty ? 'Enter title' : null,
-                decoration: const InputDecoration(labelText: 'Title'),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        context.push(Uri(
-                                path: '/add-category',
-                                queryParameters: {'isActivity': 'true'})
-                            .toString());
-                      },
-                      child: const Text('Add/Edit category'))
-                ],
-              ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: DropdownButtonFormField(
-                      value: selectedCategory,
-                      items: categoryList.map((e) {
-                        return DropdownMenuItem<String>(
-                          value: e.category,
-                          child: Text(e.category),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        ref.read(categoryProvider.notifier).selectedCategory =
-                            value!;
-                      })),
-              Visibility(
-                visible: subCatList.isNotEmpty,
-                child: SizedBox(
-                  height: 40,
-                  child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: ['None', ...subCatList].map(
-                        (subCat) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            child: ChoiceChip(
-                              label: Text(
-                                subCat,
-                                style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSecondaryContainer),
-                              ),
-                              onSelected: (isSelected) => ref
+              Expanded(
+                child: ListView(
+                  children: [
+                    TextFormField(
+                      controller: titleController,
+                      validator: (value) =>
+                          value!.isEmpty ? 'Enter title' : null,
+                      decoration: const InputDecoration(labelText: 'Title'),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              context.push(Uri(
+                                      path: '/add-category',
+                                      queryParameters: {'isActivity': 'true'})
+                                  .toString());
+                            },
+                            child: const Text('Add/Edit category'))
+                      ],
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: DropdownButtonFormField(
+                            value: selectedCategory,
+                            items: categoryList.map((e) {
+                              return DropdownMenuItem<String>(
+                                value: e.category,
+                                child: Text(e.category),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              ref
                                   .read(categoryProvider.notifier)
-                                  .selectedSubCat = subCat,
-                              selected: subCat == selectedSubCat,
-                            ),
-                          );
-                        },
-                      ).toList()),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 14.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Duration ($_duration min)'),
-                    Slider(
-                        max: 60,
-                        divisions: 60,
-                        value: _duration,
-                        label: _duration.toString(),
-                        onChanged: (value) => setState(() {
-                              _duration = value;
-                            }))
+                                  .selectedCategory = value!;
+                            })),
+                    Visibility(
+                      visible: subCatList.isNotEmpty,
+                      child: SizedBox(
+                        height: 40,
+                        child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: ['None', ...subCatList].map(
+                              (subCat) {
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  child: ChoiceChip(
+                                    label: Text(
+                                      subCat,
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSecondaryContainer),
+                                    ),
+                                    onSelected: (isSelected) => ref
+                                        .read(categoryProvider.notifier)
+                                        .selectedSubCat = subCat,
+                                    selected: subCat == selectedSubCat,
+                                  ),
+                                );
+                              },
+                            ).toList()),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 14.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Duration ($_duration min)'),
+                          Slider(
+                              max: 60,
+                              divisions: 60,
+                              value: _duration,
+                              label: _duration.toString(),
+                              onChanged: (value) => setState(() {
+                                    _duration = value;
+                                  }))
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 14.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Difficulty ($_difficulty)'),
+                          Slider(
+                              max: 10,
+                              divisions: 10,
+                              value: _difficulty,
+                              label: _difficulty.toString(),
+                              onChanged: (value) {
+                                setState(() {
+                                  _difficulty = value;
+                                });
+                              })
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 14.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Satisfaction ($_satisfaction)'),
+                          Slider(
+                              max: 10,
+                              divisions: 10,
+                              value: _satisfaction,
+                              label: _satisfaction.toString(),
+                              onChanged: (value) {
+                                setState(() {
+                                  _satisfaction = value;
+                                });
+                              })
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 14.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Self/Group (Is group)'),
+                          Switch(
+                              value: _isGroup,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isGroup = value;
+                                });
+                              })
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 14.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Difficulty ($_difficulty)'),
-                    Slider(
-                        max: 10,
-                        divisions: 10,
-                        value: _difficulty,
-                        label: _difficulty.toString(),
-                        onChanged: (value) {
-                          setState(() {
-                            _difficulty = value;
-                          });
-                        })
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 14.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Satisfaction ($_satisfaction)'),
-                    Slider(
-                        max: 10,
-                        divisions: 10,
-                        value: _satisfaction,
-                        label: _satisfaction.toString(),
-                        onChanged: (value) {
-                          setState(() {
-                            _satisfaction = value;
-                          });
-                        })
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 14.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Self/Group (Is group)'),
-                    Switch(
-                        value: _isGroup,
-                        onChanged: (value) {
-                          setState(() {
-                            _isGroup = value;
-                          });
-                        })
-                  ],
-                ),
-              ),
-              const Spacer(),
               deleteButton(context),
               Visibility(
                   visible: widget.activityId != null &&

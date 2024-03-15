@@ -137,13 +137,11 @@ class TimeSchedule extends ConsumerWidget {
                           '${activity.duration} min',
                           style: const TextStyle(fontSize: 10),
                         ),
-                        Visibility(
-                          visible: activity.title.isNotEmpty,
-                          child: Text(
+                        if (activity.title.isNotEmpty)
+                          Text(
                             catStr,
                             style: const TextStyle(fontSize: 10),
                           ),
-                        ),
                       ],
                     )
                   ],
