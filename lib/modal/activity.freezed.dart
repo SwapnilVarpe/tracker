@@ -30,7 +30,8 @@ mixin _$Activity {
   double get duration => throw _privateConstructorUsedError;
   double get difficulty => throw _privateConstructorUsedError;
   double get satisfaction => throw _privateConstructorUsedError;
-  int? get copyId => throw _privateConstructorUsedError;
+  String get uuid => throw _privateConstructorUsedError;
+  String? get copyUuid => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -54,7 +55,8 @@ abstract class $ActivityCopyWith<$Res> {
       double duration,
       double difficulty,
       double satisfaction,
-      int? copyId});
+      String uuid,
+      String? copyUuid});
 }
 
 /// @nodoc
@@ -80,7 +82,8 @@ class _$ActivityCopyWithImpl<$Res, $Val extends Activity>
     Object? duration = null,
     Object? difficulty = null,
     Object? satisfaction = null,
-    Object? copyId = freezed,
+    Object? uuid = null,
+    Object? copyUuid = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -123,10 +126,14 @@ class _$ActivityCopyWithImpl<$Res, $Val extends Activity>
           ? _value.satisfaction
           : satisfaction // ignore: cast_nullable_to_non_nullable
               as double,
-      copyId: freezed == copyId
-          ? _value.copyId
-          : copyId // ignore: cast_nullable_to_non_nullable
-              as int?,
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String,
+      copyUuid: freezed == copyUuid
+          ? _value.copyUuid
+          : copyUuid // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -150,7 +157,8 @@ abstract class _$$ActivityImplCopyWith<$Res>
       double duration,
       double difficulty,
       double satisfaction,
-      int? copyId});
+      String uuid,
+      String? copyUuid});
 }
 
 /// @nodoc
@@ -174,7 +182,8 @@ class __$$ActivityImplCopyWithImpl<$Res>
     Object? duration = null,
     Object? difficulty = null,
     Object? satisfaction = null,
-    Object? copyId = freezed,
+    Object? uuid = null,
+    Object? copyUuid = freezed,
   }) {
     return _then(_$ActivityImpl(
       id: freezed == id
@@ -217,10 +226,14 @@ class __$$ActivityImplCopyWithImpl<$Res>
           ? _value.satisfaction
           : satisfaction // ignore: cast_nullable_to_non_nullable
               as double,
-      copyId: freezed == copyId
-          ? _value.copyId
-          : copyId // ignore: cast_nullable_to_non_nullable
-              as int?,
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String,
+      copyUuid: freezed == copyUuid
+          ? _value.copyUuid
+          : copyUuid // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -239,7 +252,8 @@ class _$ActivityImpl implements _Activity {
       required this.duration,
       required this.difficulty,
       required this.satisfaction,
-      this.copyId});
+      required this.uuid,
+      this.copyUuid});
 
   factory _$ActivityImpl.fromJson(Map<String, dynamic> json) =>
       _$$ActivityImplFromJson(json);
@@ -265,11 +279,13 @@ class _$ActivityImpl implements _Activity {
   @override
   final double satisfaction;
   @override
-  final int? copyId;
+  final String uuid;
+  @override
+  final String? copyUuid;
 
   @override
   String toString() {
-    return 'Activity(id: $id, title: $title, category: $category, subCategory: $subCategory, activityDate: $activityDate, taskEntryType: $taskEntryType, isGroupActivity: $isGroupActivity, duration: $duration, difficulty: $difficulty, satisfaction: $satisfaction, copyId: $copyId)';
+    return 'Activity(id: $id, title: $title, category: $category, subCategory: $subCategory, activityDate: $activityDate, taskEntryType: $taskEntryType, isGroupActivity: $isGroupActivity, duration: $duration, difficulty: $difficulty, satisfaction: $satisfaction, uuid: $uuid, copyUuid: $copyUuid)';
   }
 
   @override
@@ -295,7 +311,9 @@ class _$ActivityImpl implements _Activity {
                 other.difficulty == difficulty) &&
             (identical(other.satisfaction, satisfaction) ||
                 other.satisfaction == satisfaction) &&
-            (identical(other.copyId, copyId) || other.copyId == copyId));
+            (identical(other.uuid, uuid) || other.uuid == uuid) &&
+            (identical(other.copyUuid, copyUuid) ||
+                other.copyUuid == copyUuid));
   }
 
   @JsonKey(ignore: true)
@@ -312,7 +330,8 @@ class _$ActivityImpl implements _Activity {
       duration,
       difficulty,
       satisfaction,
-      copyId);
+      uuid,
+      copyUuid);
 
   @JsonKey(ignore: true)
   @override
@@ -340,7 +359,8 @@ abstract class _Activity implements Activity {
       required final double duration,
       required final double difficulty,
       required final double satisfaction,
-      final int? copyId}) = _$ActivityImpl;
+      required final String uuid,
+      final String? copyUuid}) = _$ActivityImpl;
 
   factory _Activity.fromJson(Map<String, dynamic> json) =
       _$ActivityImpl.fromJson;
@@ -366,7 +386,9 @@ abstract class _Activity implements Activity {
   @override
   double get satisfaction;
   @override
-  int? get copyId;
+  String get uuid;
+  @override
+  String? get copyUuid;
   @override
   @JsonKey(ignore: true)
   _$$ActivityImplCopyWith<_$ActivityImpl> get copyWith =>

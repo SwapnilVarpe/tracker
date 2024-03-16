@@ -87,11 +87,11 @@ String convertToCSV(List<Entry> enties) {
 String convertActivityToCSV(List<Activity> activities) {
   StringBuffer buffer = StringBuffer();
   buffer.writeln(
-      'Id,Date,Title,Category,Sub Category,Entry type,Is group Activity,Duration,Difficulty,Satisfaction,Copy Id');
+      'UUID,Date,Title,Category,Sub Category,Entry type,Is group Activity,Duration,Difficulty,Satisfaction,Copy UUID');
 
   for (var act in activities) {
     buffer.writeln(
-        '${act.id},${act.activityDate.toIso8601String()},"${act.title}",${act.category},${act.subCategory},${act.taskEntryType.asString()},${act.isGroupActivity},${act.duration},${act.difficulty},${act.satisfaction},${act.copyId}');
+        '${act.uuid},${act.activityDate.toIso8601String()},"${act.title}",${act.category},${act.subCategory},${act.taskEntryType.asString()},${act.isGroupActivity},${act.duration},${act.difficulty},${act.satisfaction},${act.copyUuid}');
   }
 
   return buffer.toString();

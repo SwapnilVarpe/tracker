@@ -50,6 +50,7 @@ dependencies:
   local_auth: ^2.1.6
   package_info_plus: ^5.0.1
   string_capitalize: ^0.0.10
+  uuid: ^4.3.3
 
 dev_dependencies:
   flutter_test:

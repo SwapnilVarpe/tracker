@@ -6,6 +6,7 @@ import 'package:tracker/db/db_helper.dart';
 import 'package:tracker/modal/activity.dart';
 import 'package:tracker/providers/category_provider.dart';
 import 'package:tracker/providers/time_schedule_provider.dart';
+import 'package:uuid/uuid.dart';
 
 class NewTimeEntry extends ConsumerStatefulWidget {
   final DateTime hour;
@@ -25,11 +26,13 @@ class NewTimeEntry extends ConsumerStatefulWidget {
 class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
   var categoryProvider = categoryStateProvider((id: '', isActivity: true));
   final titleController = TextEditingController();
+  final uuid = const Uuid();
   double _duration = 15.0;
-  double _difficulty = 1.0;
-  double _satisfaction = 1.0;
+  double _difficulty = 0.0;
+  double _satisfaction = 0.0;
   late DateTime _currentHour;
   bool _isGroup = false;
+  Activity? currentActivity;
 
   @override
   void initState() {
@@ -43,6 +46,7 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
       var act = await DBHelper.getActivityById(widget.activityId!.toString());
 
       if (act != null) {
+        currentActivity = act;
         titleController.text = act.title;
         ref.read(categoryProvider.notifier).selectedCategory = act.category;
         ref.read(categoryProvider.notifier).selectedSubCat = act.subCategory;
@@ -259,7 +263,8 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
                             activityDate: _currentHour,
                             taskEntryType: TaskEntryType.actual,
                             isGroupActivity: _isGroup ? 1 : 0,
-                            copyId: widget.activityId,
+                            uuid: uuid.v1(),
+                            copyUuid: currentActivity?.uuid,
                             duration: _duration,
                             difficulty: _difficulty,
                             satisfaction: _satisfaction);
@@ -285,6 +290,9 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
                     onPressed: () async {
                       var activity = Activity(
                           id: widget.activityId,
+                          uuid: currentActivity == null
+                              ? uuid.v1()
+                              : currentActivity!.uuid,
                           title: titleController.text,
                           category: selectedCategory,
                           subCategory:

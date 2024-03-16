@@ -12,10 +12,14 @@ Tracker for money and time
         Show task info on card
 
         Different colors for planned and actual?
-        Support changing time slot.
 
+        Import activities.
+
+    Testing:
         ** Test with old db version 1.
-        Export/Import activities.
+        Import/Export entries and acts.
+        Check if old enties are good.
+
 
 -   Time stats
     -   Total time worked/utilized.

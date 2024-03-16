@@ -32,7 +32,8 @@ class Activity with _$Activity {
       required double duration,
       required double difficulty,
       required double satisfaction,
-      int? copyId}) = _Activity;
+      required String uuid,
+      String? copyUuid}) = _Activity;
 
   factory Activity.fromJson(Map<String, Object?> json) =>
       _$ActivityFromJson(json);

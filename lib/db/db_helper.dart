@@ -32,6 +32,7 @@ class DBHelper {
     db.execute(
       "CREATE TABLE $_activityTable("
       "id INTEGER PRIMARY KEY, "
+      "uuid TEXT,"
       "title TEXT,"
       "activityDate TEXT,"
       "category TEXT,"
@@ -41,7 +42,7 @@ class DBHelper {
       "duration INTEGER,"
       "difficulty INTEGER,"
       "satisfaction INTEGER,"
-      "copyId INTEGER"
+      "copyUuid TEXT"
       ")",
     );
 

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fast_csv/fast_csv.dart' as fast_csv;
 import 'package:tracker/constants.dart';
 import 'package:tracker/db/db_helper.dart';
+import 'package:tracker/modal/activity.dart';
 
 import 'package:tracker/modal/category.dart';
 import 'package:tracker/modal/entry.dart';
@@ -20,46 +21,97 @@ class Import extends ConsumerStatefulWidget {
 
 class _ImportState extends ConsumerState<Import> {
   bool isFileProcessed = false;
+  List<Category> entryCategories = [];
+  List<Category> activityCategories = [];
   List<Entry> entriesToBeAdded = [];
+  List<Activity> activitiesToBeAdded = [];
   List<String> messages = [];
+  bool isActivity = false;
   HashSet<Category> newCatTobeAdded = HashSet<Category>();
 
   @override
-  Widget build(BuildContext context) {
-    var catStateProvider = categoryStateProvider((id: '', isActivity: false));
-    var categoryState = ref.watch(catStateProvider);
+  void initState() {
+    super.initState();
+    _getCategories();
+  }
 
+  void _getCategories() async {
+    entryCategories = await DBHelper.getAllCategories(false);
+    activityCategories = await DBHelper.getAllCategories(true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Import')),
-      body: isFileProcessed
-          ? confirmImport(catStateProvider)
-          : importButton(categoryState.allCategoryList),
+      body: isFileProcessed ? confirmImport() : importButton(),
     );
   }
 
-  Center importButton(List<Category> allCategoryList) {
+  Center importButton() {
     return Center(
-        child: ElevatedButton(
-            onPressed: () async {
-              FilePickerResult? result = await FilePicker.platform
-                  .pickFiles(type: FileType.custom, allowedExtensions: ['csv']);
+        child: Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+              onPressed: () async {
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                    type: FileType.custom, allowedExtensions: ['csv']);
 
-              if (result != null) {
-                var entries = await processFile(result);
-                processAndSetEntries(entries, allCategoryList);
-              }
-            },
-            child: const Text('Import CSV')));
+                if (result != null) {
+                  var entries = await parseEntries(result);
+                  processAndSetEntries(entries);
+                }
+              },
+              child: const Text('Import Entries CSV')),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+              onPressed: () async {
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                    type: FileType.custom, allowedExtensions: ['csv']);
+
+                if (result != null) {
+                  // var entries = await processFile(result);
+                  // processAndSetEntries(entries, allCategoryList);
+                }
+              },
+              child: const Text('Import Activities CSV')),
+        ),
+      ],
+    ));
   }
 
-  Future<List<Entry>> processFile(FilePickerResult result) async {
+  Future<List<Activity>> parseActivities(FilePickerResult result) async {
     File file = File(result.files.single.path ?? '');
-
     String csv = await file.readAsString();
-    return parseEntries(csv);
+
+    var rows = fast_csv.parse(csv);
+    List<Activity> activities = [];
+    // 'UUID,Date,Title,Category,Sub Category,Entry type,Is group Activity,Duration,Difficulty,Satisfaction,Copy UUID');
+    rows.skip(1).forEach((row) {
+      activities.add(Activity(
+          uuid: row[0],
+          activityDate: DateTime.parse(row[1]),
+          title: row[2],
+          category: row[3],
+          subCategory: row[4],
+          taskEntryType: TaskEntryTypeExt.fromString(row[5]),
+          isGroupActivity: int.tryParse(row[6]) ?? 0,
+          duration: double.tryParse(row[7]) ?? 0,
+          difficulty: double.tryParse(row[8]) ?? 0,
+          satisfaction: double.tryParse(row[9]) ?? 0,
+          copyUuid: row[10]));
+    });
+    return activities;
   }
 
-  List<Entry> parseEntries(String csv) {
+  Future<List<Entry>> parseEntries(FilePickerResult result) async {
+    File file = File(result.files.single.path ?? '');
+    String csv = await file.readAsString();
+
     var rows = fast_csv.parse(csv);
     List<Entry> entries = [];
     // Date,Title,Category Type,Category,Amount,SubCat
@@ -75,8 +127,7 @@ class _ImportState extends ConsumerState<Import> {
     return entries;
   }
 
-  Column confirmImport(
-      StateNotifierProvider<CategoryNotifier, CategoryState> catStateProvider) {
+  Column confirmImport() {
     return Column(
       children: [
         Padding(
@@ -132,8 +183,7 @@ class _ImportState extends ConsumerState<Import> {
     );
   }
 
-  void processAndSetEntries(
-      List<Entry> entries, List<Category> allCategoryList) {
+  void processAndSetEntries(List<Entry> entries) {
     List<String> msg = [];
     HashSet<Category> newCategories = HashSet<Category>();
     List<Entry> newEntries = [];
@@ -152,7 +202,7 @@ class _ImportState extends ConsumerState<Import> {
         msg.add('Error: Cat not found: ${entry.title}');
         continue;
       }
-      var existingCat = allCategoryList.where((element) =>
+      var existingCat = entryCategories.where((element) =>
           element.categoryType == entry.categoryType &&
           element.category == entry.category &&
           element.subCategory == entry.subCategory);
@@ -170,6 +220,7 @@ class _ImportState extends ConsumerState<Import> {
       newCatTobeAdded = newCategories;
       messages = msg;
       isFileProcessed = true;
+      isActivity = false;
     });
   }
 }
