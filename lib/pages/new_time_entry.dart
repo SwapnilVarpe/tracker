@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:tracker/db/db_helper.dart';
 import 'package:tracker/modal/activity.dart';
 import 'package:tracker/providers/category_provider.dart';
@@ -27,11 +28,13 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
   double _duration = 15.0;
   double _difficulty = 1.0;
   double _satisfaction = 1.0;
+  late DateTime _currentHour;
   bool _isGroup = false;
 
   @override
   void initState() {
     super.initState();
+    _currentHour = widget.hour;
     getActivity();
   }
 
@@ -46,6 +49,7 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
         _duration = act.duration;
         _difficulty = act.difficulty;
         _satisfaction = act.satisfaction;
+        _currentHour = act.activityDate;
         _isGroup = act.isGroupActivity == 1;
       }
     }
@@ -59,6 +63,7 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
     var selectedSubCat = categoryState.selectedSubCat;
     var categoryList = categoryState.categoryList();
     var subCatList = categoryState.subCategoryList();
+    var hourList = ref.read(hourProvider);
 
     return Scaffold(
         appBar: AppBar(
@@ -192,17 +197,46 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 14.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Self/Group (Is group)'),
-                          Switch(
-                              value: _isGroup,
-                              onChanged: (value) {
-                                setState(() {
-                                  _isGroup = value;
-                                });
-                              })
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text('Self/Group (Is group)'),
+                                Switch(
+                                    value: _isGroup,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _isGroup = value;
+                                      });
+                                    })
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                const Text('Hour'),
+                                DropdownButtonFormField(
+                                    value: _currentHour,
+                                    items: hourList.map((e) {
+                                      return DropdownMenuItem<DateTime>(
+                                        value: e,
+                                        child: Text(
+                                            DateFormat('hh:mm a').format(e)),
+                                      );
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _currentHour = value!;
+                                      });
+                                    }),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -222,9 +256,10 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
                             category: selectedCategory,
                             subCategory:
                                 selectedSubCat == 'None' ? '' : selectedSubCat,
-                            activityDate: widget.hour,
+                            activityDate: _currentHour,
                             taskEntryType: TaskEntryType.actual,
                             isGroupActivity: _isGroup ? 1 : 0,
+                            copyId: widget.activityId,
                             duration: _duration,
                             difficulty: _difficulty,
                             satisfaction: _satisfaction);
@@ -234,7 +269,7 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
                         if (id > 0 && context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                  content: Text('Activity copies to actual')));
+                                  content: Text('Activity copied to actual')));
 
                           ref.invalidate(categoryProvider);
                           ref.invalidate(dayActivityProvider);
@@ -254,7 +289,7 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
                           category: selectedCategory,
                           subCategory:
                               selectedSubCat == 'None' ? '' : selectedSubCat,
-                          activityDate: widget.hour,
+                          activityDate: _currentHour,
                           taskEntryType: widget.taskEntryType,
                           isGroupActivity: _isGroup ? 1 : 0,
                           duration: _duration,

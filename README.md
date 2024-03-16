@@ -10,7 +10,6 @@ Tracker for money and time
 -   Money stats
 -   Schedule >> Time slots
         Show task info on card
-            Cat,sub cat, title, move to actual, mark as done, Exp. diff and pleasure and actual, duration.
 
         Different colors for planned and actual?
         Support changing time slot.

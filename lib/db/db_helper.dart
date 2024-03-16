@@ -345,4 +345,13 @@ class DBHelper {
       return Activity.fromJson(activity);
     });
   }
+
+  static Future<List<Activity>> getAllActivities() async {
+    final maps = await _database!.query(_activityTable);
+
+    return List.generate(maps.length, (index) {
+      var activity = maps[index];
+      return Activity.fromJson(activity);
+    });
+  }
 }

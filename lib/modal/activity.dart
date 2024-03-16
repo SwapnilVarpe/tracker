@@ -5,6 +5,20 @@ part 'activity.g.dart';
 
 enum TaskEntryType { planned, actual }
 
+extension TaskEntryTypeExt on TaskEntryType {
+  String asString() {
+    if (this == TaskEntryType.actual) return 'Actual';
+    if (this == TaskEntryType.planned) return 'Planned';
+    return '';
+  }
+
+  static TaskEntryType fromString(String str) {
+    if (str == 'Actual') return TaskEntryType.actual;
+    if (str == 'Planned') return TaskEntryType.planned;
+    return TaskEntryType.actual;
+  }
+}
+
 @freezed
 class Activity with _$Activity {
   const factory Activity(

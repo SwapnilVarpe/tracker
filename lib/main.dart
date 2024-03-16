@@ -235,9 +235,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         ListTile(
-          title: const Text('Export'),
+          title: const Text('Export transactions'),
           leading: const Icon(Icons.upload),
-          onTap: () => _exportData(),
+          onTap: () => _exportEntries(),
+        ),
+        ListTile(
+          title: const Text('Export activities'),
+          leading: const Icon(Icons.upload),
+          onTap: () => _exportActivities(),
         ),
         ListTile(
           title: const Text('Import'),
@@ -264,16 +269,16 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _exportData() async {
-    final dir = await getTemporaryDirectory();
+  void _exportEntries() async {
     List<Entry> data = await DBHelper.getAllEntries();
     final str = convertToCSV(data);
-    final path = '${dir.path}/mt-data.csv';
+    exportCSV(str, 'mt-data');
+  }
 
-    File file = File(path);
-    await file.writeAsString(str);
-    Share.shareXFiles([XFile(path, mimeType: 'text/csv')],
-        subject: 'Exported file');
+  void _exportActivities() async {
+    List<Activity> data = await DBHelper.getAllActivities();
+    final str = convertActivityToCSV(data);
+    exportCSV(str, 'mt-activities');
   }
 
   void _authenticate() async {
