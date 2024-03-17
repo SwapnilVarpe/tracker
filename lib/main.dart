@@ -39,7 +39,7 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
         GoRoute(
           path: 'addEntry',
           builder: (BuildContext context, GoRouterState state) {
-            return NewEntry(entryId: state.queryParameters['entryId']);
+            return NewEntry(entryId: state.uri.queryParameters['entryId']);
           },
         ),
         GoRoute(
@@ -56,11 +56,11 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
           path: 'category-entry-details',
           builder: (context, state) {
             return CategoryEntryDetails(
-                category: state.queryParameters['category'] ?? '',
+                category: state.uri.queryParameters['category'] ?? '',
                 categoryType: CategoryTypeExt.fromString(
-                    state.queryParameters['categoryType'] ?? ''),
-                endDate: state.queryParameters['endDate'] ?? '',
-                startDate: state.queryParameters['startDate'] ?? '');
+                    state.uri.queryParameters['categoryType'] ?? ''),
+                endDate: state.uri.queryParameters['endDate'] ?? '',
+                startDate: state.uri.queryParameters['startDate'] ?? '');
           },
         )
       ]),
@@ -210,7 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Text(
                 'Version: ${packageInfo?.version}-${packageInfo?.buildNumber}',
-                style: TextStyle(fontSize: 12),
+                style: const TextStyle(fontSize: 12),
               )
             ],
           ),
