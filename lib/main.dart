@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -7,8 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:tracker/modal/activity.dart';
 import 'package:tracker/pages/add_category.dart';
 import 'package:tracker/pages/category_entry_details.dart';
@@ -136,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: <Widget>[
         Expenses(),
         const MoneyStats(),
-        TimeSchedule(),
+        const TimeSchedule(),
         const TimeStats()
       ][_currentPageIndex],
       floatingActionButton: _currentPageIndex == 0
