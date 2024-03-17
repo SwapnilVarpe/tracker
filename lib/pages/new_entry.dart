@@ -8,8 +8,8 @@ import 'package:tracker/modal/entry.dart';
 import 'package:tracker/providers/expense_provider.dart';
 import 'package:tracker/providers/money_stat_provider.dart';
 import 'package:tracker/util.dart';
-import 'providers/category_provider.dart';
-import 'constants.dart';
+import '../providers/category_provider.dart';
+import '../constants.dart';
 
 class NewEntry extends ConsumerStatefulWidget {
   final String? entryId;
@@ -24,7 +24,7 @@ class _NewEntryState extends ConsumerState<NewEntry> {
 
   @override
   Widget build(BuildContext context) {
-    var categoryProvider = categoryStateProvider(widget.entryId ?? '');
+    var categoryProvider = categoryStateProvider((id: widget.entryId ?? '', isActivity: false));
     var categoryState = ref.watch(categoryProvider);
 
     return Scaffold(

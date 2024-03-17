@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:tracker/modal/activity.dart';
 import 'package:tracker/modal/entry.dart';
 
 import 'constants.dart';
@@ -16,6 +21,8 @@ Color getAmountColor(CategoryType categoryType) {
       return Colors.green;
     case CategoryType.investment:
       return Colors.orange;
+    case CategoryType.activity:
+      return Colors.black;
   }
 }
 
@@ -27,6 +34,8 @@ IconData getAmountIcon(CategoryType categoryType) {
       return Icons.attach_money;
     case CategoryType.investment:
       return Icons.trending_up;
+    case CategoryType.activity:
+      return Icons.man;
   }
 }
 
@@ -73,4 +82,27 @@ String convertToCSV(List<Entry> enties) {
   }
 
   return buffer.toString();
+}
+
+String convertActivityToCSV(List<Activity> activities) {
+  StringBuffer buffer = StringBuffer();
+  buffer.writeln(
+      'UUID,Date,Title,Category,Sub Category,Entry type,Is group Activity,Duration,Difficulty,Satisfaction,Copy UUID');
+
+  for (var act in activities) {
+    buffer.writeln(
+        '${act.uuid},${act.activityDate.toIso8601String()},"${act.title}",${act.category},${act.subCategory},${act.taskEntryType.asString()},${act.isGroupActivity},${act.duration},${act.difficulty},${act.satisfaction},${act.copyUuid}');
+  }
+
+  return buffer.toString();
+}
+
+void exportCSV(String str, String fileName) async {
+  final dir = await getTemporaryDirectory();
+  final path = '${dir.path}/$fileName.csv';
+
+  File file = File(path);
+  await file.writeAsString(str);
+  Share.shareXFiles([XFile(path, mimeType: 'text/csv')],
+      subject: '$fileName.csv');
 }

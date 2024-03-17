@@ -1,6 +1,4 @@
-import 'package:flutter/animation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:tracker/constants.dart';
 import 'package:tracker/db/db_helper.dart';
 import 'package:tracker/providers/modal/money_stat.dart';
@@ -9,7 +7,6 @@ import 'package:tracker/util.dart';
 class MoneyStateNotifier extends StateNotifier<MoneyStat> {
   MoneyStateNotifier(super.state) {
     _updateEntries();
-    _scrollToMonth();
   }
 
   _updateEntries() async {
@@ -58,29 +55,17 @@ class MoneyStateNotifier extends StateNotifier<MoneyStat> {
   set category(String cat) {
     state = state.copyWith(category: cat);
   }
-
-  _scrollToMonth() {
-    Future.delayed(
-      const Duration(seconds: 1),
-      () {
-        if (state.itemScrollController.isAttached) {
-          var curMonth = DateTime.now().month;
-          if (curMonth - 3 > 0) {
-            state.itemScrollController.scrollTo(
-                index: curMonth - 3,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeInOut);
-          }
-        }
-      },
-    );
-  }
 }
 
 final moneyStateProvider =
     StateNotifierProvider<MoneyStateNotifier, MoneyStat>((ref) {
   var curMonth = DateTime.now().month;
   var range = getMonthRange(months[curMonth - 1]);
+  var initMonthIndex = 0;
+  if (curMonth - 3 > 0) {
+    initMonthIndex = curMonth;
+  }
+
   return MoneyStateNotifier(MoneyStat(
       filterBy: FilterBy.month,
       month: months[curMonth - 1],
@@ -88,6 +73,6 @@ final moneyStateProvider =
       endDate: range.end,
       categoryType: CategoryType.expense,
       category: '',
-      itemScrollController: ItemScrollController(),
+      initialScrollIndex: initMonthIndex,
       entries: []));
 });

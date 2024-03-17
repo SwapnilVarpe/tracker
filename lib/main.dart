@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -7,20 +5,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:tracker/add_category.dart';
-import 'package:tracker/category_entry_details.dart';
+import 'package:tracker/modal/activity.dart';
+import 'package:tracker/pages/add_category.dart';
+import 'package:tracker/pages/category_entry_details.dart';
 import 'package:tracker/constants.dart';
-import 'package:tracker/import.dart';
+import 'package:tracker/pages/import.dart';
 import 'package:tracker/modal/entry.dart';
+import 'package:tracker/pages/new_time_entry.dart';
 import 'package:tracker/util.dart';
 
 import 'expenses.dart';
 import 'money_stats.dart';
 import 'time_schedule.dart';
 import 'time_stats.dart';
-import 'new_entry.dart';
+import 'pages/new_entry.dart';
 import 'db/db_helper.dart';
 
 void main() async {
@@ -37,7 +35,7 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
       },
       routes: [
         GoRoute(
-          path: 'addEntry',
+          path: 'add-entry',
           builder: (BuildContext context, GoRouterState state) {
             return NewEntry(entryId: state.uri.queryParameters['entryId']);
           },
@@ -45,7 +43,10 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
         GoRoute(
           path: 'add-category',
           builder: (context, state) {
-            return const AddCategory();
+            bool isActivity = state.uri.queryParameters['isActivity'] == 'true'
+                ? true
+                : false;
+            return AddCategory(isActivity: isActivity);
           },
         ),
         GoRoute(
@@ -61,6 +62,20 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
                     state.uri.queryParameters['categoryType'] ?? ''),
                 endDate: state.uri.queryParameters['endDate'] ?? '',
                 startDate: state.uri.queryParameters['startDate'] ?? '');
+          },
+        ),
+        GoRoute(
+          path: 'new-time-entry',
+          builder: (context, state) {
+            var id = state.uri.queryParameters['activityId'];
+            return NewTimeEntry(
+              hour: DateTime.parse(state.uri.queryParameters['hour'] ?? ''),
+              taskEntryType: state.uri.queryParameters['taskEntryType'] ==
+                      TaskEntryType.actual.toString()
+                  ? TaskEntryType.actual
+                  : TaskEntryType.planned,
+              activityId: id != null ? int.tryParse(id) : null,
+            );
           },
         )
       ]),
@@ -124,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ? FloatingActionButton(
               onPressed: () {
                 if (_currentPageIndex == 0) {
-                  context.go('/addEntry');
+                  context.go('/add-entry');
                 }
               },
               tooltip: 'Increment',
@@ -216,9 +231,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         ListTile(
-          title: const Text('Export'),
+          title: const Text('Export transactions'),
           leading: const Icon(Icons.upload),
-          onTap: () => _exportData(),
+          onTap: () => _exportEntries(),
+        ),
+        ListTile(
+          title: const Text('Export activities'),
+          leading: const Icon(Icons.upload),
+          onTap: () => _exportActivities(),
         ),
         ListTile(
           title: const Text('Import'),
@@ -245,16 +265,16 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _exportData() async {
-    final dir = await getTemporaryDirectory();
+  void _exportEntries() async {
     List<Entry> data = await DBHelper.getAllEntries();
     final str = convertToCSV(data);
-    final path = '${dir.path}/mt-data.csv';
+    exportCSV(str, 'mt-data');
+  }
 
-    File file = File(path);
-    await file.writeAsString(str);
-    Share.shareXFiles([XFile(path, mimeType: 'text/csv')],
-        subject: 'Exported file');
+  void _exportActivities() async {
+    List<Activity> data = await DBHelper.getAllActivities();
+    final str = convertActivityToCSV(data);
+    exportCSV(str, 'mt-activities');
   }
 
   void _authenticate() async {

@@ -56,7 +56,7 @@ class MoneyStats extends ConsumerWidget {
             child: SizedBox(
               height: 40,
               child: ScrollablePositionedList.builder(
-                  itemScrollController: state.itemScrollController,
+                  initialScrollIndex: state.initialScrollIndex,
                   scrollDirection: Axis.horizontal,
                   itemCount: months.length,
                   itemBuilder: (context, index) {

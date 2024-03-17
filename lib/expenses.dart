@@ -10,22 +10,15 @@ import 'constants.dart';
 import 'modal/entry.dart';
 
 class Expenses extends ConsumerWidget {
-  final ItemScrollController scrollController = ItemScrollController();
+  late final int currentMonth;
+
   Expenses({super.key}) {
-    Future.delayed(
-      const Duration(seconds: 1),
-      () {
-        if (scrollController.isAttached) {
-          var curMonth = DateTime.now().month;
-          if (curMonth - 3 > 0) {
-            scrollController.scrollTo(
-                index: curMonth - 3,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeInOut);
-          }
-        }
-      },
-    );
+    var curMonth = DateTime.now().month;
+    if (curMonth - 3 > 0) {
+      currentMonth = curMonth;
+    } else {
+      currentMonth = 0;
+    }
   }
 
   @override
@@ -40,7 +33,7 @@ class Expenses extends ConsumerWidget {
       SizedBox(
         height: 40,
         child: ScrollablePositionedList.builder(
-            itemScrollController: scrollController,
+            initialScrollIndex: currentMonth,
             scrollDirection: Axis.horizontal,
             itemCount: months.length,
             itemBuilder: (context, index) {
@@ -180,7 +173,7 @@ class Expenses extends ConsumerWidget {
         PopupMenuItem(
           child: const Text('Edit'),
           onTap: () => context.go(Uri(
-              path: '/addEntry',
+              path: '/add-entry',
               queryParameters: {'entryId': entry.id.toString()}).toString()),
         ),
         PopupMenuItem(

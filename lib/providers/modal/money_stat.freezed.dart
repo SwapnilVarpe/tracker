@@ -12,7 +12,7 @@ part of 'money_stat.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$MoneyStat {
@@ -22,8 +22,7 @@ mixin _$MoneyStat {
   String get endDate => throw _privateConstructorUsedError;
   CategoryType get categoryType => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
-  ItemScrollController get itemScrollController =>
-      throw _privateConstructorUsedError;
+  int get initialScrollIndex => throw _privateConstructorUsedError;
   List<Entry> get entries => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -43,7 +42,7 @@ abstract class $MoneyStatCopyWith<$Res> {
       String endDate,
       CategoryType categoryType,
       String category,
-      ItemScrollController itemScrollController,
+      int initialScrollIndex,
       List<Entry> entries});
 }
 
@@ -66,7 +65,7 @@ class _$MoneyStatCopyWithImpl<$Res, $Val extends MoneyStat>
     Object? endDate = null,
     Object? categoryType = null,
     Object? category = null,
-    Object? itemScrollController = null,
+    Object? initialScrollIndex = null,
     Object? entries = null,
   }) {
     return _then(_value.copyWith(
@@ -94,10 +93,10 @@ class _$MoneyStatCopyWithImpl<$Res, $Val extends MoneyStat>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String,
-      itemScrollController: null == itemScrollController
-          ? _value.itemScrollController
-          : itemScrollController // ignore: cast_nullable_to_non_nullable
-              as ItemScrollController,
+      initialScrollIndex: null == initialScrollIndex
+          ? _value.initialScrollIndex
+          : initialScrollIndex // ignore: cast_nullable_to_non_nullable
+              as int,
       entries: null == entries
           ? _value.entries
           : entries // ignore: cast_nullable_to_non_nullable
@@ -107,10 +106,11 @@ class _$MoneyStatCopyWithImpl<$Res, $Val extends MoneyStat>
 }
 
 /// @nodoc
-abstract class _$$_MoneyStatCopyWith<$Res> implements $MoneyStatCopyWith<$Res> {
-  factory _$$_MoneyStatCopyWith(
-          _$_MoneyStat value, $Res Function(_$_MoneyStat) then) =
-      __$$_MoneyStatCopyWithImpl<$Res>;
+abstract class _$$MoneyStatImplCopyWith<$Res>
+    implements $MoneyStatCopyWith<$Res> {
+  factory _$$MoneyStatImplCopyWith(
+          _$MoneyStatImpl value, $Res Function(_$MoneyStatImpl) then) =
+      __$$MoneyStatImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -120,16 +120,16 @@ abstract class _$$_MoneyStatCopyWith<$Res> implements $MoneyStatCopyWith<$Res> {
       String endDate,
       CategoryType categoryType,
       String category,
-      ItemScrollController itemScrollController,
+      int initialScrollIndex,
       List<Entry> entries});
 }
 
 /// @nodoc
-class __$$_MoneyStatCopyWithImpl<$Res>
-    extends _$MoneyStatCopyWithImpl<$Res, _$_MoneyStat>
-    implements _$$_MoneyStatCopyWith<$Res> {
-  __$$_MoneyStatCopyWithImpl(
-      _$_MoneyStat _value, $Res Function(_$_MoneyStat) _then)
+class __$$MoneyStatImplCopyWithImpl<$Res>
+    extends _$MoneyStatCopyWithImpl<$Res, _$MoneyStatImpl>
+    implements _$$MoneyStatImplCopyWith<$Res> {
+  __$$MoneyStatImplCopyWithImpl(
+      _$MoneyStatImpl _value, $Res Function(_$MoneyStatImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -141,10 +141,10 @@ class __$$_MoneyStatCopyWithImpl<$Res>
     Object? endDate = null,
     Object? categoryType = null,
     Object? category = null,
-    Object? itemScrollController = null,
+    Object? initialScrollIndex = null,
     Object? entries = null,
   }) {
-    return _then(_$_MoneyStat(
+    return _then(_$MoneyStatImpl(
       filterBy: null == filterBy
           ? _value.filterBy
           : filterBy // ignore: cast_nullable_to_non_nullable
@@ -169,10 +169,10 @@ class __$$_MoneyStatCopyWithImpl<$Res>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String,
-      itemScrollController: null == itemScrollController
-          ? _value.itemScrollController
-          : itemScrollController // ignore: cast_nullable_to_non_nullable
-              as ItemScrollController,
+      initialScrollIndex: null == initialScrollIndex
+          ? _value.initialScrollIndex
+          : initialScrollIndex // ignore: cast_nullable_to_non_nullable
+              as int,
       entries: null == entries
           ? _value._entries
           : entries // ignore: cast_nullable_to_non_nullable
@@ -183,15 +183,15 @@ class __$$_MoneyStatCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_MoneyStat with DiagnosticableTreeMixin implements _MoneyStat {
-  const _$_MoneyStat(
+class _$MoneyStatImpl with DiagnosticableTreeMixin implements _MoneyStat {
+  const _$MoneyStatImpl(
       {required this.filterBy,
       required this.month,
       required this.startDate,
       required this.endDate,
       required this.categoryType,
       required this.category,
-      required this.itemScrollController,
+      required this.initialScrollIndex,
       required final List<Entry> entries})
       : _entries = entries;
 
@@ -208,7 +208,7 @@ class _$_MoneyStat with DiagnosticableTreeMixin implements _MoneyStat {
   @override
   final String category;
   @override
-  final ItemScrollController itemScrollController;
+  final int initialScrollIndex;
   final List<Entry> _entries;
   @override
   List<Entry> get entries {
@@ -219,7 +219,7 @@ class _$_MoneyStat with DiagnosticableTreeMixin implements _MoneyStat {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MoneyStat(filterBy: $filterBy, month: $month, startDate: $startDate, endDate: $endDate, categoryType: $categoryType, category: $category, itemScrollController: $itemScrollController, entries: $entries)';
+    return 'MoneyStat(filterBy: $filterBy, month: $month, startDate: $startDate, endDate: $endDate, categoryType: $categoryType, category: $category, initialScrollIndex: $initialScrollIndex, entries: $entries)';
   }
 
   @override
@@ -233,15 +233,15 @@ class _$_MoneyStat with DiagnosticableTreeMixin implements _MoneyStat {
       ..add(DiagnosticsProperty('endDate', endDate))
       ..add(DiagnosticsProperty('categoryType', categoryType))
       ..add(DiagnosticsProperty('category', category))
-      ..add(DiagnosticsProperty('itemScrollController', itemScrollController))
+      ..add(DiagnosticsProperty('initialScrollIndex', initialScrollIndex))
       ..add(DiagnosticsProperty('entries', entries));
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MoneyStat &&
+            other is _$MoneyStatImpl &&
             (identical(other.filterBy, filterBy) ||
                 other.filterBy == filterBy) &&
             (identical(other.month, month) || other.month == month) &&
@@ -252,8 +252,8 @@ class _$_MoneyStat with DiagnosticableTreeMixin implements _MoneyStat {
                 other.categoryType == categoryType) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            (identical(other.itemScrollController, itemScrollController) ||
-                other.itemScrollController == itemScrollController) &&
+            (identical(other.initialScrollIndex, initialScrollIndex) ||
+                other.initialScrollIndex == initialScrollIndex) &&
             const DeepCollectionEquality().equals(other._entries, _entries));
   }
 
@@ -266,14 +266,14 @@ class _$_MoneyStat with DiagnosticableTreeMixin implements _MoneyStat {
       endDate,
       categoryType,
       category,
-      itemScrollController,
+      initialScrollIndex,
       const DeepCollectionEquality().hash(_entries));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MoneyStatCopyWith<_$_MoneyStat> get copyWith =>
-      __$$_MoneyStatCopyWithImpl<_$_MoneyStat>(this, _$identity);
+  _$$MoneyStatImplCopyWith<_$MoneyStatImpl> get copyWith =>
+      __$$MoneyStatImplCopyWithImpl<_$MoneyStatImpl>(this, _$identity);
 }
 
 abstract class _MoneyStat implements MoneyStat {
@@ -284,8 +284,8 @@ abstract class _MoneyStat implements MoneyStat {
       required final String endDate,
       required final CategoryType categoryType,
       required final String category,
-      required final ItemScrollController itemScrollController,
-      required final List<Entry> entries}) = _$_MoneyStat;
+      required final int initialScrollIndex,
+      required final List<Entry> entries}) = _$MoneyStatImpl;
 
   @override
   FilterBy get filterBy;
@@ -300,11 +300,11 @@ abstract class _MoneyStat implements MoneyStat {
   @override
   String get category;
   @override
-  ItemScrollController get itemScrollController;
+  int get initialScrollIndex;
   @override
   List<Entry> get entries;
   @override
   @JsonKey(ignore: true)
-  _$$_MoneyStatCopyWith<_$_MoneyStat> get copyWith =>
+  _$$MoneyStatImplCopyWith<_$MoneyStatImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

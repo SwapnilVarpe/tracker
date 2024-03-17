@@ -13,13 +13,14 @@ final months = [
   'Dec'
 ];
 
-enum CategoryType { income, expense, investment }
+enum CategoryType { income, expense, investment, activity }
 
 extension CategoryTypeExt on CategoryType {
   String asString() {
     if (this == CategoryType.income) return 'Income';
     if (this == CategoryType.expense) return 'Expense';
     if (this == CategoryType.investment) return 'Investment';
+    if (this == CategoryType.activity) return 'Activity';
     return "";
   }
 
@@ -31,6 +32,8 @@ extension CategoryTypeExt on CategoryType {
         return CategoryType.expense;
       case 'Investment':
         return CategoryType.investment;
+      case 'Activity':
+        return CategoryType.activity;
     }
     return CategoryType.expense;
   }
