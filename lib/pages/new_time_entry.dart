@@ -152,7 +152,7 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
                           Text('Duration ($_duration min)'),
                           Slider(
                               max: 60,
-                              divisions: 60,
+                              divisions: 12,
                               value: _duration,
                               label: _duration.toString(),
                               onChanged: (value) => setState(() {
