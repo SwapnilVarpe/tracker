@@ -235,11 +235,6 @@ class _ImportState extends ConsumerState<Import> {
     List<Entry> newEntries = [];
 
     for (var entry in entries) {
-      if (entry.title.isEmpty) {
-        msg.add(
-            'Error: Title is empty: ${entry.datetime} ${entry.amount}) ${entry.category}');
-        continue;
-      }
       if (entry.datetime.isEmpty || DateTime.tryParse(entry.datetime) == null) {
         msg.add('Error: Invalid date: ${entry.title}');
         continue;
