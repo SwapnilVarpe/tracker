@@ -74,8 +74,8 @@ class _ImportState extends ConsumerState<Import> {
                     type: FileType.custom, allowedExtensions: ['csv']);
 
                 if (result != null) {
-                  // var entries = await processFile(result);
-                  // processAndSetEntries(entries, allCategoryList);
+                  var data = await parseActivities(result);
+                  processAndSetActivities(data);
                 }
               },
               child: const Text('Import Activities CSV')),
@@ -133,7 +133,7 @@ class _ImportState extends ConsumerState<Import> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            'Number of entries: ${entriesToBeAdded.length}',
+            'Number of ${isActivity ? 'Activities' : 'Entries'}: ${isActivity ? activitiesToBeAdded.length : entriesToBeAdded.length}',
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
@@ -161,12 +161,22 @@ class _ImportState extends ConsumerState<Import> {
                 int num = await DBHelper.insertManyCategory(newCatList);
                 String msg = '';
                 if (num == newCatList.length) {
-                  int entryCount =
-                      await DBHelper.insertManyEntry(entriesToBeAdded);
-                  if (entryCount == entriesToBeAdded.length) {
-                    msg = '$entryCount entries added';
+                  int insertCount = 0;
+                  int dataCount = isActivity
+                      ? activitiesToBeAdded.length
+                      : entriesToBeAdded.length;
+
+                  if (isActivity) {
+                    insertCount =
+                        await DBHelper.insertManyActivity(activitiesToBeAdded);
                   } else {
-                    msg = 'Error: $entryCount entries added';
+                    insertCount =
+                        await DBHelper.insertManyEntry(entriesToBeAdded);
+                  }
+                  if (insertCount == dataCount) {
+                    msg = '$insertCount entries added';
+                  } else {
+                    msg = 'Error: $insertCount entries added';
                   }
                 } else {
                   msg = 'Error while adding categories';
@@ -181,6 +191,42 @@ class _ImportState extends ConsumerState<Import> {
         )
       ],
     );
+  }
+
+  void processAndSetActivities(List<Activity> entries) {
+    List<String> msg = [];
+    HashSet<Category> newCategories = HashSet<Category>();
+    List<Activity> newEntries = [];
+
+    for (var entry in entries) {
+      if (entry.uuid.isEmpty) {
+        msg.add('Error: UUID not found: ${entry.title} ${entry.category}');
+        continue;
+      }
+      if (entry.category.isEmpty) {
+        msg.add('Error: Cat not found: ${entry.title} ${entry.category}');
+        continue;
+      }
+      var existingCat = activityCategories.where((element) =>
+          element.categoryType == CategoryType.activity &&
+          element.category == entry.category &&
+          element.subCategory == entry.subCategory);
+      if (existingCat.isEmpty) {
+        newCategories.add(Category(
+            category: entry.category,
+            categoryType: CategoryType.activity,
+            subCategory: entry.subCategory));
+      }
+      newEntries.add(entry);
+    }
+
+    setState(() {
+      activitiesToBeAdded = newEntries;
+      newCatTobeAdded = newCategories;
+      messages = msg;
+      isFileProcessed = true;
+      isActivity = true;
+    });
   }
 
   void processAndSetEntries(List<Entry> entries) {

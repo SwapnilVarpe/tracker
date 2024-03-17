@@ -310,6 +310,17 @@ class DBHelper {
     return await _database!.insert(_activityTable, activity.toJson());
   }
 
+  static Future<int> insertManyActivity(List<Activity> list) async {
+    int total = 0;
+    for (var entry in list) {
+      int num = await insertActivity(entry);
+      if (num > 0) {
+        total++;
+      }
+    }
+    return total;
+  }
+
   static Future<int> deleteActivity(int id) async {
     return await _database!
         .delete(_activityTable, where: 'id = ?', whereArgs: [id]);

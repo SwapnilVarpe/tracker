@@ -263,7 +263,7 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
                             activityDate: _currentHour,
                             taskEntryType: TaskEntryType.actual,
                             isGroupActivity: _isGroup ? 1 : 0,
-                            uuid: uuid.v1(),
+                            uuid: uuid.v4(),
                             copyUuid: currentActivity?.uuid,
                             duration: _duration,
                             difficulty: _difficulty,
@@ -291,7 +291,7 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
                       var activity = Activity(
                           id: widget.activityId,
                           uuid: currentActivity == null
-                              ? uuid.v1()
+                              ? uuid.v4()
                               : currentActivity!.uuid,
                           title: titleController.text,
                           category: selectedCategory,
