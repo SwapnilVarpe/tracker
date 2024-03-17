@@ -51,6 +51,7 @@ class _ImportState extends ConsumerState<Import> {
   Center importButton() {
     return Center(
         child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
