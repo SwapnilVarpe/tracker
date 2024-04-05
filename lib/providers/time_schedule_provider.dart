@@ -13,7 +13,7 @@ final hourProvider = StateProvider((ref) {
   List<DateTime> list = [];
   var now = day;
   var timeCounter = DateTime(now.year, now.month, now.day, 0, 0, 0);
-  for (int hour = 0; hour <= 24; hour++) {
+  for (int hour = 0; hour <= 23; hour++) {
     list.add(timeCounter);
     timeCounter = timeCounter.add(const Duration(hours: 1));
   }

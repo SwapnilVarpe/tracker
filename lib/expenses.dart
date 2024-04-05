@@ -15,7 +15,7 @@ class Expenses extends ConsumerWidget {
   Expenses({super.key}) {
     var curMonth = DateTime.now().month;
     if (curMonth - 3 > 0) {
-      currentMonth = curMonth;
+      currentMonth = curMonth - 1;
     } else {
       currentMonth = 0;
     }

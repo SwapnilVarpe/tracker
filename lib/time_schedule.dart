@@ -26,7 +26,8 @@ class TimeSchedule extends ConsumerWidget {
             child: activityData.when(
                 data: (data) {
                   return ScrollablePositionedList.separated(
-                      initialScrollIndex: initialIndex,
+                      initialScrollIndex:
+                          initialIndex == 0 ? 0 : initialIndex - 1,
                       itemCount: hours.length,
                       separatorBuilder: (context, index) => const Divider(),
                       itemBuilder: (context, index) {
@@ -90,7 +91,10 @@ class TimeSchedule extends ConsumerWidget {
           selectedItem: day,
           itemBuiler: (value) => DateWidget(
               date: value,
-              onSelected: (date) => ref.read(dayProvider.notifier).state = date,
+              onSelected: (date) {
+                ref.read(dayProvider.notifier).state = date;
+                ref.invalidate(hourProvider);
+              },
               color: DateUtils.isSameDay(day, value)
                   ? colorScheme.secondaryContainer
                   : Colors.transparent),

@@ -2,6 +2,7 @@
 Tracker for money and time
 
 # Components
+    DB on macos: "/Users/swapnilvarpe/Library/Containers/com.apps.swapnilvarpe.tracker/Data/Documents/tracker.db"
 
 ## Todo:
 -   Issues:
@@ -9,10 +10,8 @@ Tracker for money and time
         Different colors for planned and actual?
         Planned task: notification and recurring.
         Delete cat check, check if activity exists
-        Short unique id for activity.
-        Success msg too long and interfering with day picker.
         Export all db.
-        Scroll n-1 time.
+        Go to current time button.
 
 
 -   Time stats

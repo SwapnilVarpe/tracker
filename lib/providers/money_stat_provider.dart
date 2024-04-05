@@ -63,7 +63,7 @@ final moneyStateProvider =
   var range = getMonthRange(months[curMonth - 1]);
   var initMonthIndex = 0;
   if (curMonth - 3 > 0) {
-    initMonthIndex = curMonth;
+    initMonthIndex = curMonth - 1;
   }
 
   return MoneyStateNotifier(MoneyStat(

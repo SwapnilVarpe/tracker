@@ -274,6 +274,7 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
                         if (id > 0 && context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
+                                  duration: Duration(seconds: 1),
                                   content: Text('Activity copied to actual')));
 
                           ref.invalidate(categoryProvider);
@@ -309,8 +310,11 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
                           : await DBHelper.insertActivity(activity);
 
                       if (id > 0 && context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Activity added')));
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text('Activity added'),
+                          duration: Duration(seconds: 1),
+                        ));
 
                         ref.invalidate(categoryProvider);
                         ref.invalidate(dayActivityProvider);
@@ -348,6 +352,7 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
                               if (num > 0) {
                                 ScaffoldMessenger.of(context2).showSnackBar(
                                     const SnackBar(
+                                        duration: Duration(seconds: 1),
                                         content: Text('Activity deleted')));
                                 ref.invalidate(dayActivityProvider);
                                 Navigator.pop(context2);
