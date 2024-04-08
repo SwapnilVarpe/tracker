@@ -39,24 +39,17 @@ IconData getAmountIcon(CategoryType categoryType) {
   }
 }
 
-class DateRange {
-  final String start;
-  final String end;
-  DateRange(this.start, this.end);
-}
-
 const dateFormat = 'yyyy-MM-dd';
-DateRange getMonthRange(String month) {
+
+DateTimeRange getMonthRange(String month) {
   var monthIndex = months.indexOf(month) + 1;
   assert(monthIndex > 0 && monthIndex < 12);
   var year = DateTime.now().year;
 
-  var startOfMonth =
-      DateFormat(dateFormat).format(DateTime(year, monthIndex, 1));
-  var endOfMonth =
-      DateFormat(dateFormat).format(DateTime(year, monthIndex + 1, 0));
+  var startOfMonth = DateTime(year, monthIndex, 1);
+  var endOfMonth = DateTime(year, monthIndex + 1, 0);
 
-  return DateRange(startOfMonth, endOfMonth);
+  return DateTimeRange(start: startOfMonth, end: endOfMonth);
 }
 
 final _formatter = NumberFormat('##,##,##,###.##');

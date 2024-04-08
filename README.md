@@ -15,6 +15,7 @@ Tracker for money and time
 
 
 -   Time stats
+    Date range picker.
     Three section, by category:
         Time spent
         Planned - Actual

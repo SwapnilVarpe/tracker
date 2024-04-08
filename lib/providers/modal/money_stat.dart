@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:tracker/constants.dart';
@@ -12,8 +13,7 @@ class MoneyStat with _$MoneyStat {
   const factory MoneyStat(
       {required FilterBy filterBy,
       required String month,
-      required String startDate,
-      required String endDate,
+      required DateTimeRange dateRange,
       required CategoryType categoryType,
       required String category,
       required int initialScrollIndex,

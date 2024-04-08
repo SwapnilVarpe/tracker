@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:tracker/constants.dart';
 import 'package:tracker/modal/activity.dart';
 import 'package:tracker/modal/category.dart';
 import 'package:tracker/modal/entry.dart';
+import 'package:tracker/util.dart';
 
 class DBHelper {
   static Database? _database;
@@ -210,13 +213,16 @@ class DBHelper {
     });
   }
 
-  static Future<List<Entry>> getEntriesByRange(String start, String end) async {
+  static Future<List<Entry>> getEntriesByRange(DateTimeRange range) async {
     if (_database == null) {
       return [];
     }
     final List<Map<String, dynamic>> maps = await _database!.query(_entryTable,
         where: 'datetime >= ? AND datetime <= ?',
-        whereArgs: [start, end],
+        whereArgs: [
+          DateFormat(dateFormat).format(range.start),
+          DateFormat(dateFormat).format(range.end)
+        ],
         orderBy: 'datetime DESC, id DESC');
 
     return List.generate(maps.length, (index) {
@@ -226,11 +232,15 @@ class DBHelper {
   }
 
   static Future<List<Entry>> getGroupbyCatEntries(
-      String start, String end, CategoryType categoryType) async {
+      DateTimeRange range, CategoryType categoryType) async {
     final maps = await _database!.query(_entryTable,
         columns: ['sum(amount) as amount', 'category'],
         where: 'datetime >= ? AND datetime <= ? AND categoryType = ?',
-        whereArgs: [start, end, categoryType.asString()],
+        whereArgs: [
+          DateFormat(dateFormat).format(range.start),
+          DateFormat(dateFormat).format(range.end),
+          categoryType.asString()
+        ],
         groupBy: 'category',
         orderBy: 'amount DESC');
 
