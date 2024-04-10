@@ -14,8 +14,8 @@ class Expenses extends ConsumerWidget {
 
   Expenses({super.key}) {
     var curMonth = DateTime.now().month;
-    if (curMonth - 3 > 0) {
-      currentMonth = curMonth - 1;
+    if (curMonth - 4 > 0) {
+      currentMonth = curMonth - 2;
     } else {
       currentMonth = 0;
     }
@@ -33,7 +33,8 @@ class Expenses extends ConsumerWidget {
       SizedBox(
         height: 40,
         child: ScrollablePositionedList.builder(
-            initialScrollIndex: currentMonth,
+            initialScrollIndex:
+                currentMonth < selectedMonth ? currentMonth : selectedMonth,
             scrollDirection: Axis.horizontal,
             itemCount: months.length,
             itemBuilder: (context, index) {
@@ -46,8 +47,8 @@ class Expenses extends ConsumerWidget {
                     style: TextStyle(color: colorScheme.onSecondaryContainer),
                   ),
                   onSelected: (isSelected) =>
-                      ref.read(monthProvider.notifier).state = month,
-                  selected: selectedMonth == month,
+                      ref.read(monthProvider.notifier).state = index,
+                  selected: selectedMonth == index,
                 ),
               );
             }),

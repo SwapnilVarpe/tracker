@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracker/db/db_helper.dart';
 
@@ -32,7 +33,8 @@ final dayActivityProvider = FutureProvider<ActivityData>((ref) async {
   var planned = <int, List<Activity>>{};
   var actual = <int, List<Activity>>{};
 
-  var list = await DBHelper.getActivitiesByDay(day);
+  var list = await DBHelper.getActivitiesByDayRange(
+      DateTimeRange(start: day, end: day));
 
   for (var activity in list) {
     if (activity.taskEntryType == TaskEntryType.planned) {

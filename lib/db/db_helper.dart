@@ -352,9 +352,12 @@ class DBHelper {
     return Activity.fromJson(maps[0]);
   }
 
-  static Future<List<Activity>> getActivitiesByDay(DateTime day) async {
-    var start = DateTime(day.year, day.month, day.day, 0);
-    var end = DateTime(day.year, day.month, day.day, 23, 59, 59);
+  static Future<List<Activity>> getActivitiesByDayRange(
+      DateTimeRange range) async {
+    var start =
+        DateTime(range.start.year, range.start.month, range.start.day, 0);
+    var end =
+        DateTime(range.end.year, range.end.month, range.end.day, 23, 59, 59);
 
     final List<Map<String, dynamic>> maps = await _database!.query(
       _activityTable,

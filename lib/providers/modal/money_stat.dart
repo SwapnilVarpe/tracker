@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter/foundation.dart' hide Category;
 import 'package:tracker/constants.dart';
 import 'package:tracker/modal/entry.dart';
 
