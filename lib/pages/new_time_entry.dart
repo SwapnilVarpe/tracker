@@ -6,6 +6,7 @@ import 'package:tracker/db/db_helper.dart';
 import 'package:tracker/modal/activity.dart';
 import 'package:tracker/providers/category_provider.dart';
 import 'package:tracker/providers/time_schedule_provider.dart';
+import 'package:tracker/providers/time_stats_provider.dart';
 import 'package:uuid/uuid.dart';
 
 class NewTimeEntry extends ConsumerStatefulWidget {
@@ -279,6 +280,7 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
 
                           ref.invalidate(categoryProvider);
                           ref.invalidate(dayActivityProvider);
+                          ref.invalidate(statsProvider);
                           Navigator.of(context).pop();
                         }
                       },
@@ -318,6 +320,7 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
 
                         ref.invalidate(categoryProvider);
                         ref.invalidate(dayActivityProvider);
+                        ref.invalidate(statsProvider);
                         Navigator.of(context).pop();
                       }
                     },
@@ -355,6 +358,7 @@ class _NewTimeEntryState extends ConsumerState<NewTimeEntry> {
                                         duration: Duration(seconds: 1),
                                         content: Text('Activity deleted')));
                                 ref.invalidate(dayActivityProvider);
+                                ref.invalidate(statsProvider);
                                 Navigator.pop(context2);
                                 Navigator.pop(context);
                               }

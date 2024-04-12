@@ -12,29 +12,48 @@ final dateRangeProvider = StateProvider<DateTimeRange>((ref) {
 });
 
 final statTypeProvider = StateProvider<StatsType>((ref) {
-  return StatsType.TimeSpent;
+  return StatsType.timeSpent;
 });
 
-final statsProvider = FutureProvider<List<TimeStat>>((ref) async {
+final statsProvider = FutureProvider.autoDispose<List<TimeStat>>((ref) async {
   var range = ref.watch(dateRangeProvider);
   var statsType = ref.watch(statTypeProvider);
 
   // ToDo
-  if (statsType != StatsType.TimeSpent) return [];
+  if (statsType != StatsType.timeSpent) return [];
 
   var activityList = await DBHelper.getActivitiesByDayRange(range);
 
   Map<String, TimeStat> map = HashMap();
-
   for (var activity in activityList) {
     if (activity.taskEntryType == TaskEntryType.planned) continue;
 
     if (map.containsKey(activity.category)) {
       var ts = map[activity.category];
       ts?.duration += activity.duration;
+
+      // Adding to subcat
+      if (activity.subCategory.isNotEmpty) {
+        var subCatIndex = ts?.subCategory
+            .indexWhere((element) => element.category == activity.subCategory);
+
+        if (subCatIndex != null) {
+          if (subCatIndex != -1) {
+            ts?.subCategory[subCatIndex].duration += activity.duration;
+          } else {
+            ts?.subCategory.add(TimeStat(
+                category: activity.subCategory, duration: activity.duration));
+          }
+        }
+      }
     } else {
-      map[activity.category] =
+      var timeStat =
           TimeStat(category: activity.category, duration: activity.duration);
+      if (activity.subCategory.isNotEmpty) {
+        timeStat.subCategory.add(TimeStat(
+            category: activity.subCategory, duration: activity.duration));
+      }
+      map[activity.category] = timeStat;
     }
   }
   var list = map.values.toList(growable: false);

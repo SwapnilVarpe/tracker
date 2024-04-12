@@ -1,3 +1,4 @@
+import 'package:duration/duration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -12,6 +13,9 @@ class TimeStats extends ConsumerWidget {
     var dateRange = ref.watch(dateRangeProvider);
     var statsType = ref.watch(statTypeProvider);
     var stats = ref.watch(statsProvider);
+
+    var dateRangeDiff = dateRange.duration.inDays;
+    dateRangeDiff = dateRangeDiff > 1 ? dateRangeDiff : 1;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,15 +51,15 @@ class TimeStats extends ConsumerWidget {
             isExpanded: true,
             items: const [
               DropdownMenuItem(
-                value: StatsType.TimeSpent,
+                value: StatsType.timeSpent,
                 child: Text('Time spent'),
               ),
               DropdownMenuItem(
-                value: StatsType.PlannedVsActual,
+                value: StatsType.plannedVsActual,
                 child: Text('Planned Vs Actual'),
               ),
               DropdownMenuItem(
-                value: StatsType.Satisfaction,
+                value: StatsType.satisfaction,
                 child: Text('Satisfaction'),
               )
             ],
@@ -69,16 +73,56 @@ class TimeStats extends ConsumerWidget {
         Expanded(
             child: stats.when(
           data: (data) {
+            if (data.isEmpty) {
+              return const Center(child: Text('No Data'));
+            }
             return ListView.builder(
               itemBuilder: (context, index) {
                 var item = data[index];
-                return Card(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(item.category),
-                      Text('${item.duration} min')
-                    ],
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    item.category,
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Text(
+                                    ' (${(item.duration / dateRangeDiff).floor()} min / day)',
+                                    style: const TextStyle(fontSize: 12),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                formatDuration(item.duration),
+                                style: const TextStyle(fontSize: 16),
+                                overflow: TextOverflow.ellipsis,
+                              )
+                            ],
+                          ),
+                          for (var subCat in item.subCategory)
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('-  ${subCat.category}'),
+                                  Text(formatDuration(subCat.duration)),
+                                ]),
+                        ],
+                      ),
+                    ),
                   ),
                 );
               },
@@ -90,5 +134,13 @@ class TimeStats extends ConsumerWidget {
         ))
       ],
     );
+  }
+
+  String formatDuration(double minutes) {
+    var dur = Duration(minutes: minutes.toInt());
+    return prettyDuration(dur,
+        abbreviated: true,
+        tersity: DurationTersity.minute,
+        upperTersity: DurationTersity.day);
   }
 }

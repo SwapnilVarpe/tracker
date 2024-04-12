@@ -1,4 +1,4 @@
-enum StatsType { TimeSpent, PlannedVsActual, Satisfaction }
+enum StatsType { timeSpent, plannedVsActual, satisfaction }
 
 class TimeStat {
   final String category;
