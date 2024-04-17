@@ -15,7 +15,6 @@ class TimeStats extends ConsumerWidget {
     var stats = ref.watch(statsProvider);
 
     var dateRangeDiff = dateRange.duration.inDays;
-    dateRangeDiff = dateRangeDiff > 1 ? dateRangeDiff : 1;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -98,11 +97,12 @@ class TimeStats extends ConsumerWidget {
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500),
                                   ),
-                                  Text(
-                                    ' (${(item.duration / dateRangeDiff).floor()} min / day)',
-                                    style: const TextStyle(fontSize: 12),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                                  if (dateRangeDiff > 0)
+                                    Text(
+                                      ' (${(item.duration / dateRangeDiff).floor()} min / day)',
+                                      style: const TextStyle(fontSize: 12),
+                                      overflow: TextOverflow.ellipsis,
+                                    )
                                 ],
                               ),
                               Text(
