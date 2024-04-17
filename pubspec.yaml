@@ -51,6 +51,7 @@ dependencies:
   package_info_plus: ^5.0.1
   string_capitalize: ^0.0.10
   uuid: ^4.3.3
+  duration: ^3.0.13
 
 dev_dependencies:
   flutter_test:

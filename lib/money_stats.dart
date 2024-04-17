@@ -89,40 +89,20 @@ class MoneyStats extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: TextEditingController(text: state.startDate),
+                      controller: TextEditingController(
+                          text:
+                              '${DateFormat('dd MMM yy').format(state.dateRange.start)}  -  ${DateFormat('dd MMM yy').format(state.dateRange.end)}'),
+                      textAlign: TextAlign.center,
                       readOnly: true,
                       onTap: () async {
-                        DateTime? date = await showDatePicker(
+                        DateTimeRange? date = await showDateRangePicker(
                             context: context,
-                            initialDate: DateTime.parse(state.startDate),
+                            currentDate: state.dateRange.start,
                             firstDate: DateTime(2000),
                             lastDate: DateTime(2050));
 
                         if (date != null) {
-                          var formattedDate =
-                              DateFormat('yyyy-MM-dd').format(date);
-                          ref.read(moneyStateProvider.notifier).startDate =
-                              formattedDate;
-                        }
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: TextField(
-                      readOnly: true,
-                      controller: TextEditingController(text: state.endDate),
-                      onTap: () async {
-                        DateTime? date = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.parse(state.endDate),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2050));
-
-                        if (date != null) {
-                          var formattedDate =
-                              DateFormat('yyyy-MM-dd').format(date);
-                          ref.read(moneyStateProvider.notifier).endDate =
-                              formattedDate;
+                          ref.read(moneyStateProvider.notifier).dateRage = date;
                         }
                       },
                     ),
@@ -183,8 +163,10 @@ class MoneyStats extends ConsumerWidget {
                             path: '/category-entry-details',
                             queryParameters: {
                               'category': e.category,
-                              'startDate': state.startDate,
-                              'endDate': state.endDate,
+                              'startDate': DateFormat(dateFormat)
+                                  .format(state.dateRange.start),
+                              'endDate': DateFormat(dateFormat)
+                                  .format(state.dateRange.end),
                               'categoryType': state.categoryType.asString()
                             }).toString()),
                       )))

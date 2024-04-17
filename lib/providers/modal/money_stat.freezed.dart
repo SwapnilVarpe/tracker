@@ -18,8 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$MoneyStat {
   FilterBy get filterBy => throw _privateConstructorUsedError;
   String get month => throw _privateConstructorUsedError;
-  String get startDate => throw _privateConstructorUsedError;
-  String get endDate => throw _privateConstructorUsedError;
+  DateTimeRange get dateRange => throw _privateConstructorUsedError;
   CategoryType get categoryType => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
   int get initialScrollIndex => throw _privateConstructorUsedError;
@@ -38,8 +37,7 @@ abstract class $MoneyStatCopyWith<$Res> {
   $Res call(
       {FilterBy filterBy,
       String month,
-      String startDate,
-      String endDate,
+      DateTimeRange dateRange,
       CategoryType categoryType,
       String category,
       int initialScrollIndex,
@@ -61,8 +59,7 @@ class _$MoneyStatCopyWithImpl<$Res, $Val extends MoneyStat>
   $Res call({
     Object? filterBy = null,
     Object? month = null,
-    Object? startDate = null,
-    Object? endDate = null,
+    Object? dateRange = null,
     Object? categoryType = null,
     Object? category = null,
     Object? initialScrollIndex = null,
@@ -77,14 +74,10 @@ class _$MoneyStatCopyWithImpl<$Res, $Val extends MoneyStat>
           ? _value.month
           : month // ignore: cast_nullable_to_non_nullable
               as String,
-      startDate: null == startDate
-          ? _value.startDate
-          : startDate // ignore: cast_nullable_to_non_nullable
-              as String,
-      endDate: null == endDate
-          ? _value.endDate
-          : endDate // ignore: cast_nullable_to_non_nullable
-              as String,
+      dateRange: null == dateRange
+          ? _value.dateRange
+          : dateRange // ignore: cast_nullable_to_non_nullable
+              as DateTimeRange,
       categoryType: null == categoryType
           ? _value.categoryType
           : categoryType // ignore: cast_nullable_to_non_nullable
@@ -116,8 +109,7 @@ abstract class _$$MoneyStatImplCopyWith<$Res>
   $Res call(
       {FilterBy filterBy,
       String month,
-      String startDate,
-      String endDate,
+      DateTimeRange dateRange,
       CategoryType categoryType,
       String category,
       int initialScrollIndex,
@@ -137,8 +129,7 @@ class __$$MoneyStatImplCopyWithImpl<$Res>
   $Res call({
     Object? filterBy = null,
     Object? month = null,
-    Object? startDate = null,
-    Object? endDate = null,
+    Object? dateRange = null,
     Object? categoryType = null,
     Object? category = null,
     Object? initialScrollIndex = null,
@@ -153,14 +144,10 @@ class __$$MoneyStatImplCopyWithImpl<$Res>
           ? _value.month
           : month // ignore: cast_nullable_to_non_nullable
               as String,
-      startDate: null == startDate
-          ? _value.startDate
-          : startDate // ignore: cast_nullable_to_non_nullable
-              as String,
-      endDate: null == endDate
-          ? _value.endDate
-          : endDate // ignore: cast_nullable_to_non_nullable
-              as String,
+      dateRange: null == dateRange
+          ? _value.dateRange
+          : dateRange // ignore: cast_nullable_to_non_nullable
+              as DateTimeRange,
       categoryType: null == categoryType
           ? _value.categoryType
           : categoryType // ignore: cast_nullable_to_non_nullable
@@ -183,12 +170,11 @@ class __$$MoneyStatImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$MoneyStatImpl with DiagnosticableTreeMixin implements _MoneyStat {
+class _$MoneyStatImpl implements _MoneyStat {
   const _$MoneyStatImpl(
       {required this.filterBy,
       required this.month,
-      required this.startDate,
-      required this.endDate,
+      required this.dateRange,
       required this.categoryType,
       required this.category,
       required this.initialScrollIndex,
@@ -200,9 +186,7 @@ class _$MoneyStatImpl with DiagnosticableTreeMixin implements _MoneyStat {
   @override
   final String month;
   @override
-  final String startDate;
-  @override
-  final String endDate;
+  final DateTimeRange dateRange;
   @override
   final CategoryType categoryType;
   @override
@@ -218,23 +202,8 @@ class _$MoneyStatImpl with DiagnosticableTreeMixin implements _MoneyStat {
   }
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MoneyStat(filterBy: $filterBy, month: $month, startDate: $startDate, endDate: $endDate, categoryType: $categoryType, category: $category, initialScrollIndex: $initialScrollIndex, entries: $entries)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'MoneyStat'))
-      ..add(DiagnosticsProperty('filterBy', filterBy))
-      ..add(DiagnosticsProperty('month', month))
-      ..add(DiagnosticsProperty('startDate', startDate))
-      ..add(DiagnosticsProperty('endDate', endDate))
-      ..add(DiagnosticsProperty('categoryType', categoryType))
-      ..add(DiagnosticsProperty('category', category))
-      ..add(DiagnosticsProperty('initialScrollIndex', initialScrollIndex))
-      ..add(DiagnosticsProperty('entries', entries));
+  String toString() {
+    return 'MoneyStat(filterBy: $filterBy, month: $month, dateRange: $dateRange, categoryType: $categoryType, category: $category, initialScrollIndex: $initialScrollIndex, entries: $entries)';
   }
 
   @override
@@ -245,9 +214,8 @@ class _$MoneyStatImpl with DiagnosticableTreeMixin implements _MoneyStat {
             (identical(other.filterBy, filterBy) ||
                 other.filterBy == filterBy) &&
             (identical(other.month, month) || other.month == month) &&
-            (identical(other.startDate, startDate) ||
-                other.startDate == startDate) &&
-            (identical(other.endDate, endDate) || other.endDate == endDate) &&
+            (identical(other.dateRange, dateRange) ||
+                other.dateRange == dateRange) &&
             (identical(other.categoryType, categoryType) ||
                 other.categoryType == categoryType) &&
             (identical(other.category, category) ||
@@ -262,8 +230,7 @@ class _$MoneyStatImpl with DiagnosticableTreeMixin implements _MoneyStat {
       runtimeType,
       filterBy,
       month,
-      startDate,
-      endDate,
+      dateRange,
       categoryType,
       category,
       initialScrollIndex,
@@ -280,8 +247,7 @@ abstract class _MoneyStat implements MoneyStat {
   const factory _MoneyStat(
       {required final FilterBy filterBy,
       required final String month,
-      required final String startDate,
-      required final String endDate,
+      required final DateTimeRange dateRange,
       required final CategoryType categoryType,
       required final String category,
       required final int initialScrollIndex,
@@ -292,9 +258,7 @@ abstract class _MoneyStat implements MoneyStat {
   @override
   String get month;
   @override
-  String get startDate;
-  @override
-  String get endDate;
+  DateTimeRange get dateRange;
   @override
   CategoryType get categoryType;
   @override

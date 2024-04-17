@@ -5,15 +5,15 @@ import 'package:tracker/util.dart';
 import '../constants.dart';
 import 'package:tracker/db/db_helper.dart';
 
-final monthProvider = StateProvider<String>((ref) {
+final monthProvider = StateProvider<int>((ref) {
   var curMonth = DateTime.now().month;
-  return months[curMonth - 1];
+  return curMonth - 1;
 });
 
 final entryListProvider = FutureProvider<List<Entry>>((ref) async {
   var curMonth = ref.watch(monthProvider);
-  var range = getMonthRange(curMonth);
-  var list = await DBHelper.getEntriesByRange(range.start, range.end);
+  var range = getMonthRange(months[curMonth]);
+  var list = await DBHelper.getEntriesByRange(range);
 
   return list;
 });

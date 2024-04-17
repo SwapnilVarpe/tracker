@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracker/constants.dart';
 import 'package:tracker/db/db_helper.dart';
@@ -10,40 +11,29 @@ class MoneyStateNotifier extends StateNotifier<MoneyStat> {
   }
 
   _updateEntries() async {
-    String start = state.startDate;
-    String end = state.endDate;
-
+    var curRange = state.dateRange;
     if (state.filterBy == FilterBy.month) {
-      var range = getMonthRange(state.month);
-      start = range.start;
-      end = range.end;
+      curRange = getMonthRange(state.month);
     }
     var entries =
-        await DBHelper.getGroupbyCatEntries(start, end, state.categoryType);
+        await DBHelper.getGroupbyCatEntries(curRange, state.categoryType);
     state = state.copyWith(entries: entries);
   }
 
   set filterBy(FilterBy filter) {
     var range = getMonthRange(state.month);
-    state = state.copyWith(
-        filterBy: filter, startDate: range.start, endDate: range.end);
+    state = state.copyWith(filterBy: filter, dateRange: range);
     _updateEntries();
   }
 
   set month(String month) {
     var range = getMonthRange(month);
-    state = state.copyWith(
-        month: month, startDate: range.start, endDate: range.end);
+    state = state.copyWith(month: month, dateRange: range);
     _updateEntries();
   }
 
-  set startDate(String date) {
-    state = state.copyWith(startDate: date);
-    _updateEntries();
-  }
-
-  set endDate(String date) {
-    state = state.copyWith(endDate: date);
+  set dateRage(DateTimeRange range) {
+    state = state.copyWith(dateRange: range);
     _updateEntries();
   }
 
@@ -62,15 +52,14 @@ final moneyStateProvider =
   var curMonth = DateTime.now().month;
   var range = getMonthRange(months[curMonth - 1]);
   var initMonthIndex = 0;
-  if (curMonth - 3 > 0) {
-    initMonthIndex = curMonth - 1;
+  if (curMonth - 4 > 0) {
+    initMonthIndex = curMonth - 2;
   }
 
   return MoneyStateNotifier(MoneyStat(
       filterBy: FilterBy.month,
       month: months[curMonth - 1],
-      startDate: range.start,
-      endDate: range.end,
+      dateRange: range,
       categoryType: CategoryType.expense,
       category: '',
       initialScrollIndex: initMonthIndex,
