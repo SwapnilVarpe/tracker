@@ -6,6 +6,8 @@ Tracker for money and time
 
 ## Todo:
 -   Issues:
+    'Entertainment' cat is not coming in if cat has subcats and 'None' is not used in entires.
+
 -   Schedule >> Time slots
         Different colors for planned and actual?
         Planned task: notification and recurring.

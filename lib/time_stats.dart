@@ -58,10 +58,10 @@ class TimeStats extends ConsumerWidget {
                 value: StatsType.plannedVsActual,
                 child: Text('Planned Vs Actual'),
               ),
-              DropdownMenuItem(
-                value: StatsType.satisfaction,
-                child: Text('Satisfaction'),
-              )
+              // DropdownMenuItem(
+              //   value: StatsType.satisfaction,
+              //   child: Text('Satisfaction'),
+              // )
             ],
             onChanged: (StatsType? value) {
               if (value != null) {
