@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:tracker/modal/activity.dart';
 import 'package:tracker/pages/add_category.dart';
 import 'package:tracker/pages/category_entry_details.dart';
@@ -241,6 +242,11 @@ class _MyHomePageState extends State<MyHomePage> {
           onTap: () => _exportActivities(),
         ),
         ListTile(
+          title: const Text('Export DB'),
+          leading: const Icon(Icons.upload),
+          onTap: () => _exportDB(),
+        ),
+        ListTile(
           title: const Text('Import'),
           leading: const Icon(Icons.download),
           onTap: () {
@@ -275,6 +281,12 @@ class _MyHomePageState extends State<MyHomePage> {
     List<Activity> data = await DBHelper.getAllActivities();
     final str = convertActivityToCSV(data);
     exportCSV(str, 'mt-activities');
+  }
+
+  void _exportDB() async {
+    var path = DBHelper.databasePath;
+    Share.shareXFiles([XFile(path, mimeType: 'application/octet-stream')],
+        subject: 'mt-tracker.db');
   }
 
   void _authenticate() async {

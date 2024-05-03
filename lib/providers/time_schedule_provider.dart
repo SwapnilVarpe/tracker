@@ -4,11 +4,11 @@ import 'package:tracker/db/db_helper.dart';
 
 import 'package:tracker/modal/activity.dart';
 
-final dayProvider = StateProvider<DateTime>((ref) {
+final dayProvider = StateProvider.autoDispose<DateTime>((ref) {
   return DateTime.now();
 });
 
-final hourProvider = StateProvider((ref) {
+final hourProvider = StateProvider.autoDispose((ref) {
   var day = ref.watch(dayProvider);
 
   List<DateTime> list = [];
@@ -28,7 +28,8 @@ class ActivityData {
   final Map<int, List<Activity>> actual;
 }
 
-final dayActivityProvider = FutureProvider<ActivityData>((ref) async {
+final dayActivityProvider =
+    FutureProvider.autoDispose<ActivityData>((ref) async {
   var day = ref.watch(dayProvider);
   var planned = <int, List<Activity>>{};
   var actual = <int, List<Activity>>{};

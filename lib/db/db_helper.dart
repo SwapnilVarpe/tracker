@@ -11,6 +11,7 @@ import 'package:tracker/modal/entry.dart';
 import 'package:tracker/util.dart';
 
 class DBHelper {
+  static String databasePath = '';
   static Database? _database;
   static const int _version = 2;
   static const String _entryTable = "entry";
@@ -21,8 +22,10 @@ class DBHelper {
     if (_database != null) return;
 
     try {
+      var dbPath = join(await getDatabasesPath(), 'tracker.db');
+      databasePath = dbPath;
       _database = await openDatabase(
-        join(await getDatabasesPath(), 'tracker.db'),
+        dbPath,
         version: _version,
         onCreate: _onCreateDB,
         onUpgrade: _onUpgradeDB,

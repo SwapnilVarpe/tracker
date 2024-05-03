@@ -4,6 +4,8 @@ Tracker for money and time
 # Components
     DB on macos: "/Users/swapnilvarpe/Library/Containers/com.apps.swapnilvarpe.tracker/Data/Documents/tracker.db"
 
+# Improvements:
+    
 ## Todo:
 -   Issues:
     'Entertainment' cat is not coming in if cat has subcats and 'None' is not used in entires.
@@ -12,7 +14,6 @@ Tracker for money and time
         Different colors for planned and actual?
         Planned task: notification and recurring.
         Delete cat check, check if activity exists
-        Export all db.
         Go to current time button.
 
 

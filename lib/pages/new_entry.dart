@@ -24,7 +24,8 @@ class _NewEntryState extends ConsumerState<NewEntry> {
 
   @override
   Widget build(BuildContext context) {
-    var categoryProvider = categoryStateProvider((id: widget.entryId ?? '', isActivity: false));
+    var categoryProvider =
+        categoryStateProvider((id: widget.entryId ?? '', isActivity: false));
     var categoryState = ref.watch(categoryProvider);
 
     return Scaffold(
@@ -52,137 +53,142 @@ class _NewEntryState extends ConsumerState<NewEntry> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: TextFormField(
-                controller: controllers.amount,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Enter an amount';
-                  } else if (!isNumeric(value)) {
-                    return 'Enter number';
-                  }
-                  return null;
-                },
-                decoration: const InputDecoration(labelText: 'Amount'),
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-              ),
-            ),
-            TextFormField(
-              controller: controllers.title,
-              decoration: const InputDecoration(labelText: 'Title'),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FilterChip(
-                      label: Text(CategoryType.expense.asString()),
-                      selected: categoryType == CategoryType.expense,
-                      showCheckmark: false,
-                      onSelected: (onSelected) => ref
-                          .read(categoryProvider.notifier)
-                          .categoryType = CategoryType.expense),
-                  FilterChip(
-                      label: Text(CategoryType.income.asString()),
-                      selected: categoryType == CategoryType.income,
-                      showCheckmark: false,
-                      onSelected: (onSelected) => ref
-                          .read(categoryProvider.notifier)
-                          .categoryType = CategoryType.income),
-                  FilterChip(
-                      label: Text(CategoryType.investment.asString()),
-                      showCheckmark: false,
-                      selected: categoryType == CategoryType.investment,
-                      onSelected: (onSelected) => ref
-                          .read(categoryProvider.notifier)
-                          .categoryType = CategoryType.investment),
-                ],
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                    onPressed: () {
-                      context.push('/add-category');
+            Expanded(
+              child: ListView(children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: TextFormField(
+                    controller: controllers.amount,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Enter an amount';
+                      } else if (!isNumeric(value)) {
+                        return 'Enter number';
+                      }
+                      return null;
                     },
-                    child: const Text('Add/Edit category'))
-              ],
-            ),
-            Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: DropdownButtonFormField(
-                    value: selectedCategory,
-                    items: categoryList.map((e) {
-                      return DropdownMenuItem<String>(
-                        value: e.category,
-                        child: Text(e.category),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      ref.read(categoryProvider.notifier).selectedCategory =
-                          value!;
-                    })),
-            Visibility(
-              visible: subCatList.isNotEmpty,
-              child: SizedBox(
-                height: 40,
-                child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: ['None', ...subCatList].map(
-                      (subCat) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: ChoiceChip(
-                            label: Text(
-                              subCat,
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSecondaryContainer),
-                            ),
-                            onSelected: (isSelected) => ref
-                                .read(categoryProvider.notifier)
-                                .selectedSubCat = subCat,
-                            selected: subCat == selectedSubCat,
-                          ),
-                        );
-                      },
-                    ).toList()),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: TextFormField(
-                controller: controllers.date,
-                decoration: const InputDecoration(
-                    icon: Icon(Icons.calendar_month),
-                    label: Text('Enter date')),
-                readOnly: true,
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Enter a date' : null,
-                onTap: () async {
-                  DateTime? date = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2050));
+                    decoration: const InputDecoration(labelText: 'Amount'),
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                  ),
+                ),
+                TextFormField(
+                  controller: controllers.title,
+                  decoration: const InputDecoration(labelText: 'Title'),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      FilterChip(
+                          label: Text(CategoryType.expense.asString()),
+                          selected: categoryType == CategoryType.expense,
+                          showCheckmark: false,
+                          onSelected: (onSelected) => ref
+                              .read(categoryProvider.notifier)
+                              .categoryType = CategoryType.expense),
+                      FilterChip(
+                          label: Text(CategoryType.income.asString()),
+                          selected: categoryType == CategoryType.income,
+                          showCheckmark: false,
+                          onSelected: (onSelected) => ref
+                              .read(categoryProvider.notifier)
+                              .categoryType = CategoryType.income),
+                      FilterChip(
+                          label: Text(CategoryType.investment.asString()),
+                          showCheckmark: false,
+                          selected: categoryType == CategoryType.investment,
+                          onSelected: (onSelected) => ref
+                              .read(categoryProvider.notifier)
+                              .categoryType = CategoryType.investment),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          context.push('/add-category');
+                        },
+                        child: const Text('Add/Edit category'))
+                  ],
+                ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: DropdownButtonFormField(
+                        value: selectedCategory,
+                        items: categoryList.map((e) {
+                          return DropdownMenuItem<String>(
+                            value: e.category,
+                            child: Text(e.category),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          ref.read(categoryProvider.notifier).selectedCategory =
+                              value!;
+                        })),
+                Visibility(
+                  visible: subCatList.isNotEmpty,
+                  child: SizedBox(
+                    height: 40,
+                    child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: ['None', ...subCatList].map(
+                          (subCat) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: ChoiceChip(
+                                label: Text(
+                                  subCat,
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSecondaryContainer),
+                                ),
+                                onSelected: (isSelected) => ref
+                                    .read(categoryProvider.notifier)
+                                    .selectedSubCat = subCat,
+                                selected: subCat == selectedSubCat,
+                              ),
+                            );
+                          },
+                        ).toList()),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: TextFormField(
+                    controller: controllers.date,
+                    decoration: const InputDecoration(
+                        icon: Icon(Icons.calendar_month),
+                        label: Text('Enter date')),
+                    readOnly: true,
+                    validator: (value) =>
+                        value == null || value.isEmpty ? 'Enter a date' : null,
+                    onTap: () async {
+                      DateTime? date = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2050));
 
-                  if (date != null) {
-                    var formattedDate = DateFormat('yyyy-MM-dd').format(date);
+                      if (date != null) {
+                        var formattedDate =
+                            DateFormat('yyyy-MM-dd').format(date);
 
-                    controllers.date.text = formattedDate;
-                  }
-                },
-              ),
+                        controllers.date.text = formattedDate;
+                      }
+                    },
+                  ),
+                ),
+              ]),
             ),
-            const Spacer(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
