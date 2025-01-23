@@ -1,41 +1,26 @@
 # Tracker
-Tracker for money and time
+Tracker flutter app for tracking money and time. There are many apps to track daily expenses, but I wanted to create app which I will use daily. Check it out and use it if find useful.
 
-# Components
-    DB on macos: "/Users/swapnilvarpe/Library/Containers/com.apps.swapnilvarpe.tracker/Data/Documents/tracker.db"
-
-# Improvements:
-    
-## Todo:
--   Issues:
-    'Entertainment' cat is not coming in if cat has subcats and 'None' is not used in entires.
-
--   Schedule >> Time slots
-        Different colors for planned and actual?
-        Planned task: notification and recurring.
-        Delete cat check, check if activity exists
-        Go to current time button.
-
-
--   Time stats
-    Date range picker.
-    Three section, by category:
-        Time spent
-        Planned - Actual
-        By satisfaction.
-
--   Options:
-    -   Settings provider, for number formatter and global setting.
-
-Refactoring:
-    Move models to freezed.
-    ** Use new slider component for month selector in exp and stats page.
-
-
-## Production build
-    To publish, what needs to be done:
-        Build command:
-            flutter clean
-            flutter build apk --split-per-abi
-        Gen freezed models: flutter pub run build_runner build --delete-conflicting-outputs
-    Logo icon color: #7959b7
+# Screenshots
+* Home screen
+![Home](./screenshots/Screenshot%202025-01-23%20at%208.08.22%20PM.png)
+* Stats
+![Stats](./screenshots/Screenshot%202025-01-23%20at%208.08.50%20PM.png)
+* Stats 2
+![Stats 2](./screenshots/Screenshot%202025-01-23%20at%208.09.53%20PM.png)
+* Add new entry
+![Entry](./screenshots/Screenshot%202025-01-23%20at%208.11.29%20PM.png)
+* Time planner
+![Time planner](./screenshots/Screenshot%202025-01-23%20at%208.12.24%20PM.png)
+* Time stats
+![Time stats](./screenshots/Screenshot%202025-01-23%20at%208.12.34%20PM.png)
+# Build
+## Command to build release apk
+```
+flutter clean
+flutter build apk --split-per-abi
+```
+## Generate freezed (code generator for data classes) models
+```
+flutter pub run build_runner build --delete-conflicting-outputs
+```
