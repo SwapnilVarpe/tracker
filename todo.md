@@ -9,16 +9,6 @@
         Go to current time button.
 
 
--   Time stats
-    Date range picker.
-    Three section, by category:
-        Time spent
-        Planned - Actual
-        By satisfaction.
-
--   Options:
-    -   Settings provider, for number formatter and global setting.
-
 Refactoring:
     Move models to freezed.
     ** Use new slider component for month selector in exp and stats page.
